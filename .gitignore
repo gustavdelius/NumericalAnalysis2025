@@ -1,0 +1,27 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+/.quarto/
+
+# quarto book output
+/_book/
+# quarto book cache
+/_cache/
+/_freeze/
+# jupyter cache
+/.jupyter_cache/
+# generated figures
+/*_files/
+# generated notebooks
+*.quarto_ipynb
+
+tmp.gif
+*.tex
+*.log
+*.aux
+*.toc
+*.synctex.gz
+*.html

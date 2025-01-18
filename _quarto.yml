@@ -1,0 +1,63 @@
+project:
+  type: book
+  output-dir: docs
+  preview:
+    browser: true
+    port: 4321
+    watch-inputs: true
+
+book:
+  title: "Numerical Analysis 2025"
+  subtitle: A Learning Guide
+  author:
+    - name: Gustav Delius
+      email: gustav.delius@york.ac.uk
+      affiliation:
+      - name: Department of Mathematics, University of York
+    - name: Eric Sullivan
+      affiliation: Mathematics Faculty at Carroll College
+
+  date: today
+  license: CC BY-NC-SA
+  downloads: pdf
+  repo-url: https://github.com/gustavdelius/NumericalAnalysis2025/
+  repo-branch: main
+  repo-actions: edit
+  favicon: faviconNA.webp
+  twitter-card: true
+  open-graph: true
+  sidebar:
+    tools:
+      - icon: mortarboard-fill
+        href: https://maths.york.ac.uk/moodle/course/view.php?id=2652
+        text: Moodle page
+      - icon: bug-fill
+        href: https://forms.gle/Z8nYvVonGN98L7nv5
+        text: Submit a correction
+  chapters:
+    - index.qmd
+    - nmPython.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    link-external-newwindow: true
+    toc-depth: 4
+  pdf:
+    documentclass: scrreprt
+    papersize: a4
+    execute:
+      echo: false
+
+toc: true
+number-sections: true
+crossref:
+  eq-prefix: Eq.
+fig-align: left
+
+execute:
+  cache: true
+  freeze: auto
