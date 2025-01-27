@@ -5,7 +5,7 @@
 
 Mathematics is not just an abstract pursuit; it is an essential tool that powers a vast array of applications. From weather forecasting to black hole simulations, from urban planning to medical research, the application of mathematics has become indispensable. Central to this applied force is Numerical Analysis.
 
-## What Is Numerical Analysis?
+## What Is Numerical Analysis? {#sec-what_is_numerical_analysis}
 
 Numerical Analysis is the discipline that bridges continuous mathematical theories with their concrete implementation on digital computers. These computers, by design, work with discrete quantities, and translating continuous problems into this discrete realm is not always straightforward.
 
@@ -13,7 +13,7 @@ In this module, we will explore some key techniques, algorithms, and principles 
 
 Many mathematical problems cannot be solved analytically in closed form. In Numerical Analysis, we aim to find *approximation algorithms* for mathematical problems, i.e., schemes that allow us to compute the solution approximately. These algorithms use only elementary operations ($+,-,\times,/$) but often a long sequence of them, so that in practice they need to be run on computers.
 
-### Example from Algebra
+### Example from Algebra {#sec-example_algebra}
 
 Solve the equation $\log(x) = \sin(x)$ for $x$ in the interval $x \in (0,\pi)$. Stop and try using all of the algebra that you ever learned to find $x$. You will quickly realize that there are no by-hand techniques that can solve this problem! A numerical approximation, however, is not so hard to come by. The following graph shows that there is a solution to this equation somewhere between $2$ and $2.5$.
 
@@ -32,7 +32,7 @@ plt.legend()
 plt.show()
 ```
 
-### Example from Calculus
+### Example from Calculus {#sec-example_calculus}
 
 What if we want to evaluate 
 
@@ -93,7 +93,7 @@ simpson(y, x = x)
 By the way, this integral (called the [Fresnel Sine Integral](https://en.wikipedia.org/wiki/Fresnel_integral)) actually shows up naturally in the field of optics and electromagnetism, so it is not just some arbitrary integral that was cooked up just for fun.
 
 
-### Example from Differential Equations
+### Example from Differential Equations {#sec-example_differential_equations}
 
 Say we needed to solve the differential equation
 
@@ -187,7 +187,7 @@ plt.show()
 ```
 
 
-### Reasons to study Numerical Analysis
+### Reasons to study Numerical Analysis {#sec-reasons_to_study_numerical_analysis}
 
 So why should you want to venture into Numerical Analysis rather than just use the computer as a black box?
 
@@ -203,7 +203,7 @@ The prerequisites for this material include a firm understanding of calculus and
 
 By the end of this module, you will not merely understand the methods of Numerical Analysis; you will be equipped to apply them efficiently and effectively in diverse scenarios: you will be able to tackle problems in physics, engineering, biology, finance, and many other fields; you will be able to design algorithms that are both accurate and resource-efficient; you will be able to ensure that your computational solutions are both accurate and stable; you will be able to leverage the power of computers to solve complex problems.
 
-## The Inquiry-Based Approach
+## The Inquiry-Based Approach {#sec-inquiry_based_approach}
 
 This material is written with an Inquiry-Based Learning (IBL) flavor. In that sense, these notes are not a *traditional textbook* containing all of the expected theorems, proofs, code, examples, and exposition. You are encouraged to work through exercises, problems and projects, present your findings, and work together when appropriate.
 
@@ -237,7 +237,7 @@ Question 5: How do we create a safe environment where risk taking is encouraged 
 
 ------------------------------------------------------------------------
 
-## How this module works
+## How this module works {#sec-how_this_module_works}
 
 There are 4 one-hour **whole-class sessions** every week. Three of these are listed on your timetable as "Lecture" and one as "Computer Practical". However, in all these sessions you, the student, are the one that is doing the work; discovering methods, writing code, working problems, leading discussions, and pushing the pace. I, the lecturer, will act as a guide who only steps in to redirect conversations or to provide necessary insight. You will use the whole-class sessions to share and discuss your work with the other members of your group. There will also be some whole-class discussions moderated by your lecturer.
 
@@ -264,7 +264,7 @@ One request: do not share your notebooks publicly on the internet because that w
 
 If you have a **notebook computer**, bring it along to the class sessions. However this is not a requirement. Your lecturer will bring along some spare machines to make sure that every group has at least one computer to use during every session. The only requirements for a computer to be useful for this module is that it can connect to the campus WiFi, can run a web browser, and has a physical keyboard (typing code on virtual keyboards is too slow). The "Computer Practical" takes place in a PC classroom, so there will of course be plenty of machines available then.
 
-## Assessment
+## Assessment {#sec-assessment}
 
 Unfortunately, your learning in the module also needs to be assessed. The final mark will be made up of 40% coursework and 60% final exam. 
 
@@ -282,7 +282,7 @@ There will be a practice assessment quiz in week 1 that will not count for anyth
 
 The **60\% final exam** will be a 2 hour exam of the usual closed-book form in an exam room during the exam period. I will make a practice exam available at the end of the module. 
 
-## Textbooks
+## Textbooks {#sec-textbooks}
 
 In this module we will only scratch the surface of the vast subject that is Numerical Analysis. The aim is for you at the end of this module to be familiar with some key ideas and to have the confidence to engage with new methods when they become relevant to you. 
 
@@ -291,7 +291,7 @@ Another well known reference that researchers often turn to for solutions to spe
 
 You may also want to look at textbooks for specific topics covered in this module, like for example [@Butcher] for methods for ordinary differential equations.
 
-## Your jobs
+## Your jobs {#sec-your_jobs}
 
 You have the following jobs as a student in this module:
 

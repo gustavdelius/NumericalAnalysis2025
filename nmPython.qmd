@@ -9,7 +9,7 @@ For some of you this material may not be new. For example you may have seen the 
 
 If you are new to Python, don't feel that you need to work through this chapter in one go. Instead, spread the work over the first two weeks of the course and intermingle it with your work on the next two chapters. There is a lot of material in this chapter. Do not feel that you need to learn it all by hard. The idea is just that you should have seen the various language constructs once. Your familiarity with them will come automatically later when you use them throughout the course.
 
-## Why Python?
+## Why Python? {#sec-why_python}
 
 We are going to be using Python since
 
@@ -39,7 +39,7 @@ There is an overwhelming abundance of information available about Python and the
 
 These tools together provide all of the computational power that we will need. And they are free!
 
-## Google Colab
+## Google Colab {#sec-colab}
 
 Every computer is its own unique flower with its own unique requirements. Hence, we will not spend time here giving you all of the ways that you can install Python and all of the associated packages necessary for this module. Unless you are already familiar with using Python on your own computer, I highly recommend that you use the Google Colab notebook tool for writing your Python code: [https://colab.research.google.com](https://colab.research.google.com/). 
 
@@ -82,7 +82,7 @@ Spend a bit of time poking around in Colab. Figure out how to
 
 ------------------------------------------------------------------------
 
-### The use of AI
+### The use of AI {#sec-AI}
 
 You will have gathered from the previous exercise that in this module you are not only allowed to use AI, **you are encouraged to use AI**. However you have probably already discovered that you get more out of an AI if you are already familiar with the basic concepts of a subject. You will need to be able to understand and check any answer an AI gives you. If there is something in an AI answer that is not totally clear or not obviously correct, always ask the AI to explain the details of its answer and ask follow-on questions until everything is crystal-clear.
 
@@ -91,7 +91,7 @@ During the 10 assessment quizzes you will not be allowed to use any AI. In parti
 
 ------------------------------------------------------------------------
 
-## Python Programming Basics
+## Python Programming Basics {#sec-python_basics}
 
 If you are already very practised in using Python then you can jump straight to @sec-python_exercises with the coding exercises. But if you are new to Python or your Python skills are a bit rusty, then you will benefit from working through all the examples and exercises below, making sure you copy and paste all the code into your Colab notebook and run it there, and then critically evaluate and understand the output. To copy the code from this guide to your notebook you can use the "Copy to Clipboard" icon that pops up in the top right corner of a code block in this guide when you hover over that code block.
 
@@ -149,7 +149,7 @@ Write code to define positive integers $a,b$ and $c$ of your own choosing. Then 
 
 ------------------------------------------------------------------------
 
-### Indexing and Lists
+### Indexing and Lists {#sec-lists}
 
 Lists are a key component to storing data in Python. Lists are exactly what the name says: lists of things (in our case, usually the entries are floating point numbers).
 
@@ -257,7 +257,7 @@ In this exercise you will put your new list skills into practice.
 
 ------------------------------------------------------------------------
 
-### List Operations
+### List Operations {#sec-list_operations}
 
 Python is awesome about allowing you to do things like appending items to lists, removing items from lists, and inserting items into lists. Note in all of the examples below that we are using the code\
 `variable.method`\
@@ -334,7 +334,7 @@ In this exercise you will go a bit further with your list operation skills.
 
 ------------------------------------------------------------------------
 
-### Tuples
+### Tuples {#sec-tuples}
 
 In Python, a "tuple" is like an ordered pair (or ordered triple, or ordered quadruple, \...) in mathematics. We will occasionally see tuples in our work in numerical analysis so for now let us just give a couple of code snippets showing how to store and read them.
 
@@ -365,7 +365,7 @@ print("y = ", y)
 
 There are other important data structures in Python that we will not cover in this module. These include dictionaries and sets. We will not cover these because they are not necessary for our work in numerical analysis. We are trying to keep things simple. If you are interested in learning more about these data structures, you can find a lot of information about them in the Python documentation.
 
-### Control Flow: Loops and If Statements
+### Control Flow: Loops and If Statements {#sec-control_flow}
 
 Any time you need to do some repetitive task with a programming language you can use a loop. Just like in other programming languages, we can do loops and conditional statements in very easy ways in Python. The thing to keep in mind is that the Python language is very white-space-dependent. This means that your indentations need to be correct in order for a loop to work. You could get away with sloppy indention in other languages but not so in Python. Also, in some languages (like R and Java) you need to wrap your loops in curly braces. Again, not so in Python.
 
@@ -616,7 +616,7 @@ x_{n+1} = \left\{ \begin{array}{ll} x_n / 2, & \text{$x_n$ is even} \\ 3 x_n + 1
 
 ------------------------------------------------------------------------
 
-### Functions
+### Functions {#sec-functions}
 
 Mathematicians and programmers talk about functions in very similar ways, but they are not exactly the same. When we say "function" in a programming sense we are talking about a chunk of code that you can pass parameters and expect an output of some sort. This is not unlike the mathematician's version, but unlike a mathematical function can also have side effects, like  plotting a graph for example. So Python's definition of a function is a bit more flexible than that of a mathematician.
 
@@ -739,7 +739,7 @@ Modify the code given in the previous example to give a list of approximations o
 
 ------------------------------------------------------------------------
 
-### Lambda Functions
+### Lambda Functions {#sec-lambda_functions}
 
 Using `def` to define a function as in the previous subsection is really nice when you have a function that is complicated or requires some bit of code to evaluate. However, in the case of mathematical functions we have a convenient alternative: `lambda` Functions.
 
@@ -788,7 +788,7 @@ Go back to @exr-A.13 and repeat this exercise using a `lambda` function.
 
 ------------------------------------------------------------------------
 
-### Packages
+### Packages {#sec-packages}
 
 Python was not created as a scientific programming language. The reason Python can be used for scientific computing is that there are powerful extension packages that define additional functions that are needed for scientific calculations.
 
@@ -878,7 +878,7 @@ Import the `math` package, figure out how the `log` function works, and write co
 
 ------------------------------------------------------------------------
 
-## Numerical Python with NumPy
+## Numerical Python with NumPy {#sec-numpy}
 
 The base implementation of Python includes the basic programming language, the tools to write loops, check conditions, build and manipulate lists, and all of the other things that we saw in the previous section. In this section we will explore the package `numpy` that contains optimized numerical routines for doing numerical computations in scientific computing.
 
@@ -941,7 +941,7 @@ The package `numpy` is used in many (most) mathematical computations in numerica
 
 Typically when we import `numpy` we use `import numpy as np`. This is the standard way to name the `numpy` package. This means that we will have lots of function with the prefix "np" in order to call on the `numpy` functions. Let us first see what is inside the package with the code `print(dir(np))` after importing `numpy` as `np`. A brief glimpse through the list reveals a huge wealth of mathematical functions that are optimized to work in the best possible way with the Python language. (We are intentionally not showing the output here since it is quite extensive, run it so you can see.)
 
-### Numpy Arrays, Array Operations, and Matrix Operations
+### Numpy Arrays, Array Operations, and Matrix Operations {#sec-numpy_arrays}
 
 In the previous section you worked with Python lists. As we pointed out, the shortcoming of Python lists is that they do not behave well when we want to apply mathematical functions to the vector as a whole. The "numpy array", `np.array`, is essentially the same as a Python list with the notable exceptions that
 
@@ -1185,8 +1185,8 @@ Then find
 
 ------------------------------------------------------------------------
 
-### `arange, linspace, zeros, ones`, and `meshgrid`
-
+### `arange, linspace, zeros, ones`, and `meshgrid` {#sec-numpy_builtins}
+ 
 There are a few built-in ways to build arrays in `numpy` that save a bit of time in many scientific computing settings.
 
 ------------------------------------------------------------------------
@@ -1274,7 +1274,7 @@ d.  Change the bottom row of your matrix from part (b) to all $3$'s, then change
 
 ------------------------------------------------------------------------
 
-## Plotting with Matplotlib
+## Plotting with Matplotlib {#sec-matplotlib}
 
 A key part of scientific computing is plotting your results or your data. The tool in Python best-suited to this task is the package `matplotlib`. As with all of the other packages in Python, it is best to learn just the basics first and then to dig deeper later. One advantage to using `matplotlib` in Python is that it is modelled off of MATLAB's plotting tools. People coming from a MATLAB background should feel pretty comfortable here, but there are some differences to be aware of.
 
