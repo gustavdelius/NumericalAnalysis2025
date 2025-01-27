@@ -190,10 +190,9 @@ window.Quarto = {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Numerical Analysis 2025</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://maths.york.ac.uk/moodle/course/view.php?id=2652" title="Moodle page" class="quarto-navigation-tool px-1" aria-label="Moodle page"><i class="bi bi-mortarboard-fill"></i></a>
+    <a href="https://maths.york.ac.uk/moodle/course/view.php?id=2725" title="Moodle page" class="quarto-navigation-tool px-1" aria-label="Moodle page"><i class="bi bi-mortarboard-fill"></i></a>
     <a href="https://forms.gle/Z8nYvVonGN98L7nv5" title="Submit a correction" class="quarto-navigation-tool px-1" aria-label="Submit a correction"><i class="bi bi-bug-fill"></i></a>
     <a href="https://github.com/gustavdelius/NumericalAnalysis2025/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="./Numerical-Analysis-2025.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -312,7 +311,7 @@ window.Quarto = {
 <p><em>What I cannot create, I do not understand.</em><br>
 –<a href="https://en.wikipedia.org/wiki/Richard_Feynman">Richard P. Feynman</a></p>
 </blockquote>
-<p>Mathematics is not just an abstract pursuit; it is an essential tool that powers a vast array of applications. From weather forecasting to black hole simulations, from urban planning to medical research, the application of mathematics has become indispensable. Central to this applied force is Numerical Analysis.</p>
+<p>Mathematics is not just an abstract pursuit; it is an essential tool that powers a vast array of applications. From weather forecasting to black hole simulations, from urban planning to medical research, from ecology to epidemiology, the application of mathematics has become indispensable. Central to this applied force is Numerical Analysis.</p>
 <section id="sec-what_is_numerical_analysis" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="sec-what_is_numerical_analysis">What Is Numerical Analysis?</h2>
 <p>Numerical Analysis is the discipline that bridges continuous mathematical theories with their concrete implementation on digital computers. These computers, by design, work with discrete quantities, and translating continuous problems into this discrete realm is not always straightforward.</p>
@@ -321,7 +320,7 @@ window.Quarto = {
 <section id="sec-example_algebra" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="sec-example_algebra">Example from Algebra</h3>
 <p>Solve the equation <span class="math inline">\(\log(x) = \sin(x)\)</span> for <span class="math inline">\(x\)</span> in the interval <span class="math inline">\(x \in (0,\pi)\)</span>. Stop and try using all of the algebra that you ever learned to find <span class="math inline">\(x\)</span>. You will quickly realize that there are no by-hand techniques that can solve this problem! A numerical approximation, however, is not so hard to come by. The following graph shows that there is a solution to this equation somewhere between <span class="math inline">\(2\)</span> and <span class="math inline">\(2.5\)</span>.</p>
-<div id="cell-fig-lnsin" class="cell page-columns page-full" data-execution_count="2">
+<div id="cell-fig-lnsin" class="cell page-columns page-full" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the function cos(x) and the line y=x</span></span>
@@ -331,7 +330,8 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>plt.plot(x, np.log(x), label<span class="op">=</span><span class="st">"log(x)"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x, np.sin(x), label<span class="op">=</span><span class="st">"sin(x)"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display page-columns page-full">
 <div id="fig-lnsin" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full">
@@ -353,7 +353,7 @@ Figure&nbsp;1: The functions <span class="math inline">\(\log(x)\)</span> and <s
 <p><span class="math display">\[
     \int_0^\pi \sin(x^2) dx?
 \]</span></p>
-<div id="cell-fig-int_sin_x_squared" class="cell page-columns page-full" data-execution_count="3">
+<div id="cell-fig-int_sin_x_squared" class="cell page-columns page-full" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -377,25 +377,25 @@ Figure&nbsp;1: The functions <span class="math inline">\(\log(x)\)</span> and <s
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>plt.fill_between(x, y, where<span class="op">=</span>y<span class="op">&lt;</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'red'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"Negative"</span>)</span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the curve</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, color<span class="op">=</span><span class="st">'black'</span>, label<span class="op">=</span><span class="vs">r"sin(x^2)"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, color<span class="op">=</span><span class="st">'black'</span>, label<span class="op">=</span><span class="vs">r"$\sin(x^2)$"</span>)</span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Set labels and title</span></span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"y"</span>)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Integral of sin(x^2) from 0 to pi"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r"Integral of $\sin(x^2)$ from 0 to $\pi$"</span>)</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add legend</span></span>
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the plot</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display page-columns page-full">
 <div id="fig-int_sin_x_squared" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-int_sin_x_squared-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<img src="index_files/figure-html/fig-int_sin_x_squared-output-1.png" width="608" height="449" class="figure-img column-page-right">
+<img src="index_files/figure-html/fig-int_sin_x_squared-output-1.png" width="608" height="453" class="figure-img column-page-right">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-int_sin_x_squared-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Visual representation of the integral of <span class="math inline">\(\sin(x^2)\)</span> from <span class="math inline">\(0\)</span> to <span class="math inline">\(\pi\)</span>.
@@ -405,7 +405,7 @@ Figure&nbsp;2: Visual representation of the integral of <span class="math inline
 </div>
 </div>
 <p>Again, trying to use any of the possible techniques for using the Fundamental Theorem of Calculus, and hence finding an antiderivative, on the function <span class="math inline">\(\sin(x^2)\)</span> is completely hopeless. Substitution, integration by parts, and all of the other techniques that you know will all fail. Again, a numerical approximation is not so difficult and is very fast and gives the value</p>
-<div id="27033b47" class="cell" data-execution_count="4">
+<div id="a848621c" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use Simpson's rule to approximate the integral of sin(x^2) from 0 to pi</span></span>
@@ -423,7 +423,7 @@ Figure&nbsp;2: Visual representation of the integral of <span class="math inline
 <p>Say we needed to solve the differential equation</p>
 <p><span class="math display">\[\frac{dy}{dt} = \sin(y^2) + t.\]</span></p>
 <p>The nonlinear nature of the problem precludes us from using most of the typical techniques (e.g.&nbsp;separation of variables, undetermined coefficients, Laplace Transforms, etc). However, computational methods that result in a plot of an approximate solution can be made very quickly. Here is a plot of the solution up to time <span class="math inline">\(t=2.5\)</span> with initial condition <span class="math inline">\(y(0)=0.1\)</span>:</p>
-<div id="cell-fig-diffeq" class="cell page-columns page-full" data-execution_count="5">
+<div id="cell-fig-diffeq" class="cell page-columns page-full" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -471,7 +471,7 @@ Figure&nbsp;3: Plot of numerical solution of <span class="math inline">\(dy/dt=\
 </div>
 </div>
 <p>This was an artificial example, but differential equations are central to modelling the real world in order to predict the future. They are the closest thing we have to a crystal ball. Here is a plot of a numerical solution of the SIR model of the evolution of an epidemic over time:</p>
-<div id="cell-fig-SIRintro" class="cell page-columns page-full" data-execution_count="6">
+<div id="cell-fig-SIRintro" class="cell page-columns page-full" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>

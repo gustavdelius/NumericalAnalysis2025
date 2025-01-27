@@ -3,7 +3,7 @@
 > *What I cannot create, I do not understand.*\
 > --[Richard P. Feynman](https://en.wikipedia.org/wiki/Richard_Feynman)
 
-Mathematics is not just an abstract pursuit; it is an essential tool that powers a vast array of applications. From weather forecasting to black hole simulations, from urban planning to medical research, the application of mathematics has become indispensable. Central to this applied force is Numerical Analysis.
+Mathematics is not just an abstract pursuit; it is an essential tool that powers a vast array of applications. From weather forecasting to black hole simulations, from urban planning to medical research, from ecology to epidemiology, the application of mathematics has become indispensable. Central to this applied force is Numerical Analysis.
 
 ## What Is Numerical Analysis? {#sec-what_is_numerical_analysis}
 
@@ -29,6 +29,7 @@ x = np.linspace(1, 4, 100)
 plt.plot(x, np.log(x), label="log(x)")
 plt.plot(x, np.sin(x), label="sin(x)")
 plt.legend()
+plt.grid(True)
 plt.show()
 ```
 
@@ -66,18 +67,18 @@ plt.fill_between(x, y, where=y>=0, color='green', alpha=0.5, label="Positive")
 plt.fill_between(x, y, where=y<0, color='red', alpha=0.5, label="Negative")
 
 # Plot the curve
-plt.plot(x, y, color='black', label=r"sin(x^2)")
+plt.plot(x, y, color='black', label=r"$\sin(x^2)$")
 
 # Set labels and title
 plt.xlabel("x")
 plt.ylabel("y")
-plt.title("Integral of sin(x^2) from 0 to pi")
+plt.title(r"Integral of $\sin(x^2)$ from 0 to $\pi$")
 
 # Add legend
 plt.legend()
 
 # Show the plot
-plt.grid(True)
+plt.grid()
 plt.show()
 ```
     
