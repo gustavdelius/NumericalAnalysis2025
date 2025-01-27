@@ -218,6 +218,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./nmNumbers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Numbers</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -234,18 +240,18 @@ window.Quarto = {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul>
-  <li><a href="#what-is-numerical-analysis" id="toc-what-is-numerical-analysis" class="nav-link" data-scroll-target="#what-is-numerical-analysis">What Is Numerical Analysis?</a>
+  <li><a href="#sec-what_is_numerical_analysis" id="toc-sec-what_is_numerical_analysis" class="nav-link" data-scroll-target="#sec-what_is_numerical_analysis">What Is Numerical Analysis?</a>
   <ul class="collapse">
-  <li><a href="#example-from-algebra" id="toc-example-from-algebra" class="nav-link" data-scroll-target="#example-from-algebra">Example from Algebra</a></li>
-  <li><a href="#example-from-calculus" id="toc-example-from-calculus" class="nav-link" data-scroll-target="#example-from-calculus">Example from Calculus</a></li>
-  <li><a href="#example-from-differential-equations" id="toc-example-from-differential-equations" class="nav-link" data-scroll-target="#example-from-differential-equations">Example from Differential Equations</a></li>
-  <li><a href="#reasons-to-study-numerical-analysis" id="toc-reasons-to-study-numerical-analysis" class="nav-link" data-scroll-target="#reasons-to-study-numerical-analysis">Reasons to study Numerical Analysis</a></li>
+  <li><a href="#sec-example_algebra" id="toc-sec-example_algebra" class="nav-link" data-scroll-target="#sec-example_algebra">Example from Algebra</a></li>
+  <li><a href="#sec-example_calculus" id="toc-sec-example_calculus" class="nav-link" data-scroll-target="#sec-example_calculus">Example from Calculus</a></li>
+  <li><a href="#sec-example_differential_equations" id="toc-sec-example_differential_equations" class="nav-link" data-scroll-target="#sec-example_differential_equations">Example from Differential Equations</a></li>
+  <li><a href="#sec-reasons_to_study_numerical_analysis" id="toc-sec-reasons_to_study_numerical_analysis" class="nav-link" data-scroll-target="#sec-reasons_to_study_numerical_analysis">Reasons to study Numerical Analysis</a></li>
   </ul></li>
-  <li><a href="#the-inquiry-based-approach" id="toc-the-inquiry-based-approach" class="nav-link" data-scroll-target="#the-inquiry-based-approach">The Inquiry-Based Approach</a></li>
-  <li><a href="#how-this-module-works" id="toc-how-this-module-works" class="nav-link" data-scroll-target="#how-this-module-works">How this module works</a></li>
-  <li><a href="#assessment" id="toc-assessment" class="nav-link" data-scroll-target="#assessment">Assessment</a></li>
-  <li><a href="#textbooks" id="toc-textbooks" class="nav-link" data-scroll-target="#textbooks">Textbooks</a></li>
-  <li><a href="#your-jobs" id="toc-your-jobs" class="nav-link" data-scroll-target="#your-jobs">Your jobs</a></li>
+  <li><a href="#sec-inquiry_based_approach" id="toc-sec-inquiry_based_approach" class="nav-link" data-scroll-target="#sec-inquiry_based_approach">The Inquiry-Based Approach</a></li>
+  <li><a href="#sec-how_this_module_works" id="toc-sec-how_this_module_works" class="nav-link" data-scroll-target="#sec-how_this_module_works">How this module works</a></li>
+  <li><a href="#sec-assessment" id="toc-sec-assessment" class="nav-link" data-scroll-target="#sec-assessment">Assessment</a></li>
+  <li><a href="#sec-textbooks" id="toc-sec-textbooks" class="nav-link" data-scroll-target="#sec-textbooks">Textbooks</a></li>
+  <li><a href="#sec-your_jobs" id="toc-sec-your_jobs" class="nav-link" data-scroll-target="#sec-your_jobs">Your jobs</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2025/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
@@ -307,13 +313,13 @@ window.Quarto = {
 –<a href="https://en.wikipedia.org/wiki/Richard_Feynman">Richard P. Feynman</a></p>
 </blockquote>
 <p>Mathematics is not just an abstract pursuit; it is an essential tool that powers a vast array of applications. From weather forecasting to black hole simulations, from urban planning to medical research, the application of mathematics has become indispensable. Central to this applied force is Numerical Analysis.</p>
-<section id="what-is-numerical-analysis" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="what-is-numerical-analysis">What Is Numerical Analysis?</h2>
+<section id="sec-what_is_numerical_analysis" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="sec-what_is_numerical_analysis">What Is Numerical Analysis?</h2>
 <p>Numerical Analysis is the discipline that bridges continuous mathematical theories with their concrete implementation on digital computers. These computers, by design, work with discrete quantities, and translating continuous problems into this discrete realm is not always straightforward.</p>
 <p>In this module, we will explore some key techniques, algorithms, and principles of Numerical Analysis that enable us to translate mathematical problems into computational solutions. We will delve into the challenges that arise in this translation, the strategies to overcome them, and the interaction of theory and practice.</p>
 <p>Many mathematical problems cannot be solved analytically in closed form. In Numerical Analysis, we aim to find <em>approximation algorithms</em> for mathematical problems, i.e., schemes that allow us to compute the solution approximately. These algorithms use only elementary operations (<span class="math inline">\(+,-,\times,/\)</span>) but often a long sequence of them, so that in practice they need to be run on computers.</p>
-<section id="example-from-algebra" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="example-from-algebra">Example from Algebra</h3>
+<section id="sec-example_algebra" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="sec-example_algebra">Example from Algebra</h3>
 <p>Solve the equation <span class="math inline">\(\log(x) = \sin(x)\)</span> for <span class="math inline">\(x\)</span> in the interval <span class="math inline">\(x \in (0,\pi)\)</span>. Stop and try using all of the algebra that you ever learned to find <span class="math inline">\(x\)</span>. You will quickly realize that there are no by-hand techniques that can solve this problem! A numerical approximation, however, is not so hard to come by. The following graph shows that there is a solution to this equation somewhere between <span class="math inline">\(2\)</span> and <span class="math inline">\(2.5\)</span>.</p>
 <div id="cell-fig-lnsin" class="cell page-columns page-full" data-execution_count="2">
 <details class="code-fold">
@@ -341,8 +347,8 @@ Figure&nbsp;1: The functions <span class="math inline">\(\log(x)\)</span> and <s
 </div>
 </div>
 </section>
-<section id="example-from-calculus" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="example-from-calculus">Example from Calculus</h3>
+<section id="sec-example_calculus" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="sec-example_calculus">Example from Calculus</h3>
 <p>What if we want to evaluate</p>
 <p><span class="math display">\[
     \int_0^\pi \sin(x^2) dx?
@@ -412,8 +418,8 @@ Figure&nbsp;2: Visual representation of the integral of <span class="math inline
 </div>
 <p>By the way, this integral (called the <a href="https://en.wikipedia.org/wiki/Fresnel_integral">Fresnel Sine Integral</a>) actually shows up naturally in the field of optics and electromagnetism, so it is not just some arbitrary integral that was cooked up just for fun.</p>
 </section>
-<section id="example-from-differential-equations" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="example-from-differential-equations">Example from Differential Equations</h3>
+<section id="sec-example_differential_equations" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="sec-example_differential_equations">Example from Differential Equations</h3>
 <p>Say we needed to solve the differential equation</p>
 <p><span class="math display">\[\frac{dy}{dt} = \sin(y^2) + t.\]</span></p>
 <p>The nonlinear nature of the problem precludes us from using most of the typical techniques (e.g.&nbsp;separation of variables, undetermined coefficients, Laplace Transforms, etc). However, computational methods that result in a plot of an approximate solution can be made very quickly. Here is a plot of the solution up to time <span class="math inline">\(t=2.5\)</span> with initial condition <span class="math inline">\(y(0)=0.1\)</span>:</p>
@@ -523,8 +529,8 @@ Figure&nbsp;4: Plot of a numerical solution of the SIR model
 </div>
 </div>
 </section>
-<section id="reasons-to-study-numerical-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="reasons-to-study-numerical-analysis">Reasons to study Numerical Analysis</h3>
+<section id="sec-reasons_to_study_numerical_analysis" class="level3">
+<h3 class="anchored" data-anchor-id="sec-reasons_to_study_numerical_analysis">Reasons to study Numerical Analysis</h3>
 <p>So why should you want to venture into Numerical Analysis rather than just use the computer as a black box?</p>
 <ol type="1">
 <li><p><strong>Precision and Stability:</strong> Computers, despite their power, can introduce significant errors if mathematical problems are implemented without care. Numerical Analysis offers techniques to ensure we obtain results that are both accurate and stable.</p></li>
@@ -536,8 +542,8 @@ Figure&nbsp;4: Plot of a numerical solution of the SIR model
 <p>By the end of this module, you will not merely understand the methods of Numerical Analysis; you will be equipped to apply them efficiently and effectively in diverse scenarios: you will be able to tackle problems in physics, engineering, biology, finance, and many other fields; you will be able to design algorithms that are both accurate and resource-efficient; you will be able to ensure that your computational solutions are both accurate and stable; you will be able to leverage the power of computers to solve complex problems.</p>
 </section>
 </section>
-<section id="the-inquiry-based-approach" class="level2">
-<h2 class="anchored" data-anchor-id="the-inquiry-based-approach">The Inquiry-Based Approach</h2>
+<section id="sec-inquiry_based_approach" class="level2">
+<h2 class="anchored" data-anchor-id="sec-inquiry_based_approach">The Inquiry-Based Approach</h2>
 <p>This material is written with an Inquiry-Based Learning (IBL) flavor. In that sense, these notes are not a <em>traditional textbook</em> containing all of the expected theorems, proofs, code, examples, and exposition. You are encouraged to work through exercises, problems and projects, present your findings, and work together when appropriate.</p>
 <p>In our first session we will start off right away with an exercise designed for groups, discussion, disagreement, and deep critical thinking. This exercise is inspired by Dana Ernst’s first day IBL activity titled: <a href="http://danaernst.com/setting-the-stage/">Setting the Stage</a>.</p>
 <hr>
@@ -562,8 +568,8 @@ Figure&nbsp;4: Plot of a numerical solution of the SIR model
 </div>
 <hr>
 </section>
-<section id="how-this-module-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-module-works">How this module works</h2>
+<section id="sec-how_this_module_works" class="level2">
+<h2 class="anchored" data-anchor-id="sec-how_this_module_works">How this module works</h2>
 <p>There are 4 one-hour <strong>whole-class sessions</strong> every week. Three of these are listed on your timetable as “Lecture” and one as “Computer Practical”. However, in all these sessions you, the student, are the one that is doing the work; discovering methods, writing code, working problems, leading discussions, and pushing the pace. I, the lecturer, will act as a guide who only steps in to redirect conversations or to provide necessary insight. You will use the whole-class sessions to share and discuss your work with the other members of your group. There will also be some whole-class discussions moderated by your lecturer.</p>
 <p>You will find that this text is not a set of lecture notes. Instead it mostly just contains collections of exercises with minimal interweaving exposition. It is expected that you <strong>do every one of the exercises</strong> in the main body of each chapter and use the sequencing of the exercises to guide your learning and understanding.</p>
 <p>Therefore the whole-class sessions form only a very small part of your work on this module. For each hour of whole-class work you should timetable yourself about two and a half hours of <strong>work outside class</strong> for working through the exercises on your own. I strongly recommend that you put those two and a half hours (ten hours spread throughout the week) into your timetable.</p>
@@ -577,8 +583,8 @@ Figure&nbsp;4: Plot of a numerical solution of the SIR model
 <p>One request: do not share your notebooks publicly on the internet because that would create temptation for future students to not put in the work themselves, thereby robbing them of the learning experience.</p>
 <p>If you have a <strong>notebook computer</strong>, bring it along to the class sessions. However this is not a requirement. Your lecturer will bring along some spare machines to make sure that every group has at least one computer to use during every session. The only requirements for a computer to be useful for this module is that it can connect to the campus WiFi, can run a web browser, and has a physical keyboard (typing code on virtual keyboards is too slow). The “Computer Practical” takes place in a PC classroom, so there will of course be plenty of machines available then.</p>
 </section>
-<section id="assessment" class="level2">
-<h2 class="anchored" data-anchor-id="assessment">Assessment</h2>
+<section id="sec-assessment" class="level2">
+<h2 class="anchored" data-anchor-id="sec-assessment">Assessment</h2>
 <p>Unfortunately, your learning in the module also needs to be assessed. The final mark will be made up of 40% coursework and 60% final exam.</p>
 <p>The <strong>40% coursework</strong> mark will come from 10 short quizzes that will take place during the “Computer practical” in weeks 2 to 11. Answering each quiz should take less than 5 minutes but you will be given 10 minutes to complete it to give you a large safety margin and remove stress. The quizzes will be based on exercises that you will already have worked through and for which you will have had time to discuss them in class, so they will be really easy if you have engaged with the exercises as intended. Each quiz will be worth 5 points. There will be a practice quiz in the computer practical in week 1 and another one at the start of the practical in week 2.</p>
 <p>During the assessment quizzes you will be required to work exclusively on a classroom PC rather than your own machine. You will do your work in a Colab notebook in which the AI features have been switched off. You can find more info on the use of <a href="./nmPython.html#google-colab">Colab notebooks</a> in this module in the <a href="./nmPython.html">Essential Python</a> chapter of the Numerical Analysis Learning Guide.</p>
@@ -588,14 +594,14 @@ Figure&nbsp;4: Plot of a numerical solution of the SIR model
 <p>There will be a practice assessment quiz in week 1 that will not count for anything.</p>
 <p>The <strong>60% final exam</strong> will be a 2 hour exam of the usual closed-book form in an exam room during the exam period. I will make a practice exam available at the end of the module.</p>
 </section>
-<section id="textbooks" class="level2">
-<h2 class="anchored" data-anchor-id="textbooks">Textbooks</h2>
+<section id="sec-textbooks" class="level2">
+<h2 class="anchored" data-anchor-id="sec-textbooks">Textbooks</h2>
 <p>In this module we will only scratch the surface of the vast subject that is Numerical Analysis. The aim is for you at the end of this module to be familiar with some key ideas and to have the confidence to engage with new methods when they become relevant to you.</p>
 <p>There are many textbooks on Numerical Analysis. Standard textbooks are <span class="citation" data-cites="Burden_Faires">(<a href="references.html#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span> and <span class="citation" data-cites="Kincaid">(<a href="references.html#ref-Kincaid" role="doc-biblioref">Kincaid and Cheney 2009</a>)</span>. They contain much of the material from this module. A less structured and more opinionated account can be found in <span class="citation" data-cites="Acton">(<a href="references.html#ref-Acton" role="doc-biblioref">Acton 1990</a>)</span>. Another well known reference that researchers often turn to for solutions to specific tasks is <span class="citation" data-cites="Press">(<a href="references.html#ref-Press" role="doc-biblioref">Press et al. 2007</a>)</span>. You will find many others in the library. They may go also under alternative names like “Numerical Methods” or “Scientific Computing”.</p>
 <p>You may also want to look at textbooks for specific topics covered in this module, like for example <span class="citation" data-cites="Butcher">(<a href="references.html#ref-Butcher" role="doc-biblioref">Butcher 2016</a>)</span> for methods for ordinary differential equations.</p>
 </section>
-<section id="your-jobs" class="level2">
-<h2 class="anchored" data-anchor-id="your-jobs">Your jobs</h2>
+<section id="sec-your_jobs" class="level2">
+<h2 class="anchored" data-anchor-id="sec-your_jobs">Your jobs</h2>
 <p>You have the following jobs as a student in this module:</p>
 <ol type="1">
 <li><p><strong>Fight!</strong> You will have to fight hard to work through this material. The fight is exactly what we are after since it is ultimately what leads to innovative thinking.</p></li>

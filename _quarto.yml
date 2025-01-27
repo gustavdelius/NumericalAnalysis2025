@@ -37,6 +37,7 @@ book:
   chapters:
     - index.qmd
     - nmPython.qmd
+    - nmNumbers.qmd
     - references.qmd
 
 bibliography: references.bib

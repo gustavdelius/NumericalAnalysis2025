@@ -616,7 +616,7 @@ x_{n+1} = \left\{ \begin{array}{ll} x_n / 2, & \text{$x_n$ is even} \\ 3 x_n + 1
 
 ------------------------------------------------------------------------
 
-### Functions {#sec-functions}
+### Functions {#sec-python_functions}
 
 Mathematicians and programmers talk about functions in very similar ways, but they are not exactly the same. When we say "function" in a programming sense we are talking about a chunk of code that you can pass parameters and expect an output of some sort. This is not unlike the mathematician's version, but unlike a mathematical function can also have side effects, like  plotting a graph for example. So Python's definition of a function is a bit more flexible than that of a mathematician.
 

@@ -1,0 +1,534 @@
+# Numbers {#sec-approx}
+
+> *We think in generalities, but we live in details.*\
+> --[Alfred North Whitehead](https://en.wikipedia.org/wiki/Alfred_North_Whitehead)
+
+Have you ever wondered how computers, which operate in a realm of zeros and ones, manage to perform mathematical calculations with real numbers? The secret lies in approximation.
+
+In this chapter and the next we will investigate the foundations that allow a computer to do mathematical calculations at all. How can it store real numbers? How can it calculate the values of mathematical functions? We will understand that the computer can do these things only approximately and will thus always make errors. Numerical Analysis is all about keeping these errors as small as possible while still being able to do efficient calculations.
+
+We will meet the two kinds of errors that a computer makes: **rounding errors** and **truncation errors**. Rounding errors arise from the way the computer needs to approximate real numbers by binary floating point numbers, which are the numbers it know how to add, subtract, multiply and divide. We'll discuss this in this chapter. Truncation errors arise from the way the computer needs to reduce all calculations to a finite number of these four basic arithmetic operations. We will see that for the first time in @sec-functions when we discuss how computers approximate functions by power series and then have to truncate these at some finite order.
+
+Let's start with a striking example of how bad computers actually are at doing even simple calculations:
+
+::: {#exr-1.1}
+By hand (no computers!) compute the first 50 terms of this sequence with the initial condition $x_0 = 1/10$.
+
+\begin{equation}
+x_{n+1} = \left\{ \begin{array}{ll} 2x_n, & x_n \in [0,\frac{1}{2}] \\ 2x_n - 1, & x_n \in (\frac{1}{2},1] \end{array} \right.
+\end{equation}
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.2}
+Now use a spreadsheet to do the computations. Do you get the same answers?
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.3}
+Finally, solve this problem with Python. Some starter code is given to you below.
+
+``` python
+x = 1.0/10
+for n in range(50):
+    if x<= 0.5:
+        # put the correct assignment here
+    else:
+        # put the correct assigment here
+    print(x)
+```
+:::
+(Even if you don't know Python, you should be able to do this exercise after having read up to @sec-variables in the chapter on Essential Python.)
+
+------------------------------------------------------------------------
+
+::: {#exr-1.4}
+It seems like the computer has failed you! What do you think happened on the computer and why did it give you a different answer? What, do you suppose, is the cautionary tale hiding behind the scenes with this problem?
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.5}
+Now what happens with this problem when you start with $x_0 = 1/8$? Why does this new initial condition work better?
+:::
+
+------------------------------------------------------------------------
+
+
+## Binary Numbers {#sec-binary_numbers}
+
+A computer circuit knows two states: on and off. As such, anything saved in computer memory is stored using base-2 numbers. This is called a binary number system. To fully understand a binary number system it is worthwhile to pause and reflect on our base-10 number system for a few moments.
+
+What do the digits in the number "735" really mean? The position of each digit tells us something particular about the magnitude of the overall number. The number 735 can be represented as a sum of powers of 10 as
+
+\begin{equation}
+735 = 700 + 30 + 5 = 7 \times 10^2 + 3 \times 10^1 + 5 \times 10^0
+\end{equation}
+
+and we can read this number as 7 hundreds, 3 tens, and 5 ones.
+
+Now let us switch to the number system used by computers: the binary number system. In a binary number system the base is 2 so the only allowable digits are 0 and 1 (just like in base-10 the allowable digits were 0 through 9). In binary (base-2), the number "101,101" can be interpreted as
+
+\begin{equation}
+101,101_2 = 1 \times 2^5 + 0 \times 2^4 + 1 \times 2^3 + 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0
+\end{equation}
+
+(where the subscript "2" indicates the base). If we put this back into base 10, so that we can read it more comfortably, we get
+
+$$101,101_2 = 32 + 0 + 8 + 4 + 0 + 1 = 45_{10}.$$
+
+(The commas in the numbers are only to allow for greater readability -- we can easily see groups of three digits and mentally keep track of what we are reading.)
+
+------------------------------------------------------------------------
+
+::: {#exr-1.6}
+Express the following binary numbers in base-10.
+
+1.  $111_2$
+
+2.  $10,101_2$
+
+3.  $1,111,111,111_2$
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.7}
+Explain the joke: *There are 10 types of people. Those who understand binary and those who do not.*
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.8}
+Discussion: With your group, discuss how you would convert a base-10 number into its binary representation. Once you have a proposed method put it into action on the number $237_{10}$ to show that the base-2 expression is $11,101,101_2$.
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.9}
+Convert the following numbers from base 10 to base 2 or visa versa.
+
+-   Write $12_{10}$ in binary
+
+-   Write $11_{10}$ in binary
+
+-   Write $23_{10}$ in binary 🎓
+
+-   Write $11_2$ in base $10$
+
+-   What is $100101_2$ in base $10$? 🎓
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.10}
+Now that you have converted several base-10 numbers to base-2, summarize an efficient technique to do the conversion.
+:::
+
+------------------------------------------------------------------------
+
+Next we will work with fractions and decimals. 
+
+::: {#exm-1.b}
+Let us take the base $10$ number $5.341_{10}$ and expand it out to get
+
+$$5.341_{10} = 5 + \frac{3}{10} + \frac{4}{100} + \frac{1}{1000} = 5 \times 10^0 + 3 \times 10^{-1} + 4 \times 10^{-2} + 1 \times 10^{-3}.$$
+
+The position to the right of the decimal point is the negative power of 10 for the given position. 
+
+:::
+
+We can do a similar thing with binary decimals.
+
+------------------------------------------------------------------------
+
+::: {#exr-1.11}
+The base-2 number $1,101.01_2$ can be expanded in powers of $2$. Fill in the question marks below and observe the pattern in the powers.
+
+$$1,101.01_2 = ? \times 2^3 + 1 \times 2^2 + 0 \times 2^1 + ? \times 2^0 + 0 \times 2^{?} + 1 \times 2^{-2}.$$
+:::
+
+------------------------------------------------------------------------
+
+::: {#exm-1.2}
+Convert $11.01011_2$ to base $10$.\
+**Solution:**
+
+$$\begin{aligned} 11.01011_2 &= 2 + 1 + \frac{0}{2} + \frac{1}{4} + \frac{0}{8} + \frac{1}{16} + \frac{1}{32} \\ &= 1 \times 2^1 + 1 \times 2^0 + 0 \times 2^{-1} + 1 \times 2^{-2} + 0 \times 2^{-3} + 1 \times 2^{-4} + 1 \times 2^{-5}\\ &= 3.34375_{10}. \end{aligned}$$
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.13}
+Convert the following numbers from base 10 to binary.
+
+1.  What is $1/2$ in binary?
+
+2.  What is $1/8$ in binary?
+
+3.  What is $4.125$ in binary?
+
+4.  What is $0.15625$ in binary? 🎓
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.14}
+Convert the base $10$ decimal $0.635$ to binary using the following steps.
+
+1.  Multiply $0.635$ by $2$. The whole number part of the result is the first binary digit to the right of the decimal point.
+
+2.  Take the result of the previous multiplication and ignore the digit to the left of the decimal point. Multiply the remaining decimal by $2$. The whole number part is the second binary decimal digit.
+
+3.  Repeat the previous step until you have nothing left, until a repeating pattern has revealed itself, or until your precision is close enough.
+
+Explain why each step gives the binary digit that it does.
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.16}
+Convert the base $10$ fraction $0.1$ into binary. Use this to explain why errors arose in @exr-1.3. 
+:::
+
+------------------------------------------------------------------------
+
+## Floating Point Numbers {#sec-floating_point_numbers}
+
+Everything stored in the memory of a computer is a number, but how does a computer actually store a number. More specifically, since computers only have finite memory we would really like to know the full range of numbers that are possible to store in a computer. Clearly, given the uncountable nature of the real numbers, there will be gaps between the numbers that can be stored. We would like to know what gaps in our number system to expect when using a computer to store and do computations on numbers.
+
+------------------------------------------------------------------------
+
+::: {#exr-1.17}
+Let us start the discussion with a very concrete example. Consider the number $x = -123.15625$ (in base 10). As we have seen this number can be converted into binary. Indeed
+
+$$x = -123.15625_{10} = -1111011.00101_2$$
+
+(you should check this).
+
+a.  If a computer needs to store this number then first they put in the binary version of scientific notation. In this case we write
+
+    $$x = -1. \underline{\hspace{1in}} \times 2^{\underline{\hspace{0.25in}}}$$
+
+b.  Based on the fact that every binary number, other than 0, can be written in this way, what three things do you suppose a computer needs to store for any given number?
+
+c.  Using your answer to part (b), what would a computer need to store for the binary number $x=10001001.1100110011_2$?
+:::
+
+------------------------------------------------------------------------
+
+::: {#def-1.0}
+For any non-zero base-2 number $x$ we can write
+
+$$x = (-1)^{s} \times (1+ m) \times 2^E$$
+
+where $s \in \{0,1\}$ and $m$ is a binary number such that $0 \le m < 1$.
+
+The number $1+m$ is called the **significand**, $s$ is known as the **sign bit**, and $E$ is known as the **exponent**. We will refer to $m$, the fractional part of the significand that actually contains the information, as the **mantissa**, but this use is not universal.
+:::
+
+------------------------------------------------------------------------
+
+::: {#exm-1.3}
+What are the mantissa, sign bit, and unbiased exponent for the numbers $7_{10}, -7_{10}$, and $(0.1)_{10}$?\
+**Solution:**
+
+-   For the number $7_{10}=111_2 = 1.11 \times 2^2$ we have $s=0, m=0.11$ and $E=2$.
+
+-   For the number $-7_{10}=111_2 = -1.11 \times 2^2$ we have $s=1, m=0.11$ and $E=2$.
+
+-   For the number $\frac{1}{10} = 0.000110011001100\cdots = 1.100110011\cdots \times 2^{-4}$ we have $s=0, m=0.100110011\cdots$, and $E = -4$.
+:::
+
+------------------------------------------------------------------------
+
+In the last part of the previous example we saw that the number $(0.1)_{10}$ is actually a repeating decimal in base-2. This means that in order to completely represent the number $(0.1)_{10}$ in base-2 we need infinitely many decimal places. Obviously that cannot happen since we are dealing with computers with finite memory. Each number can only be allocated a finite number of bits. Thus the number needs to be rounded to the nearest number that can be represented with that number of bits. That leads to an error called the **rounding error** (sometimes also called *roundoff error*). We'll look into these in more detail in @sec-rounding_errors below.
+
+Over the course of the past several decades there have been many systems developed to properly store numbers. The [IEEE standard](https://en.wikipedia.org/wiki/IEEE_754) that we now use is the accumulated effort of many computer scientists, much trial and error, and deep scientific research. We now have two standard precisions for storing numbers on a computer: single and double precision. The double precision standard is what most of our modern computers use.
+
+------------------------------------------------------------------------
+
+::: {#def-1.1}
+According to the IEEE 754 standard:
+
+-   A **single-precision** number consists of 32 bits, with 1 bit for the sign, 8 for the exponent, and 23 for the mantissa.
+
+-   A **double-precision** number consists of 64 bits with 1 bit for the sign, 11 for the exponent, and 52 for the mantissa.
+:::
+
+------------------------------------------------------------------------
+
+::: {#def-1.2}
+
+**Machine precision** is the gap between the number 1 and the next larger floating point number. Often it is represented by the symbol $\epsilon$. To clarify: the number 1 can always be stored in a computer system exactly and if $\epsilon$ is machine precision for that computer then $1+\epsilon$ is the next largest number that can be stored with that machine.
+:::
+
+------------------------------------------------------------------------
+
+For all practical purposes the computer cannot tell the difference between two numbers if the relative difference is smaller than machine precision. It is important to remember this when you want to check the equality of two numbers in a computer.
+
+::: {#exr-1.18}
+To make all of these ideas concrete let us play with a small computer system where each number is stored in the following format:
+
+$$s \, E \, b_1 \, b_2 \, b_3$$
+
+The first entry is a bit for the sign ($0=+$ and $1=-$). The second entry, $E$ is for the exponent, and we will assume in this example that the exponent can be 0, 1, or $-1$. The three bits on the right represent the significand of the number. Hence, every number in this number system takes the form
+
+$$(-1)^s \times (1+ 0.b_1b_2b_3) \times 2^{E}$$
+
+-   What is the smallest positive number that can be represented in this form?
+
+-   What is the largest positive number that can be represented in this form? 
+
+-   What is the machine precision in this number system?
+
+-   What would change if we allowed $E \in \{-2,-1,0,1,2\}$? 🎓
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.19}
+What are the largest numbers that can be stored in single and double precision?
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.20}
+What is machine precision for the single and double precision standard?
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.20b}
+What is the gap between $2^n$ and the next largest number that can be stored in double precision? 🎓
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-concept-2}
+The gap between consecutive floating-point numbers gets larger as the numbers get larger.
+
+a) Explain why this makes sense from a practical perspective.
+
+b) Why might this be problematic when adding a very small number to a very large number?
+
+c) How could you rewrite the calculation $(10^8 + 0.1 - 10^8)$ to get a more accurate result?
+:::
+
+------------------------------------------------------------------------
+
+Much more can be said about floating point numbers such as how we store infinity, how we store NaN, and how we store 0. The [Wikipedia page for floating point arithmetic](https://en.wikipedia.org/wiki/Floating-point_arithmetic) might be of interest for the curious reader. It is beyond the scope of this module to go into all of those details here.
+
+The biggest takeaway points from this section and the previous are:
+
+-   All numbers in a computer are stored with finite precision.
+
+-   Nice numbers like 0.1 are sometimes not machine representable in binary.
+
+-   Machine precision is the gap between 1 and the next largest number that can be stored.
+
+-   The gap between one number and the next grows in proportion to the number. 
+
+## Rounding Errors {#sec-rounding_errors}
+
+We have seen that when the binary representation of a real number has too many binary digits to be represented faithfully by a floating point number, we need to round it to the nearest floating point number that can be represented. In this section you will explore a bit more the rounding errors that arise from this.
+
+The rounding rule that is used is "round to nearest, ties to even", which means that if the number is exactly halfway between two numbers that can be represented then we round the mantissa to an even binary number, i.e., to a mantissa that ends in 0.
+
+::: {#exm-1.3b}
+If we want to store the number $1.625 = 1.101_2$ in a floating point number system where the mantissa has only 2 bits then we round to $1.10_2 = 1.5_{10}$ because $1.101_2$ is exactly halfway between $1.100_2$ and $1.110_2$ and the rounding rule is "round to nearest, ties to even".
+:::
+
+------------------------------------------------------------------------
+
+To dive a little deeper into what happened in @exr-1.3, simplify the detailed analysis by working with only a 4 bit mantissa:
+
+::: {#exr-1.21}
+
+Calculate the first 10 terms of the sequence 
+\begin{equation}
+x_{n+1} = \left\{ \begin{array}{ll} 2x_n, & x_n \in [0,\frac{1}{2}] \\ 2x_n - 1, & x_n \in
+        (\frac{1}{2},1] \end{array} \right. \quad \text{with} \quad x_0 = \frac{1}{10}
+\end{equation}
+using a number system where the mantissa has only 4 bits.
+
+:::
+
+If you want to delve more deeply into this, take a look at @exr-1.53.
+
+------------------------------------------------------------------------
+
+::: {#exr-1.51}
+(This problem is modified from [@Greenbaum])\
+Sometimes floating point arithmetic does not work like we would expect (and hope) as compared to by-hand mathematics. In each of the following problems we have a mathematical problem that the computer gets wrong. Explain why the computer is getting these wrong.
+
+1.  Mathematically we know that $\sqrt{5}^2$ should just give us $5$ back. In Python type `np.sqrt(5)**2 == 5`. What do you get and why do you get it?
+
+2.  Mathematically we know that $\left( \frac{1}{49} \right) \cdot 49$ should just be 1. In Python type `(1/49)*49 == 1`. What do you get and why do you get it?
+
+3.  Mathematically we know that $e^{\log(3)}$ should just give us 3 back. In Python type `np.exp(np.log(3)) == 3`. What do you get and why do you get it?
+
+4.  Create your own example of where Python gets something incorrect because of floating point arithmetic.
+:::
+
+
+## Loss of Significant Digits {#sec-loss_of_significant_digits}
+
+As we have discussed, when representing real numbers by floating point numbers in the computer, rounding errors will usually occur. When doing a calculation with double-precision floating point numbers then the rounding error is only a tiny fraction of the actual number, so one might think that they really don't matter. However, calculations usually involve a number of steps, and we saw in @exr-1.3 that the rounding errors can accumulate and become quite noticeable after a large number of steps. 
+
+But the problem is even worse. If we are not careful, then the rounding errors can get magnified already after very few steps if we perform the steps in an unfortunate way. The following examples and exercises will illustrate this.
+
+------------------------------------------------------------------------
+
+::: {#exm-r.0}
+Consider the expression
+$$
+(10^{10} + 0.123456789) - 10^{10}.
+$$
+Mathematically, the two terms of $10^{10}$ simply cancel out leaving just $0.123456789$. However, let us evaluate this in Python:
+```{python}
+10**10 + 0.123456789 - 10**10
+```
+Only the first six digits after the decimal point were preserved, the other digits were replaced by something seemingly random. The reason should be clear. The computer makes a rounding error when it tries to store the $10000000000.123456789$.
+This is known as the loss of significant digits. It occurs whenever you subtract two almost equal numbers from each other. 
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-concept-4}
+Consider these two mathematically equivalent ways to compute the same thing:
+
+1) $(a + b) - c$
+2) $a + (b - c)$
+
+a) Why might these give different results in floating-point arithmetic?
+b) If $a$ is very small compared to $b$ and $c$, which form would you expect to be more accurate? Why?
+c) Can you think of a real-world scenario where this difference would matter?
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-r.1}
+Consider the trigonometric idenity
+$$
+2\sin^2(x/2) = 1 - \cos(x).
+$$
+It gives us two different methods to calculate the same quantity. Ask Python to evaluate both sides of the identity when $x=0.0001$. Hint: as described in @sec-packages, use `import math` so that you can then use `math.cos()` and `math.sin()`. Also remember that exponentiation in Python is represented by `**`.
+
+What do you observe? If you want to calculate $1 - \cos(x)$ with the highest precision, which expression would you use? Discuss.
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-r.2}
+You know how fo find the solutions to the quadratic equation
+$$
+a x^2+bx+c=0.
+$$
+You know the quadratic formula. For the larger of the two solutions the formula is
+$$
+x = \frac{-b+\sqrt{b^2-4ac}}{2a}.
+$$
+Let's assume that the parameters are given as
+$$ a = 1,~~~b = 1000000, ~~~ c = 1.$$
+Use the quadratic formula to find the larger of the two solutions, by coding the formula up in Python. You should get a solution slightly larger than 1. Hint: use `math.sqrt()` to code up the square root.
+
+Then check whether your value for $x$ really does solve the quadratic equation by evaluating $ax^2+bx+c$ with your value of $x$. You will notice that it does not work. Discuss the cause of the error.
+
+Now, on a piece of paper, rearrange the quadratic formula for the larger solution by multiplying both the numerator and denominator by $-b-\sqrt{b^2-4ac}$ and then simplify by multiplying out the resulting numerator. This should give you the alternative formula
+$$
+x = \frac{2c}{-b-\sqrt{b^2-4ac}}.
+$$
+Can you see why this expression will work better for the given parameter values? Again evaluate $x$ with Python and then check it by substituting into the quadratic expression. What do you find?
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-concept-5}
+Consider computing the sum of $n$ numbers in two different ways:
+
+1) Adding them in order from smallest to largest
+2) Adding them in order from largest to smallest
+
+Which approach would you expect to give more accurate results? Why? 
+Give an example to illustrate your answer.
+:::
+
+------------------------------------------------------------------------
+
+These exercises will give much material for in-class discussion. The aim is to make you sensitive to the issue of loss of significant figures and the fact that expressions that are mathematically equal are not always computationally equal. 
+
+
+## Problems {#sec-approximation_problems}
+
+These problem exercises will let you consolidate what you have learned so far and combine it with the coding skills you picked up in @sec-python.
+
+
+------------------------------------------------------------------------
+
+::: {#exr-1.52}
+(This problem is modified from [@Greenbaum])\
+In the 1999 film *Office Space*, a character creates a program that takes fractions of cents that are truncated in a bank's transactions and deposits them to his own account. This idea has been attempted in the past and now banks look for this sort of thing. In this problem you will build a simulation of the program to see how long it takes to become a millionaire.
+
+**Assumptions:**
+
+-   Assume that you have access to 50,000 bank accounts.
+
+-   Assume that the account balances are uniformly distributed between \$100 and \$100,000.
+
+-   Assume that the annual interest rate on the accounts is 5% and the interest is compounded daily and added to the accounts, except that fractions of cents are truncated.
+
+-   Assume that your illegal account initially has a \$0 balance.
+
+**Your Tasks:**
+
+1.  Explain what the code below does.
+
+``` python
+import numpy as np
+accounts = 100 + (100000-100) * np.random.rand(50000,1);
+accounts = np.floor(100*accounts)/100;
+```
+
+2.  By hand (no computer) write the mathematical steps necessary to increase the accounts by (5/365)% per day, truncate the accounts to the nearest penny, and add the truncated amount into an account titled "illegal."
+
+3.  Write code to complete your plan from part 2.
+
+4.  Using a `while` loop, iterate over your code until the illegal account has accumulated \$1,000,000. How long does it take?
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.53}
+(This problem is modified from [@Greenbaum])\
+In the 1991 Gulf War, the Patriot missile defence system failed due to rounding error. The troubles stemmed from a computer that performed the tracking calculations with an internal clock whose integer values in tenths of a second were converted to seconds by multiplying by a 24-bit binary approximation to $\frac{1}{10}$: 
+\begin{equation}
+0.1_{10} \approx 0.00011001100110011001100_2. 
+\end{equation}
+
+1.  Convert the binary number above to a fraction by hand.
+
+2.  The approximation of $\frac{1}{10}$ given above is clearly not equal to $\frac{1}{10}$. What is the absolute error in this value?
+
+3.  What is the time error, in seconds, after 100 hours of operation?
+
+4.  During the 1991 war, a Scud missile travelled at approximately Mach 5 (3750 mph). Find the distance that the Scud missile would travel during the time error computed in part 3.
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-1.58}
+#### The Python Caret Operator
+Now that you're used to using Python to do some basic computations you are probably comfortable with the fact that the caret, `^`, does NOT do exponentiation like it does in many other programming languages. But what does the caret operator do? That's what we explore here.
+
+1.  Consider the numbers $9$ and $5$. Write these numbers in binary representation. We are going to use four bits to represent each number (it is OK if the first bit happens to be zero). 
+\begin{equation}
+    \begin{aligned} 9 &=& \underline{\hspace{0.2in}} \, \underline{\hspace{0.2in}} \, \underline{\hspace{0.2in}} \, \underline{\hspace{0.2in}} \\ 5 &=& \underline{\hspace{0.2in}} \, \underline{\hspace{0.2in}} \, \underline{\hspace{0.2in}} \, \underline{\hspace{0.2in}} \end{aligned}
+    \end{equation}
+
+2.  Now go to Python and evaluate the expression `9^5`. Convert Python's answer to a binary representation (again using four bits).
+
+3.  Make a conjecture: How do we go from the binary representations of $a$ and $b$ to the binary representation for Python's `a^b` for numbers $a$ and $b$? Test and verify your conjecture on several different examples and then write a few sentences explaining what the caret operator does in Python.
+:::
