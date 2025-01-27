@@ -13,8 +13,6 @@
 /_freeze/
 # jupyter cache
 /.jupyter_cache/
-# generated figures
-/*_files/
 # generated notebooks
 *.quarto_ipynb
 
@@ -24,4 +22,3 @@ tmp.gif
 *.aux
 *.toc
 *.synctex.gz
-*.html
