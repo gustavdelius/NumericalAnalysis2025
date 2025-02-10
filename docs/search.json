@@ -218,15 +218,5 @@
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Numbers</span>"
     ]
-  },
-  {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Acton, Forman S. 1990. Numerical Methods That\nWork. 1St Edition edition. Washington, D.C: The\nMathematical Association of America.\n\n\nBurden, Richard L., and J. Douglas Faires. 2010. Numerical\nAnalysis. 9th ed. Brooks Cole.\n\n\nButcher, J. C. 2016. Numerical Methods for Ordinary Differential\nEquations. Third edition. Wiley. https://yorsearch.york.ac.uk/permalink/f/1kq3a7l/44YORK_ALMA_DS51336126850001381.\n\n\nGreenbaum, Anne, and Tim P. Chartier. 2012. Numerical Methods:\nDesign, Analysis, and Computer Implementation of Algorithms.\nPrinceton University Press.\n\n\nKincaid, D. R., and E. W. Cheney. 2009. Numerical\nAnalysis: Mathematics of\nScientific Computing. Pure and Applied\nUndergraduate Texts. American Mathematical Society.\n\n\nPress, William H., Saul A. Teukolsky, William T. Vetterling, and Brian\nP. Flannery. 2007. Numerical Recipes: The Art of Scientific\nComputing. Cambridge University Press. https://numerical.recipes/.\n\n\n“Project Euler.” n.d. Accessed December 14, 2023. https://projecteuler.net/.",
-    "crumbs": [
-      "References"
-    ]
   }
 ]

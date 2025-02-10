@@ -28,8 +28,8 @@ book:
   sidebar:
     tools:
       - icon: mortarboard-fill
-        href: https://maths.york.ac.uk/moodle/course/view.php?id=2725
-        text: Moodle page
+        href: https://vle.york.ac.uk/ultra/courses/_111634_1/outline
+        text: VLE
       - icon: bug-fill
         href: https://forms.gle/Z8nYvVonGN98L7nv5
         text: Submit a correction
@@ -37,7 +37,6 @@ book:
     - index.qmd
     - nmPython.qmd
     - nmNumbers.qmd
-    - references.qmd
 
 bibliography: references.bib
 

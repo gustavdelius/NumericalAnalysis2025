@@ -84,7 +84,6 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
 <link href="./nmPython.html" rel="prev">
 <link href="./faviconNA.webp" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -188,7 +187,7 @@ window.Quarto = {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Numerical Analysis 2025</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://maths.york.ac.uk/moodle/course/view.php?id=2725" title="Moodle page" class="quarto-navigation-tool px-1" aria-label="Moodle page"><i class="bi bi-mortarboard-fill"></i></a>
+    <a href="https://vle.york.ac.uk/ultra/courses/_111634_1/outline" title="VLE" class="quarto-navigation-tool px-1" aria-label="VLE"><i class="bi bi-mortarboard-fill"></i></a>
     <a href="https://forms.gle/Z8nYvVonGN98L7nv5" title="Submit a correction" class="quarto-navigation-tool px-1" aria-label="Submit a correction"><i class="bi bi-bug-fill"></i></a>
     <a href="https://github.com/gustavdelius/NumericalAnalysis2025/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
@@ -217,12 +216,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./nmNumbers.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Numbers</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
@@ -506,7 +499,7 @@ x_{n+1} = \left\{ \begin{array}{ll} 2x_n, &amp; x_n \in [0,\frac{1}{2}] \\ 2x_n 
 <p>If you want to delve more deeply into this, take a look at <a href="#exr-1.53" class="quarto-xref">Exercise&nbsp;<span>2.28</span></a>.</p>
 <hr>
 <div id="exr-1.51" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.22</strong></span> (This problem is modified from <span class="citation" data-cites="Greenbaum">(<a href="references.html#ref-Greenbaum" role="doc-biblioref">Greenbaum and Chartier 2012</a>)</span>)<br>
+<p><span class="theorem-title"><strong>Exercise 2.22</strong></span> (This problem is modified from <span class="citation" data-cites="Greenbaum">(<a href="#ref-Greenbaum" role="doc-biblioref">Greenbaum and Chartier 2012</a>)</span>)<br>
 Sometimes floating point arithmetic does not work like we would expect (and hope) as compared to by-hand mathematics. In each of the following problems we have a mathematical problem that the computer gets wrong. Explain why the computer is getting these wrong.</p>
 <ol type="1">
 <li><p>Mathematically we know that <span class="math inline">\(\sqrt{5}^2\)</span> should just give us <span class="math inline">\(5\)</span> back. In Python type <code>np.sqrt(5)**2 == 5</code>. What do you get and why do you get it?</p></li>
@@ -582,7 +575,7 @@ x = \frac{2c}{-b-\sqrt{b^2-4ac}}.
 <p>These problem exercises will let you consolidate what you have learned so far and combine it with the coding skills you picked up in <a href="nmPython.html" class="quarto-xref"><span>Chapter 1</span></a>.</p>
 <hr>
 <div id="exr-1.52" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.27</strong></span> (This problem is modified from <span class="citation" data-cites="Greenbaum">(<a href="references.html#ref-Greenbaum" role="doc-biblioref">Greenbaum and Chartier 2012</a>)</span>)<br>
+<p><span class="theorem-title"><strong>Exercise 2.27</strong></span> (This problem is modified from <span class="citation" data-cites="Greenbaum">(<a href="#ref-Greenbaum" role="doc-biblioref">Greenbaum and Chartier 2012</a>)</span>)<br>
 In the 1999 film <em>Office Space</em>, a character creates a program that takes fractions of cents that are truncated in a bank’s transactions and deposits them to his own account. This idea has been attempted in the past and now banks look for this sort of thing. In this problem you will build a simulation of the program to see how long it takes to become a millionaire.</p>
 <p><strong>Assumptions:</strong></p>
 <ul>
@@ -606,7 +599,7 @@ In the 1999 film <em>Office Space</em>, a character creates a program that takes
 </div>
 <hr>
 <div id="exr-1.53" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.28</strong></span> (This problem is modified from <span class="citation" data-cites="Greenbaum">(<a href="references.html#ref-Greenbaum" role="doc-biblioref">Greenbaum and Chartier 2012</a>)</span>)<br>
+<p><span class="theorem-title"><strong>Exercise 2.28</strong></span> (This problem is modified from <span class="citation" data-cites="Greenbaum">(<a href="#ref-Greenbaum" role="doc-biblioref">Greenbaum and Chartier 2012</a>)</span>)<br>
 In the 1991 Gulf War, the Patriot missile defence system failed due to rounding error. The troubles stemmed from a computer that performed the tracking calculations with an internal clock whose integer values in tenths of a second were converted to seconds by multiplying by a 24-bit binary approximation to <span class="math inline">\(\frac{1}{10}\)</span>: <span class="math display">\[\begin{equation}
 0.1_{10} \approx 0.00011001100110011001100_2.
 \end{equation}\]</span></p>
@@ -630,7 +623,7 @@ In the 1991 Gulf War, the Patriot missile defence system failed due to rounding 
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Greenbaum" class="csl-entry" role="listitem">
 Greenbaum, Anne, and Tim P. Chartier. 2012. <em>Numerical Methods: Design, Analysis, and Computer Implementation of Algorithms</em>. Princeton University Press.
 </div>
@@ -1070,9 +1063,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
