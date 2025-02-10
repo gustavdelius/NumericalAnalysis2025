@@ -1,0 +1,189 @@
+---
+title: "Numerical Analysis"
+format: revealjs
+editor: visual
+---
+
+## What is Numerical Analysis
+
+-   Many mathematical problems cannot be solved analytically in closed form
+
+-   Numerical Analysis enables us to translate mathematical problems into computational solutions.
+
+-   Computers, by design, work with discrete quantities, and translating continuous mathematical problems into this discrete realm is not always straightforward.
+
+## Example from Algebra
+
+Solve the equation $$\log(x) = \sin(x)$$ for $x$ in the interval $x \in (0,\pi)$.
+
+## Visualizing the problem
+
+```{python}
+#| label: fig-lnsin
+#| code-fold: true
+#| fig-cap: The functions $\log(x)$ and $\sin(x)$ intersect at exactly one point, giving the solution to the equation $\log(x) = \sin(x)$.
+#| column: page-right
+# plot the function cos(x) and the line y=x
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(1, 4, 100)
+plt.plot(x, np.log(x), label="log(x)")
+plt.plot(x, np.sin(x), label="sin(x)")
+plt.legend()
+plt.show()
+```
+
+## Example from Calculus
+
+What if we want to evaluate
+
+$$
+    \int_0^\pi \sin(x^2) dx?
+$$
+
+## Visualizing the problem
+
+```{python}
+#| label: fig-int_sin_x_squared
+#| code-fold: true
+#| fig-cap: Visual representation of the integral of $\sin(x^2)$ from $0$ to $\pi$.
+#| column: page-right
+import matplotlib.pyplot as plt
+import numpy as np
+
+def f(x):
+    return np.sin(x**2)
+
+a = 0
+b = np.pi
+n = 1000  # Number of points for numerical integration
+
+x = np.linspace(a, b, n)
+y = f(x)
+
+# Calculate the numerical integral using the trapezoidal rule
+integral = np.trapz(y, x)
+
+# Shade the positive and negative regions differently
+plt.fill_between(x, y, where=y>=0, color='green', alpha=0.5, label="Positive")
+plt.fill_between(x, y, where=y<0, color='red', alpha=0.5, label="Negative")
+
+# Plot the curve
+plt.plot(x, y, color='black', label=r"sin(x^2)")
+
+# Set labels and title
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("Integral of sin(x^2) from 0 to pi")
+
+# Add legend
+plt.legend()
+
+# Show the plot
+plt.grid(True)
+plt.show()
+```
+
+## Example from Differential Equations
+
+Solve the differential equation
+
+$$\frac{dy}{dt} = \sin(y^2) + t.$$
+
+## Numerical Solution
+
+```{python}
+#| label: fig-diffeq
+#| code-fold: true
+#| fig-cap: Plot of numerical solution of $dy/dt=\sin(y^2)+t$ with $y(0)=0.1$.
+#| column: page-right
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.integrate import solve_ivp
+
+def f(t, y):
+    return np.sin(y**2) + t
+
+# Initial condition
+y0 = 0.1
+
+# Time span for the solution
+t_span = (0, 2.5)
+
+# Solve the differential equation using SciPy's solver
+sol = solve_ivp(f, t_span, [y0], max_step=0.1, dense_output=True)
+
+# Extract the time values and solution
+t = sol.t
+y = sol.sol(t)[0]  
+
+# Plot the numerical solution
+plt.plot(t, y)
+
+# Labels and title
+plt.xlabel('t')
+plt.ylabel('y')
+
+# Show the plot
+plt.grid(True)
+plt.show()
+```
+
+## Modelling an Epidemic
+
+```{python}
+#| label: fig-SIRintro
+#| code-fold: true
+#| fig-cap: Plot of a numerical solution of the SIR model
+#| column: page-right
+import numpy as np
+from scipy.integrate import odeint
+import matplotlib.pyplot as plt
+
+# SIR model differential equations
+def sir_model(y, t, N, beta, gamma):
+    S, I, R = y
+    dSdt = -beta * S * I / N
+    dIdt = beta * S * I / N - gamma * I
+    dRdt = gamma * I
+    return dSdt, dIdt, dRdt
+
+# Total population, N
+N = 1000
+# Initial number of infected and recovered individuals
+I0, R0 = 1, 0
+# Everyone else is susceptible to infection initially
+S0 = N - I0 - R0
+# Contact rate, beta, and mean recovery rate, gamma, (in 1/days)
+beta, gamma = 0.25, 1./20 
+# A grid of time points (in days)
+t = np.linspace(0, 160, 160)
+
+# Initial conditions vector
+y0 = S0, I0, R0
+# Integrate the SIR equations over the time grid, t
+ret = odeint(sir_model, y0, t, args=(N, beta, gamma))
+S, I, R = ret.T
+
+# Plot the data on three separate curves for S(t), I(t) and R(t)
+plt.figure(figsize=(10,6))
+plt.plot(t, S, 'b', alpha=0.7, linewidth=2, label='Susceptible')
+plt.plot(t, I, 'y', alpha=0.7, linewidth=2, label='Infected')
+plt.plot(t, R, 'g', alpha=0.7, linewidth=2, label='Recovered')
+plt.xlabel('Time /days')
+plt.ylabel('Number (1000s)')
+plt.ylim(0, N)
+plt.title('SIR Model Simulation')
+plt.legend()
+plt.show()
+```
+
+## Reasons to study Numerical Analysis
+
+1.  **Precision and Stability**
+
+2.  **Efficiency**
+
+3.  **Broad Applications**
+
+4.  **Basis for Modern Technologies**
