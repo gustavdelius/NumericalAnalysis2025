@@ -27,9 +27,12 @@ book:
   open-graph: true
   sidebar:
     tools:
-      - icon: mortarboard-fill
+      - icon: house-door-fill
         href: https://vle.york.ac.uk/ultra/courses/_111634_1/outline
         text: VLE
+      - icon: mortarboard-fill
+        href: https://maths.york.ac.uk/moodle/course/view.php?id=2725
+        text: Moodle quizzes
       - icon: bug-fill
         href: https://forms.gle/Z8nYvVonGN98L7nv5
         text: Submit a correction
