@@ -411,7 +411,7 @@ c) Can you think of a real-world scenario where this difference would matter?
 ------------------------------------------------------------------------
 
 ::: {#exr-r.1}
-Consider the trigonometric idenity
+Consider the trigonometric identity
 $$
 2\sin^2(x/2) = 1 - \cos(x).
 $$
@@ -423,7 +423,7 @@ What do you observe? If you want to calculate $1 - \cos(x)$ with the highest pre
 ------------------------------------------------------------------------
 
 ::: {#exr-r.2}
-You know how fo find the solutions to the quadratic equation
+You know how to find the solutions to the quadratic equation
 $$
 a x^2+bx+c=0.
 $$
