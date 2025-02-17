@@ -40,6 +40,7 @@ book:
     - index.qmd
     - nmPython.qmd
     - nmNumbers.qmd
+    - nmFunctions.qmd
 
 bibliography: references.bib
 

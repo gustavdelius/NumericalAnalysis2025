@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.55">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Functions – Numerical Analysis 2025</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./nmNumbers.html" rel="prev">
+<link href="./faviconNA.webp" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="3&nbsp; Functions – Numerical Analysis 2025">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Numerical Analysis 2025">
+<meta name="twitter:title" content="3&nbsp; Functions – Numerical Analysis 2025">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./nmFunctions.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functions</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Numerical Analysis 2025</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://vle.york.ac.uk/ultra/courses/_111634_1/outline" title="VLE" class="quarto-navigation-tool px-1" aria-label="VLE"><i class="bi bi-house-door-fill"></i></a>
+    <a href="https://maths.york.ac.uk/moodle/course/view.php?id=2725" title="Moodle quizzes" class="quarto-navigation-tool px-1" aria-label="Moodle quizzes"><i class="bi bi-mortarboard-fill"></i></a>
+    <a href="https://forms.gle/Z8nYvVonGN98L7nv5" title="Submit a correction" class="quarto-navigation-tool px-1" aria-label="Submit a correction"><i class="bi bi-bug-fill"></i></a>
+    <a href="https://github.com/gustavdelius/NumericalAnalysis2025/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmPython.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Essential Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmNumbers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Numbers</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmFunctions.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functions</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-polynomial_approximations" id="toc-sec-polynomial_approximations" class="nav-link active" data-scroll-target="#sec-polynomial_approximations"><span class="header-section-number">3.1</span> Polynomial Approximations</a></li>
+  <li><a href="#sec-truncation_error" id="toc-sec-truncation_error" class="nav-link" data-scroll-target="#sec-truncation_error"><span class="header-section-number">3.2</span> Truncation Error</a></li>
+  <li><a href="#sec-functions_problems" id="toc-sec-functions_problems" class="nav-link" data-scroll-target="#sec-functions_problems"><span class="header-section-number">3.3</span> Problems</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2025/edit/main/nmFunctions.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-functions" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functions</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>How does a computer <em>understand</em> a function like <span class="math inline">\(f(x) = e^x\)</span> or <span class="math inline">\(f(x) = \sin(x)\)</span> or <span class="math inline">\(f(x) = \log(x)\)</span>? What happens under the hood, so to speak, when you ask a computer to do a computation with one of these functions? A computer is good at arithmetic operations, but working with transcendental functions like these, or really any other sufficiently complicated functions for that matter, is not something that comes naturally to a computer. What is actually happening under the hood is that the computer only approximates the functions.</p>
+<hr>
+<div id="exr-1.22" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.1</strong></span> In this problem we are going to make a bit of a wish list for all of the things that a computer will do when approximating a function. We are going to complete the following sentence:<br>
+<em>If we are going to approximate</em> a smooth function <span class="math inline">\(f(x)\)</span> near the point <span class="math inline">\(x=x_0\)</span> with a simpler function <span class="math inline">\(g(x)\)</span> then …</p>
+<p>(I will get us started with the first two things that seems natural to wish for. The rest of the wish list is for you to complete.)</p>
+<ul>
+<li><p>the functions <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> should agree at <span class="math inline">\(x=x_0\)</span>. In other words, <span class="math inline">\(f(x_0) = g(x_0)\)</span></p></li>
+<li><p>the function <span class="math inline">\(g(x)\)</span> should only involve addition, subtraction, multiplication, division, and integer exponents since computer are very good at those sorts of operations.</p></li>
+<li><p>if <span class="math inline">\(f(x)\)</span> is increasing / decreasing near <span class="math inline">\(x=x_0\)</span> then <span class="math inline">\(g(x)\)</span> …</p></li>
+<li><p>if <span class="math inline">\(f(x)\)</span> is concave up / down near <span class="math inline">\(x=x_0\)</span> then <span class="math inline">\(g(x)\)</span>…</p></li>
+<li><p>if we zoom into plots of the functions <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> near <span class="math inline">\(x=x_0\)</span> then …</p></li>
+<li><p>… is there anything else that you would add?</p></li>
+</ul>
+</div>
+<section id="sec-polynomial_approximations" class="level2 page-columns page-full" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-polynomial_approximations"><span class="header-section-number">3.1</span> Polynomial Approximations</h2>
+<div id="exr-1.23" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.2</strong></span> Discuss: Could a polynomial function with a high enough degree satisfy everything in the wish list from the previous problem? Explain your reasoning.</p>
+</div>
+<hr>
+<div id="exr-1.24" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.3</strong></span> 🎓 Let us put some parts of the wish list into action. If <span class="math inline">\(f(x)\)</span> is a differentiable function at <span class="math inline">\(x=x_0\)</span> and if <span class="math inline">\(g(x) = A + B (x-x_0) + C (x-x_0)^2 + D (x-x_0)^3\)</span> then</p>
+<ol type="1">
+<li><p>What is the value of <span class="math inline">\(A\)</span> such that <span class="math inline">\(f(x_0) = g(x_0)\)</span>? <em>(Hint: substitute</em> <span class="math inline">\(x=x_0\)</span> into the <span class="math inline">\(g(x)\)</span> function)</p></li>
+<li><p>What is the value of <span class="math inline">\(B\)</span> such that <span class="math inline">\(f'(x_0) = g'(x_0)\)</span>? <em>(Hint: Start by taking the derivative of</em> <span class="math inline">\(g(x)\)</span>)</p></li>
+<li><p>What is the value of <span class="math inline">\(C\)</span> such that <span class="math inline">\(f''(x_0) = g''(x_0)\)</span>?</p></li>
+<li><p>What is the value of <span class="math inline">\(D\)</span> such that <span class="math inline">\(f'''(x_0) = g'''(x_0)\)</span>?</p></li>
+</ol>
+</div>
+<hr>
+<p>In the previous 3 exercises you have built up some basic intuition for what we would want out of a mathematical operation that might build an approximation of a complicated function. What we have built is actually a way to get better and better approximations for functions out to pretty much any arbitrary accuracy that we like so long as we are near some anchor point (which we called <span class="math inline">\(x_0\)</span> in the previous exercises).</p>
+<p>In the next several problems you will unpack the approximations of <span class="math inline">\(f(x) = e^x\)</span> and we will wrap the whole discussion with a little bit of formal mathematical language. Then we will examine other functions like sine, cosine, logarithms, etc. One of the points of this whole discussion is to give you a little glimpse as to what is happening behind the scenes in scientific programming languages when you do computations with these functions. A bigger point is to start getting a feel for how we might go in reverse and approximate an unknown function out of much simpler parts. This last goal is one of the big takeaways from numerical analysis: <em>we can mathematically model highly complicated functions out of fairly simple pieces.</em></p>
+<hr>
+<div id="exr-1.26" class="theorem exercise page-columns page-full">
+<p><span class="theorem-title"><strong>Exercise 3.4</strong></span> What is Euler’s number <span class="math inline">\(e\)</span>? You likely remember using this number often in Calculus and Differential Equations. Do you know the decimal approximation for this number? Moreover, is there a way that we could approximate something like <span class="math inline">\(\sqrt{e} = e^{0.5}\)</span> or <span class="math inline">\(e^{-1}\)</span> without actually having access to the full decimal expansion?</p>
+<p>For all of the questions below let us work with the function <span class="math inline">\(f(x) = e^x\)</span>.</p>
+<ol type="1">
+<li><p>The function <span class="math inline">\(g(x) = 1\)</span> matches <span class="math inline">\(f(x) = e^x\)</span> exactly at the point <span class="math inline">\(x=0\)</span> since <span class="math inline">\(f(0) = e^0 = 1\)</span>. Furthermore if <span class="math inline">\(x\)</span> is very very close to <span class="math inline">\(0\)</span> then the functions <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> are really close to each other. Hence we could say that <span class="math inline">\(g(x) = 1\)</span> is an approximation of the function <span class="math inline">\(f(x) = e^x\)</span> for values of <span class="math inline">\(x\)</span> very very close to <span class="math inline">\(x=0\)</span>. Admittedly, though, it is probably pretty clear that this is a horrible approximation for any <span class="math inline">\(x\)</span> just a little bit away from <span class="math inline">\(x=0\)</span>.</p></li>
+<li><p>Let us get a better approximation. What if we insist that our approximation <span class="math inline">\(g(x)\)</span> matches <span class="math inline">\(f(x) = e^x\)</span> exactly at <span class="math inline">\(x=0\)</span> and ALSO has exactly the same first derivative as <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x=0\)</span>.</p>
+<ol type="1">
+<li><p>What is the first derivative of <span class="math inline">\(f(x)\)</span>?</p></li>
+<li><p>What is <span class="math inline">\(f'(0)\)</span>?</p></li>
+<li><p>Use the point-slope form of a line to write the equation of the function <span class="math inline">\(g(x)\)</span> that goes through the point <span class="math inline">\((0,f(0))\)</span> and has slope <span class="math inline">\(f'(0)\)</span>. Recall from algebra that the point-slope form of a line is <span class="math inline">\(y = f(x_0) + m(x-x_0).\)</span> In this case we are taking <span class="math inline">\(x_0 = 0\)</span> so we are using the formula <span class="math inline">\(g(x) = f(0) + f'(0) (x-0)\)</span> to get the equation of the line.</p></li>
+</ol></li>
+<li><p>Write Python code to build a plot like <a href="#fig-1.1" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>. This plot shows <span class="math inline">\(f(x) = e^x\)</span>, our first approximation <span class="math inline">\(g(x) = 1\)</span> and our second approximation <span class="math inline">\(g(x) = 1+x\)</span>. You may want to refer back to <a href="nmPython.html#exr-A.19" class="quarto-xref">Exercise&nbsp;<span>1.18</span></a> in the Python chapter.</p></li>
+</ol>
+<div id="cell-fig-1.1" class="cell page-columns page-full" data-execution_count="1">
+<div class="cell-output cell-output-display page-columns page-full">
+<div id="fig-1.1" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="The first two polynomial approximations of the exponential function.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-1.1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="nmFunctions_files/figure-html/fig-1.1-output-1.png" alt="The first two polynomial approximations of the exponential function." width="571" height="433" class="figure-img column-page-right">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1.1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: The first two polynomial approximations of the exponential function.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-1.27" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.5</strong></span> Let us extend the idea from the previous problem to much better approximations of the function <span class="math inline">\(f(x) = e^x\)</span>.</p>
+<ol type="1">
+<li><p>Let us build a function <span class="math inline">\(g(x)\)</span> that matches <span class="math inline">\(f(x)\)</span> exactly at <span class="math inline">\(x=0\)</span>, has exactly the same first derivative as <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x=0\)</span>, AND has exactly the same second derivative as <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x=0\)</span>. To do this we will use a quadratic function. For a quadratic approximation of a function we just take a slight extension to the point-slope form of a line and use the equation <span class="math display">\[\begin{equation}
+y = f(x_0) + f'(x_0) (x-x_0) + \frac{f''(x_0)}{2} (x-x_0)^2.
+\end{equation}\]</span> In this case we are using <span class="math inline">\(x_0 = 0\)</span> so the quadratic approximation function looks like <span class="math display">\[\begin{equation}
+y = f(0) + f'(0) x + \frac{f''(0)}{2} x^2.
+\end{equation}\]</span></p>
+<ol type="1">
+<li><p>Find the quadratic approximation for <span class="math inline">\(f(x) = e^x\)</span>.</p></li>
+<li><p>How do you know that this function matches <span class="math inline">\(f(x)\)</span> in all of the ways described above at <span class="math inline">\(x=0\)</span>?</p></li>
+<li><p>Add your new function to the plot you created in the previous problem.</p></li>
+</ol></li>
+<li><p>Let us keep going!! Next we will do a cubic approximation. A cubic approximation takes the form <span class="math display">\[\begin{equation}
+y = f(x_0) + f'(0) (x-x_0) + \frac{f''(0)}{2}(x-x_0)^2 + \frac{f'''(0)}{3!}(x-x_0)^3
+\end{equation}\]</span></p>
+<ol type="1">
+<li><p>Find the cubic approximation for <span class="math inline">\(f(x) = e^x\)</span>.</p></li>
+<li><p>How do we know that this function matches the first, second, and third derivatives of <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x=0\)</span>?</p></li>
+<li><p>Add your function to the plot.</p></li>
+<li><p>Pause and think: What’s the deal with the <span class="math inline">\(3!\)</span> on the cubic term?</p></li>
+</ol></li>
+<li><p>Your turn: Build the next several approximations of <span class="math inline">\(f(x) = e^x\)</span> at <span class="math inline">\(x=0\)</span>. Add these plots to the plot that we have been building all along.</p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-1.30" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.6</strong></span> 🎓 Use the functions that you have built to approximate <span class="math inline">\(\frac{1}{e} = e^{-1}\)</span>. Check the accuracy of your answer using <code>np.exp(-1)</code> in Python.</p>
+</div>
+<hr>
+<p>What we have been exploring so far in this section is the <strong>Taylor Series</strong> of a function.</p>
+<div id="def-1.3" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 3.1 (Taylor Series)</strong></span> If <span class="math inline">\(f(x)\)</span> is an infinitely differentiable function at the point <span class="math inline">\(x_0\)</span> then <span class="math display">\[\begin{equation}
+f(x) = f(x_0) + f'(x_0)(x-x_0) + \frac{f''(x_0)}{2}(x-x_0)^2 + \cdots \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n + \cdots
+\end{equation}\]</span> for any reasonably small interval around <span class="math inline">\(x_0\)</span>. The infinite polynomial expansion is called the <strong>Taylor Series</strong> of the function <span class="math inline">\(f(x)\)</span>. Taylor Series are named for the mathematician <a href="https://en.wikipedia.org/wiki/Brook_Taylor">Brook Taylor</a>.</p>
+</div>
+<hr>
+<p>The Taylor Series of a function is often written with summation notation as <span class="math display">\[\begin{equation}
+f(x) = \sum_{k=0}^\infty \frac{f^{(k)}(x_0)}{k!} (x-x_0)^k.
+\end{equation}\]</span> Do not let the notation scare you. In a Taylor Series you are just saying: <em>give me a function that</em></p>
+<ul>
+<li><p><em>matches</em> <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x=x_0\)</span> exactly,</p></li>
+<li><p><em>matches</em> <span class="math inline">\(f'(x)\)</span> at <span class="math inline">\(x=x_0\)</span> exactly,</p></li>
+<li><p><em>matches</em> <span class="math inline">\(f''(x)\)</span> at <span class="math inline">\(x=x_0\)</span> exactly,</p></li>
+<li><p><em>matches</em> <span class="math inline">\(f'''(x)\)</span> at <span class="math inline">\(x=x_0\)</span> exactly,</p></li>
+<li><p>etc.</p></li>
+</ul>
+<p>(Take a moment and make sure that the summation notation makes sense to you.)</p>
+<p>Moreover, Taylor Series are built out of the easiest types of functions: polynomials. Computers are rather good at doing computations with addition, subtraction, multiplication, division, and integer exponents, so Taylor Series are a natural way to express functions in a computer. The down side is that we can only get true equality in the Taylor Series if we have infinitely many terms in the series. A computer cannot do infinitely many computations. So, in practice, we truncate Taylor Series after many terms and think of the new polynomial function as being <em>close enough</em> to the actual function so far as we do not stray too far from the anchor <span class="math inline">\(x_0\)</span>.</p>
+<hr>
+<div id="exr-1.32" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.7</strong></span> Do all of the calculations to show that the Taylor Series centred at <span class="math inline">\(x_0 = 0\)</span> for the function <span class="math inline">\(f(x) = \sin(x)\)</span> is indeed <span class="math display">\[\begin{equation}
+\sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots
+\end{equation}\]</span></p>
+</div>
+<hr>
+<div id="exr-1.34" class="theorem exercise page-columns page-full">
+<p><span class="theorem-title"><strong>Exercise 3.8</strong></span> Let us compute a few Taylor Series that are not centred at <span class="math inline">\(x_0 = 0\)</span>. For example, let us approximate the function <span class="math inline">\(f(x) = \sin(x)\)</span> near <span class="math inline">\(x_0 = \frac{\pi}{2}\)</span>. Near the point <span class="math inline">\(x_0 = \frac{\pi}{2}\)</span>, the Taylor Series approximation will take the form <span class="math display">\[\begin{equation}
+f(x) = f\left( \frac{\pi}{2} \right) + f'\left( \frac{\pi}{2} \right)\left( x - \frac{\pi}{2} \right) + \frac{f''\left( \frac{\pi}{2} \right)}{2!}\left( x - \frac{\pi}{2} \right)^2 + \frac{f'''\left( \frac{\pi}{2} \right)}{3!}\left( x - \frac{\pi}{2} \right)^3 + \cdots
+\end{equation}\]</span></p>
+<p>Write the first several terms of the Taylor Series for <span class="math inline">\(f(x) = \sin(x)\)</span> centred at <span class="math inline">\(x_0 = \frac{\pi}{2}\)</span>. Then write Python code to build the plot below showing successive approximations for <span class="math inline">\(f(x) = \sin(x)\)</span> centred at <span class="math inline">\(\pi/2\)</span>.</p>
+<div id="cell-fig-1.2" class="cell page-columns page-full" data-execution_count="2">
+<div class="cell-output cell-output-display page-columns page-full">
+<div id="fig-1.2" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="Taylor series approximation of the sine function.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-1.2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="nmFunctions_files/figure-html/fig-1.2-output-1.png" alt="Taylor series approximation of the sine function." width="582" height="432" class="figure-img column-page-right">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1.2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Taylor series approximation of the sine function.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div id="exr-1.35" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.9</strong></span> 🎓 Repeat the previous exercise for the function <span class="math display">\[
+f(x) = \log(x) \text{ centered at } x_0 = 1.
+\]</span> Use this to give an approximate value for <span class="math inline">\(\log(1.1)\)</span>.</p>
+</div>
+<hr>
+<div id="exm-1.4" class="theorem example page-columns page-full">
+<p><span class="theorem-title"><strong>Example 3.1</strong></span> Let us conclude this brief section by examining an interesting example. Consider the function <span class="math display">\[\begin{equation}
+f(x) = \frac{1}{1-x}.
+\end{equation}\]</span> If we build a Taylor Series centred at <span class="math inline">\(x_0 = 0\)</span> it is not too hard to show that we get <span class="math display">\[\begin{equation}
+f(x) = 1 + x + x^2 + x^3 + x^4 + x^5 + \cdots
+\end{equation}\]</span> (you should stop now and verify this!). However, if we plot the function <span class="math inline">\(f(x)\)</span> along with several successive approximations for <span class="math inline">\(f(x)\)</span> we find that beyond <span class="math inline">\(x=1\)</span> we do not get the correct behaviour of the function (see <a href="#fig-1.3" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>). More specifically, we cannot get the Taylor Series to change behaviour across the vertical asymptote of the function at <span class="math inline">\(x=1\)</span>. This example is meant to point out the fact that a Taylor Series will only ever make sense <em>near</em> the point at which you centre the expansion. For the function <span class="math inline">\(f(x) = \frac{1}{1-x}\)</span> centred at <span class="math inline">\(x_0 = 0\)</span> we can only get good approximations within the interval <span class="math inline">\(x \in (-1,1)\)</span> and no further.</p>
+<div id="cell-fig-1.3" class="cell page-columns page-full" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math <span class="im">as</span> ma</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># build the x and y values</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">101</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>x)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">0</span><span class="op">*</span>x</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>y2 <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> x</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>y3 <span class="op">=</span> y2 <span class="op">+</span> x<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y4 <span class="op">=</span> y3 <span class="op">+</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">4</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">5</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">6</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">7</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">8</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># plot each of the functions </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y0, <span class="st">'r-'</span>, label<span class="op">=</span><span class="vs">r"$f(x)=1/(1-x)$"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y1, <span class="st">'c-'</span>, label<span class="op">=</span><span class="vs">r"constant"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y2, <span class="st">'g:'</span>, label<span class="op">=</span><span class="vs">r"linear"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y3, <span class="st">'b-.'</span>, label<span class="op">=</span><span class="vs">r"quadratic"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y4, <span class="st">'k--'</span>, label<span class="op">=</span><span class="vs">r"8th order"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># set limits on the y axis</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">3</span>,<span class="dv">5</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># put in a grid, legend, title, and axis labels</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r"Taylor approximations of $f(x)=\frac</span><span class="sc">{1}</span><span class="vs">{1-x}$ around $x=0$"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display page-columns page-full">
+<div id="fig-1.3" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="Several Taylor Series approximations of the function $f(x) = 1/(1-x)$.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-1.3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="nmFunctions_files/figure-html/fig-1.3-output-1.png" alt="Several Taylor Series approximations of the function $f(x) = 1/(1-x)$." width="569" height="435" class="figure-img column-page-right">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-1.3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Several Taylor Series approximations of the function <span class="math inline">\(f(x) = 1/(1-x)\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<p>In the previous example we saw that we cannot always get approximations from Taylor Series that are good everywhere. For every Taylor Series there is a <strong>domain of convergence</strong> where the Taylor Series actually makes sense and gives good approximations. While it is beyond the scope of this section to give all of the details for finding the domain of convergence for a Taylor Series, a good heuristic is to observe that a Taylor Series will only give reasonable approximations of a function from the centre of the series to the nearest asymptote. The domain of convergence is typically symmetric about the centre as well. For example:</p>
+<ul>
+<li><p>If we were to build a Taylor Series approximation for the function <span class="math inline">\(f(x) = \log(x)\)</span> centred at the point <span class="math inline">\(x_0 = 1\)</span> then the domain of convergence should be <span class="math inline">\(x \in (0,2)\)</span> since there is a vertical asymptote for the natural logarithm function at <span class="math inline">\(x=0\)</span>.</p></li>
+<li><p>If we were to build a Taylor Series approximation for the function <span class="math inline">\(f(x) = \frac{5}{2x-3}\)</span> centred at the point <span class="math inline">\(x_0 = 4\)</span> then the domain of convergence should be <span class="math inline">\(x \in (1.5, 6.5)\)</span> since there is a vertical asymptote at <span class="math inline">\(x=1.5\)</span> and the distance from <span class="math inline">\(x_0 = 4\)</span> to <span class="math inline">\(x=1.5\)</span> is 2.5 units.</p></li>
+<li><p>If we were to build a Taylor Series approximation for the function <span class="math inline">\(f(x) = \frac{1}{1+x^2}\)</span> centred at the point <span class="math inline">\(x_0 = 0\)</span> then the domain of convergence should be <span class="math inline">\(x \in (-1,1)\)</span>. This may seem quite odd (and perhaps quite surprising!) but let us think about where the nearest asymptote might be. To find the asymptote we need to solve <span class="math inline">\(1+x^2 = 0\)</span> but this gives us the values <span class="math inline">\(x = \pm i\)</span>. In the complex plane, the numbers <span class="math inline">\(i\)</span> and <span class="math inline">\(-i\)</span> are 1 unit away from <span class="math inline">\(x_0 = 0\)</span>, so the “asymptote” is not visible in a real-valued plot but it is still only one unit away. Hence the domain of convergence is <span class="math inline">\(x \in (-1,1)\)</span>. You may want to pause now and build some plots to show yourself that this indeed appears to be true.</p></li>
+</ul>
+<p>Of course you learned all this and more in your first-year Calculus but I hope it was fun to now rediscover these things yourself. In your Calculus module it was probably not stressed how fundamental Taylor series are to doing numerical computations.</p>
+</section>
+<section id="sec-truncation_error" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-truncation_error"><span class="header-section-number">3.2</span> Truncation Error</h2>
+<p>The great thing about Taylor Series is that they allow for the representation of potentially very complicated functions as polynomials – and polynomials are easily dealt with on a computer since they involve only addition, subtraction, multiplication, division, and integer powers. The down side is that the order of the polynomial is infinite. Hence, every time we use a Taylor series on a computer, what we are actually going to be using is a <strong>Truncated Taylor Series</strong> where we only take a finite number of terms. The idea here is simple in principle:</p>
+<ul>
+<li><p>If a function <span class="math inline">\(f(x)\)</span> has a Taylor Series representation it can be written as an infinite sum.</p></li>
+<li><p>Computers cannot do infinite sums.</p></li>
+<li><p>So stop the sum at some point <span class="math inline">\(n\)</span> and throw away the rest of the infinite sum.</p></li>
+<li><p>Now <span class="math inline">\(f(x)\)</span> is approximated by some finite sum so long as you stay pretty close to <span class="math inline">\(x = x_0\)</span>,</p></li>
+<li><p>and everything that we just chopped off of the end is called the <strong>remainder</strong> for the finite sum.</p></li>
+</ul>
+<p>Let us be a bit more concrete about it. The Taylor Series for <span class="math inline">\(f(x) = e^x\)</span> centred at <span class="math inline">\(x_0 = 0\)</span> is <span class="math display">\[\begin{equation}
+e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots.
+\end{equation}\]</span></p>
+<dl>
+<dt><span class="math inline">\(0^{th}\)</span> Order Approximation of <span class="math inline">\(f(x) = e^x\)</span>:</dt>
+<dd>
+<p>If we want to use a zeroth-order (constant) approximation <span class="math inline">\(f_0(x)\)</span> of the function <span class="math inline">\(f(x) = e^x\)</span> then we only take the first term in the Taylor Series and the rest is not used for the approximation <span class="math display">\[\begin{equation}
+e^x = \underbrace{1}_{\text{$0^{th}$ order approximation}} + \underbrace{x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots}_{\text{remainder}}.
+\end{equation}\]</span> Therefore we would approximate <span class="math inline">\(e^x\)</span> as <span class="math inline">\(e^x \approx 1=f_0(x)\)</span> for values of <span class="math inline">\(x\)</span> that are close to <span class="math inline">\(x_0 = 0\)</span>. Furthermore, for small values of <span class="math inline">\(x\)</span> that are close to <span class="math inline">\(x_0 = 0\)</span> the largest term in the remainder is <span class="math inline">\(x\)</span> (since for small values of <span class="math inline">\(x\)</span> like 0.01, <span class="math inline">\(x^2\)</span> will be even smaller, <span class="math inline">\(x^3\)</span> even smaller than that, etc). This means that if we use a <span class="math inline">\(0^{th}\)</span> order approximation for <span class="math inline">\(e^x\)</span> then we expect our error to be about the same size as <span class="math inline">\(x\)</span>. It is common to then rewrite the truncated Taylor Series as <span class="math display">\[\begin{equation}
+\text{$0^{th}$ order approximation: } e^x \approx 1 + \mathcal{O}(x)
+\end{equation}\]</span> where <span class="math inline">\(\mathcal{O}(x)\)</span> (read “Big-O of <span class="math inline">\(x\)</span>”) tells us that the expected error for approximations close to <span class="math inline">\(x_0 = 0\)</span> is about the same size as <span class="math inline">\(x\)</span>.</p>
+</dd>
+<dt><span class="math inline">\(1^{st}\)</span> Order Approximation of <span class="math inline">\(f(x) = e^x\)</span>:</dt>
+<dd>
+<p>If we want to use a first-order (linear) approximation <span class="math inline">\(f_1(x)\)</span> of the function <span class="math inline">\(f(x) = e^x\)</span> then we gather the <span class="math inline">\(0^{th}\)</span> order and <span class="math inline">\(1^{st}\)</span> order terms together as our approximation and the rest is the remainder <span class="math display">\[\begin{equation}
+e^x = \underbrace{1 + x}_{\text{$1^{st}$ order approximation}} + \underbrace{\frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots}_{\text{remainder}}.
+\end{equation}\]</span> Therefore we would approximate <span class="math inline">\(e^x\)</span> as <span class="math inline">\(e^x \approx 1+x=f_1(x)\)</span> for values of <span class="math inline">\(x\)</span> that are close to <span class="math inline">\(x_0 = 0\)</span>. Furthermore, for values of <span class="math inline">\(x\)</span> very close to <span class="math inline">\(x_0 = 0\)</span> the largest term in the remainder is the <span class="math inline">\(x^2\)</span> term. Using Big-O notation we can write the approximation as <span class="math display">\[\begin{equation}
+\text{$1^{st}$ order approximation: } e^x \approx 1 + x + \mathcal{O}(x^2).
+\end{equation}\]</span> Notice that we do not explicitly say what the coefficient is for the <span class="math inline">\(x^2\)</span> term. Instead we are just saying that <em>using the linear function</em> <span class="math inline">\(y=1+x\)</span> to approximate <span class="math inline">\(e^x\)</span> for values of <span class="math inline">\(x\)</span> near <span class="math inline">\(x_0=0\)</span> will result in errors that are of the order of <span class="math inline">\(x^2\)</span>.</p>
+</dd>
+<dt><span class="math inline">\(2^{nd}\)</span> Order Approximation of <span class="math inline">\(f(x) = e^x\)</span>:</dt>
+<dd>
+<p>If we want to use a second-order (quadratic) approximation <span class="math inline">\(f_2(x)\)</span> of the function of <span class="math inline">\(f(x) = e^x\)</span> then we gather the <span class="math inline">\(0^{th}\)</span> order, <span class="math inline">\(1^{st}\)</span> order, and <span class="math inline">\(2^{nd}\)</span> order terms together as our approximation and the rest is the remainder <span class="math display">\[\begin{equation}
+e^x = \underbrace{1 + x + \frac{x^2}{2!}}_{\text{$2^{nd}$ order approximation}} + \underbrace{\frac{x^3}{3!} + \frac{x^4}{4!} + \cdots}_{\text{remainder}}.
+\end{equation}\]</span> Therefore we would approximate <span class="math inline">\(e^x\)</span> as <span class="math inline">\(e^x \approx 1+x+\frac{x^2}{2}=f_2(x)\)</span> for values of <span class="math inline">\(x\)</span> that are close to <span class="math inline">\(x_0 = 0\)</span>. Furthermore, for values of <span class="math inline">\(x\)</span> very close to <span class="math inline">\(x_0 = 0\)</span> the largest term in the remainder is the <span class="math inline">\(x^3\)</span> term. Using Big-O notation we can write the approximation as <span class="math display">\[\begin{equation}
+\text{$2^{nd}$ order approximation: } e^x \approx 1 + x + \frac{x^2}{2} + \mathcal{O}(x^3).
+\end{equation}\]</span> Again notice that we do not explicitly say what the coefficient is for the <span class="math inline">\(x^3\)</span> term. Instead we are just saying that <em>using the quadratic function</em> <span class="math inline">\(y=1+x+\frac{x^2}{2}\)</span> to approximate <span class="math inline">\(e^x\)</span> for values of <span class="math inline">\(x\)</span> near <span class="math inline">\(x_0=0\)</span> will result in errors that are of the order of <span class="math inline">\(x^3\)</span>.</p>
+</dd>
+</dl>
+<p>Keep in mind that this sort of analysis is only good for values of <span class="math inline">\(x\)</span> that are very close to the centre of the Taylor Series. If you are making approximations that are too far away then all bets are off.</p>
+<p>For the function <span class="math inline">\(f(x) = e^x\)</span> the idea of approximating the amount of approximation error by truncating the Taylor Series is relatively straight forward: if we want an <span class="math inline">\(n^{th}\)</span> order polynomial approximation <span class="math inline">\(f_n(x)\)</span> of the function of <span class="math inline">\(f(x)=e^x\)</span> near <span class="math inline">\(x_0 = 0\)</span> then <span class="math display">\[\begin{equation}
+e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots + \frac{x^n}{n!} + \mathcal{O}(x^{n+1}),
+\end{equation}\]</span> meaning that we expect the error to be of the order of <span class="math inline">\(x^{n+1}\)</span>.</p>
+<hr>
+<div id="exr-1.38" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.10</strong></span> 🎓 Now make the previous discussion a bit more concrete. You know the Taylor Series for <span class="math inline">\(f(x) = e^x\)</span> around <span class="math inline">\(x=0\)</span> quite well at this point so use it to approximate the values of <span class="math inline">\(f(0.1) = e^{0.1}\)</span> and <span class="math inline">\(f(0.2)=e^{0.2}\)</span> by truncating the Taylor series at different orders. Because <span class="math inline">\(x=0.1\)</span> and <span class="math inline">\(x=0.2\)</span> are pretty close to the centre of the Taylor Series <span class="math inline">\(x_0 = 0\)</span>, this sort of approximation is reasonable.</p>
+<p>Then compare your approximate values to Python’s values <span class="math inline">\(f(0.1)=e^{0.1} \approx\)</span> <code>np.exp(0.1)</code> <span class="math inline">\(=1.1051709180756477\)</span> and <span class="math inline">\(f(0.2)=e^{0.2} \approx\)</span> <code>np.exp(0.2)</code> <span class="math inline">\(=1.2214027581601699\)</span> to calculate the truncation errors <span class="math inline">\(\epsilon_n(0.1)=|f(0.1)-f_n(0.1)|\)</span> and <span class="math inline">\(\epsilon_n(0.2)=|f(0.2)-f_n(0.2)|\)</span>.</p>
+<p>Fill in the blanks in the table. If you want to create the table in your jupyter notebook, you can use Pandas as described in <a href="nmPython.html#sec-pandas" class="quarto-xref"><span>Section 1.6</span></a>. Alternatively feel free to use a spreadsheet instead of using Python.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Order <span class="math inline">\(n\)</span></th>
+<th><span class="math inline">\(f_n(0.1)\)</span></th>
+<th><span class="math inline">\(\epsilon_n(0.1)=|f(0.1)-f_n(0.1)|\)</span></th>
+<th><span class="math inline">\(f_n(0.2)\)</span></th>
+<th><span class="math inline">\(\epsilon_n(0.2)=|f(0.2)-f_n(0.2)|\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>1.051709e-01</td>
+<td>1</td>
+<td>2.214028e-01</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1.1</td>
+<td>5.170918e-03</td>
+<td>1.2</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>1.105</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p>You will find that, as expected, the truncation errors <span class="math inline">\(\epsilon_n(x)\)</span> decrease with <span class="math inline">\(n\)</span> but increase with <span class="math inline">\(x\)</span>.</p>
+<hr>
+<div id="exr-1.39b" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.11</strong></span> To investigate the dependence of the truncation error <span class="math inline">\(\epsilon_n(x)\)</span> on <span class="math inline">\(n\)</span> and <span class="math inline">\(x\)</span> a bit more, add an extra column to the table from the previous exercise with the ratio <span class="math inline">\(\epsilon_n(0.2) / \epsilon_n(0.1)\)</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Order <span class="math inline">\(n\)</span></th>
+<th><span class="math inline">\(\epsilon_n(0.1)\)</span></th>
+<th><span class="math inline">\(\epsilon_n(0.2)\)</span></th>
+<th><span class="math inline">\(\epsilon_n(0.2) / \epsilon_n(0.1)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>1.051709e-01</td>
+<td>2.214028e-01</td>
+<td>2.105171</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>5.170918e-03</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Formulate a conjecture about how <span class="math inline">\(\epsilon_n\)</span> changes as <span class="math inline">\(x\)</span> changes.</p>
+</div>
+<hr>
+<div id="exr-1.39" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.12</strong></span> To test your conjecture, examine the truncation error for the sine function near <span class="math inline">\(x_0 = 0\)</span>. You know that the sine function has the Taylor Series centred at <span class="math inline">\(x_0 = 0\)</span> as <span class="math display">\[\begin{equation}
+f(x) = \sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots.
+\end{equation}\]</span> So there are only approximations of odd order. Use the truncated Taylor series to approximate <span class="math inline">\(f(0.1)=\sin(0.1)\)</span> and <span class="math inline">\(f(0.2)=\sin(0.2)\)</span> and use Python’s values <code>np.sin(0.1)</code> and <code>np.sin(0.2)</code> to calculate the truncation errors <span class="math inline">\(\epsilon_n(0.1)=|f(0.1)-f_n(0.1)|\)</span> and <span class="math inline">\(\epsilon_n(0.2)=|f(0.2)-f_n(0.2)|\)</span>.</p>
+<p>Complete the following table:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Order <span class="math inline">\(n\)</span></th>
+<th><span class="math inline">\(\epsilon_n(0.1)\)</span></th>
+<th><span class="math inline">\(\epsilon_n(0.2)\)</span></th>
+<th><span class="math inline">\(\epsilon_n(0.2)/ \epsilon_n(0.1)\)</span></th>
+<th>Your Conjecture</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1.665834e-04</td>
+<td>1.330669e-03</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>8.331349e-08</td>
+<td>2.664128e-06</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>1.983852e-11</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The entry in the last row of the table will almost certainly not agree with your conjecture. That is okay! That discrepancy has a different explanation. Can you figure out what it is? Hint: does <code>np.sin(x)</code> give you the exact value of <span class="math inline">\(\sin(x)\)</span>?</p>
+<hr>
+<div id="exr-1.40" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.13</strong></span> 🎓 Perform another check of your conjecture by approximating <span class="math inline">\(\log(1.02)\)</span> and <span class="math inline">\(\log(1.1)\)</span> from truncations of the Taylor series around <span class="math inline">\(x=1\)</span>: <span class="math display">\[
+\log(1+x) = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \frac{x^5}{5} - \cdots.
+\]</span> If you are using Python then use <code>np.log1p(x)</code> to calculate <span class="math inline">\(\log(1+x)\)</span>.</p>
+</div>
+<hr>
+<div id="exr-1.40" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.14</strong></span> Write down your observations about how the truncation error at order <span class="math inline">\(n\)</span> changes as <span class="math inline">\(x\)</span> changes. Explain this in terms of the form of the remainder of the truncated Taylor series.</p>
+</div>
+<hr>
+</section>
+<section id="sec-functions_problems" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-functions_problems"><span class="header-section-number">3.3</span> Problems</h2>
+<div id="exr-1.54" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.15</strong></span> Find the Taylor Series for <span class="math inline">\(f(x) = \frac{1}{\log(x)}\)</span> centred at the point <span class="math inline">\(x_0 = e\)</span>. Then use the Taylor Series to approximate the number <span class="math inline">\(\frac{1}{\log(3)}\)</span> to 4 decimal places.</p>
+</div>
+<hr>
+<div id="exr-1.55" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.16</strong></span> In this problem we will use Taylor Series to build approximations for the irrational number <span class="math inline">\(\pi\)</span>.</p>
+<ol type="1">
+<li><p>Write the Taylor series centred at <span class="math inline">\(x_0=0\)</span> for the function <span class="math display">\[\begin{equation}
+f(x) = \frac{1}{1+x}.
+\end{equation}\]</span></p></li>
+<li><p>Now we want to get the Taylor Series for the function <span class="math inline">\(g(x) = \frac{1}{1+x^2}\)</span>. It would be quite time consuming to take all of the necessary derivatives to get this Taylor Series. Instead we will use our answer from part (a) of this problem to shortcut the whole process.</p>
+<ol type="1">
+<li><p>Substitute <span class="math inline">\(x^2\)</span> for every <span class="math inline">\(x\)</span> in the Taylor Series for <span class="math inline">\(f(x) = \frac{1}{1+x}\)</span>.</p></li>
+<li><p>Make a few plots to verify that we indeed now have a Taylor Series for the function <span class="math inline">\(g(x) = \frac{1}{1+x^2}\)</span>.</p></li>
+</ol></li>
+<li><p>Recall from Calculus that <span class="math display">\[\begin{equation}
+\int \frac{1}{1+x^2} dx = \arctan(x).
+\end{equation}\]</span> Hence, if we integrate each term of the Taylor Series that results from part (b) we should have a Taylor Series for <span class="math inline">\(\arctan(x)\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
+<li><p>Now recall the following from Calculus:</p></li>
+</ol>
+<ul>
+<li><p><span class="math inline">\(\tan(\pi/4) = 1\)</span></p></li>
+<li><p>so <span class="math inline">\(\arctan(1) = \pi/4\)</span></p></li>
+<li><p>and therefore <span class="math inline">\(\pi = 4\arctan(1)\)</span>.</p>
+<p>Let us use these facts along with the Taylor Series for <span class="math inline">\(\arctan(x)\)</span> to approximate <span class="math inline">\(\pi\)</span>: we can just plug in <span class="math inline">\(x=1\)</span> to the series, add up a bunch of terms, and then multiply by 4. Write a loop in Python that builds successively better and better approximations of <span class="math inline">\(\pi\)</span>. Stop the loop when you have an approximation that is correct to 6 decimal places.</p></li>
+</ul>
+</div>
+<hr>
+<div id="exr-1.56" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.17</strong></span> In this problem we will prove the famous (and the author’s favourite) formula <span class="math display">\[\begin{equation}
+e^{i\theta} = \cos(\theta) + i \sin(\theta).
+\end{equation}\]</span> This is known as Euler’s formula after the famous mathematician Leonard Euler. Show all of your work for the following tasks.</p>
+<ol type="1">
+<li><p>Write the Taylor series for the functions <span class="math inline">\(e^x\)</span>, <span class="math inline">\(\sin(x)\)</span>, and <span class="math inline">\(\cos(x)\)</span>.</p></li>
+<li><p>Replace <span class="math inline">\(x\)</span> with <span class="math inline">\(i\theta\)</span> in the Taylor expansion of <span class="math inline">\(e^x\)</span>. Recall that <span class="math inline">\(i = \sqrt{-1}\)</span> so <span class="math inline">\(i^2 = -1\)</span>, <span class="math inline">\(i^3 = -i\)</span>, and <span class="math inline">\(i^4 = 1\)</span>. Simplify all of the powers of <span class="math inline">\(i\theta\)</span> that arise in the Taylor expansion. I will get you started: <span class="math display">\[\begin{equation}
+\begin{aligned} e^x &amp;= 1 + x + \frac{x^2}{2} + \frac{x^3}{3!} + \frac{x^4}{4!} + \frac{x^5}{5!} + \cdots \\ e^{i\theta} &amp;= 1 + (i\theta) + \frac{(i\theta)^2}{2!} + \frac{(i\theta)^3}{3!} + \frac{(i\theta)^4}{4!} + \frac{(i\theta)^5}{5!} + \cdots \\ &amp;= 1 + i\theta + i^2 \frac{\theta^2}{2!} + i^3 \frac{\theta^3}{3!} + i^4 \frac{\theta^4}{4!} + i^5 \frac{\theta^5}{5!} + \cdots \\ &amp;= \ldots \text{ keep simplifying ... } \ldots \end{aligned}
+\end{equation}\]</span></p></li>
+<li><p>Gather all of the real terms and all of the imaginary terms together. Factor the <span class="math inline">\(i\)</span> out of the imaginary terms. What do you notice?</p></li>
+<li><p>Use your result from part (c) to prove that <span class="math inline">\(e^{i\pi} + 1 = 0\)</span>.</p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-1.57" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3.18</strong></span> In physics, the <em>relativistic energy</em> of an object is defined as <span class="math display">\[\begin{equation}
+E_{rel} = \gamma mc^2
+\end{equation}\]</span> where <span class="math display">\[\begin{equation}
+\gamma = \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}}.
+\end{equation}\]</span> In these equations, <span class="math inline">\(m\)</span> is the mass of the object, <span class="math inline">\(c\)</span> is the speed of light (<span class="math inline">\(c \approx 3 \times 10^8\)</span>m/s), and <span class="math inline">\(v\)</span> is the velocity of the object. For an object of fixed mass (m) we can expand the Taylor Series centred at <span class="math inline">\(v=0\)</span> for <span class="math inline">\(E_{rel}\)</span> to get <span class="math display">\[\begin{equation}
+E_{rel} = mc^2 + \frac{1}{2} mv^2 + \frac{3}{8} \frac{mv^4}{c^2} + \frac{5}{16} \frac{mv^6}{c^4} + \cdots.
+\end{equation}\]</span></p>
+<ol type="1">
+<li><p>What do we recover if we consider an object with zero velocity?</p></li>
+<li><p>Why might it be completely reasonable to only use the quadratic approximation <span class="math display">\[\begin{equation}
+E_{rel} = mc^2 + \frac{1}{2} mv^2
+\end{equation}\]</span> for the relativistic energy equation?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p></li>
+<li><p>(some physics knowledge required) What do you notice about the second term in the Taylor Series approximation of the relativistic energy function?</p></li>
+<li><p>Show all of the work to derive the Taylor Series centred at <span class="math inline">\(v = 0\)</span> given above.</p></li>
+</ol>
+</div>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>There are many reasons why integrating an infinite series term by term should give you a moment of pause. For the sake of this problem we are doing this operation a little blindly, but in reality we should have verified that the infinite series actually converges uniformly.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>This is something that people in physics and engineering do all the time – there is some complicated nonlinear relationship that they wish to use, but the first few terms of the Taylor Series captures almost all of the behaviour since the higher-order terms are very very small.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./nmNumbers.html" class="pagination-link" aria-label="Numbers">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Numbers</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2025/edit/main/nmFunctions.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
