@@ -41,6 +41,7 @@ book:
     - nmPython.qmd
     - nmNumbers.qmd
     - nmFunctions.qmd
+    - nmNonlinear.qmd
 
 bibliography: references.bib
 
