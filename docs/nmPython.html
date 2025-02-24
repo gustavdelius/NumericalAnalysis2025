@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.6.41">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -92,10 +92,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-48ffa3e5b9d089919c6712c39e5b00f2.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -159,10 +159,14 @@ window.Quarto = {
 
 <meta property="og:title" content="1&nbsp; Essential Python – Numerical Analysis 2025">
 <meta property="og:description" content="">
+<meta property="og:image" content="figures/Introduction/switch_off_AI.png">
 <meta property="og:site_name" content="Numerical Analysis 2025">
+<meta property="og:image:alt" content="Setting to switch off AI">
 <meta name="twitter:title" content="1&nbsp; Essential Python – Numerical Analysis 2025">
 <meta name="twitter:description" content="">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="figures/Introduction/switch_off_AI.png">
+<meta name="twitter:image:alt" content="Setting to switch off AI">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating">
@@ -1101,14 +1105,14 @@ B = \begin{pmatrix} 1 &amp; 4 &amp; 8 \\ 2 &amp; 3 &amp; -1 \\ 0 &amp; 9 &amp; -
 <li><p>Import <code>numpy</code> so we can take advantage of some good numerical routines.</p></li>
 <li><p>Import <code>matplotlib</code>’s <code>pyplot</code> module. The standard way to pull it in is with the nickname <code>plt</code> (just like with <code>numpy</code> when we import it as <code>np</code>).</p></li>
 </ul>
-<div id="85d19151" class="cell" data-execution_count="2">
+<div id="fe991d61" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In Jupyter Notebooks the plots will not show up unless you tell the notebook to put them “inline.” Usually we will use the following command to get the plots to show up. You do not need to do this in Google Colab. The percent sign is called a <em>magic</em> command in Jupyter Notebooks. This is not a Python command, but it is a command for controlling the Jupyter IDE specifically.</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now we will build a <code>numpy</code> array of <span class="math inline">\(x\)</span> values (using the <code>np.linspace</code> function) and a <code>numpy</code> array of <span class="math inline">\(y\)</span> values from the sine function.</p>
-<div id="5d700387" class="cell" data-execution_count="3">
+<div id="4506140e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 100 equally spaced points from 0 to 2pi</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">100</span>) </span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1121,7 +1125,7 @@ B = \begin{pmatrix} 1 &amp; 4 &amp; 8 \\ 2 &amp; 3 &amp; -1 \\ 0 &amp; 9 &amp; -
 <li><p>Finally we will add the axis labels</p></li>
 <li><p>We end the plotting code with <code>plt.show()</code> to tell Python to finally show the plot. This line of code tells Python that you are done building that plot.</p></li>
 </ul>
-<div id="cell-fig-A.1" class="cell page-columns page-full" data-execution_count="4">
+<div id="cell-fig-A.1" class="cell page-columns page-full" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>plt.plot(x,y, <span class="st">'green'</span>, label<span class="op">=</span><span class="st">'The Sine Function'</span>)</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
@@ -1132,7 +1136,7 @@ B = \begin{pmatrix} 1 &amp; 4 &amp; 8 \\ 2 &amp; 3 &amp; -1 \\ 0 &amp; 9 &amp; -
 <div id="fig-a.1" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="The sine function">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-a.1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<img src="nmPython_files/figure-html/fig-a.1-output-1.png" alt="The sine function" width="608" height="429" class="figure-img column-page-right">
+<img src="nmPython_files/figure-html/fig-a.1-output-1.png" alt="The sine function" width="609" height="429" class="figure-img column-page-right">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-a.1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.1: The sine function
@@ -1148,7 +1152,7 @@ Figure&nbsp;1.1: The sine function
 <p>In this example we will plot <span class="math display">\[\begin{equation}
 y_0 = \sin(2\pi x) \quad y_1 = \cos(2 \pi x) \quad y_2 = y_0 + y_1 \quad \text{and} \quad y_3 = y_0 - y_1
 \end{equation}\]</span> on the domain <span class="math inline">\(x \in [0,1]\)</span> with 100 equally spaced points. we will give each of the plots a different line style, built a legend, put a grid on the plot, and give axis labels.</p>
-<div id="cell-fig-A.2" class="cell page-columns page-full" data-execution_count="5">
+<div id="cell-fig-A.2" class="cell page-columns page-full" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="co"># %matplotlib inline # you may need this in Jupyter Notebooks</span></span>
@@ -1193,7 +1197,7 @@ Figure&nbsp;1.2: Plots of the sine, cosine, and sums and differences.
 <hr>
 <div id="exm-A.47" class="theorem example page-columns page-full">
 <p><span class="theorem-title"><strong>Example 1.45</strong></span> Now let us create the same plot with slightly different code. The <code>plot</code> function can take several <span class="math inline">\((x, y)\)</span> pairs in the same line of code. This can really shrink the amount of coding that you have to do when plotting several functions on top of each other.</p>
-<div id="cell-fig-A.3" class="cell page-columns page-full" data-execution_count="6">
+<div id="cell-fig-A.3" class="cell page-columns page-full" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The next line of code does all of the plotting of all </span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="co"># of the functions.  Notice the order: x, y, color and </span></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="co"># line style, repeat</span></span>
@@ -1245,7 +1249,7 @@ Figure&nbsp;1.3: A second plot of the sine, cosine, and sums and differences.
 <li><p>Notice the small differences in how we set the titles and labels</p></li>
 <li><p>In this example we are setting the <span class="math inline">\(y\)</span>-axis to the interval <span class="math inline">\([-2,2]\)</span> for consistency across all of the plots.</p></li>
 </ul>
-<div id="cell-fig-A.4" class="cell page-columns page-full" data-execution_count="7">
+<div id="cell-fig-A.4" class="cell page-columns page-full" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set up the blank matrix of plots</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1295,7 +1299,7 @@ Figure&nbsp;1.3: A second plot of the sine, cosine, and sums and differences.
 <div id="fig-a.4" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="An example of subplots">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-a.4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<img src="nmPython_files/figure-html/fig-a.4-output-1.png" alt="An example of subplots" width="658" height="469" class="figure-img column-page-right">
+<img src="nmPython_files/figure-html/fig-a.4-output-1.png" alt="An example of subplots" width="657" height="467" class="figure-img column-page-right">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-a.4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.4: An example of subplots
@@ -1317,7 +1321,7 @@ Figure&nbsp;1.4: An example of subplots
 <hr>
 <div id="exm-A.49" class="theorem example page-columns page-full">
 <p><span class="theorem-title"><strong>Example 1.47</strong></span> In this example we will plot the function <span class="math inline">\(y = 10^{-0.01x}\)</span> on a regular (linear) scale and on a logarithmic scale on the <span class="math inline">\(y\)</span> axis. We use the interval <span class="math inline">\([0,500]\)</span> on the <span class="math inline">\(x\)</span> axis.</p>
-<div id="cell-fig-A.5" class="cell page-columns page-full" data-execution_count="8">
+<div id="cell-fig-A.5" class="cell page-columns page-full" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">500</span>,<span class="dv">1000</span>)</span>
@@ -1342,7 +1346,7 @@ Figure&nbsp;1.4: An example of subplots
 <div id="fig-a.5" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="An example of using logarithmic scaling.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-a.5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<img src="nmPython_files/figure-html/fig-a.5-output-1.png" alt="An example of using logarithmic scaling." width="663" height="470" class="figure-img column-page-right">
+<img src="nmPython_files/figure-html/fig-a.5-output-1.png" alt="An example of using logarithmic scaling." width="662" height="468" class="figure-img column-page-right">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-a.5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.5: An example of using logarithmic scaling.
@@ -1370,7 +1374,7 @@ Figure&nbsp;1.5: An example of using logarithmic scaling.
 <p>The Pandas package provides Python with the ability to work with tables of data similar to what R provides via its dataframes. As we will not work with data in this module, we do not need to dive deep into the Pandas package. We will only use it to collect computational results into tables for easier display.</p>
 <div id="exm-A.50" class="theorem example">
 <p><span class="theorem-title"><strong>Example 1.48</strong></span> In this example we will build a simple dataframe with Pandas. We will build a table of the first 10 natural numbers and their squares and cubes. We will then display the table.</p>
-<div id="cell-tab-A.1" class="cell" data-tab-alt="A simple dataframe" data-tab-cap="A simple dataframe" data-execution_count="9">
+<div id="cell-tab-A.1" class="cell" data-tab-alt="A simple dataframe" data-tab-cap="A simple dataframe" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1623,8 +1627,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1740,7 +1742,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -795,7 +795,7 @@ g2 = 0.7 * x + 0.3
 diagonal = x
 
 # Create a figure and two subplots side-by-side
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8,4))
 
 # Plot g(x) = 1.1x - 0.1 and diagonal on the first subplot
 ax1.plot(x, g1, label='g(x) = 1.1x - 0.1')
