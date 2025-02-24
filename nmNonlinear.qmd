@@ -19,7 +19,7 @@ Let us first take a look at equations in a more abstract way. Consider the equat
 \end{equation}
  Hence, we can define a function $f(x)$ as $f(x)=\ell(x)-r(x)$ and observe that **every** equation can be written as: 
 \begin{equation}
- \text{If } f(x) = 0, \text{ find } x. 
+ \text{ Find } x \text{ such that } f(x) = 0.
 \end{equation}
  This gives us a common language for which to frame all of our numerical algorithms. An $x$ where
  $f(x)=0$ is called a **root** of $f$ and thus we have seen that solving an equation is always a root finding problem. 
@@ -81,13 +81,13 @@ For example, the conversation might go like this.
 ------------------------------------------------------------------------
 
 ::: {#exr-2.1b}
-🎓 Imagine that Sally likes to formulate her answer not in the form "$x$ is too small" or "$x$ is too large" but in the form "$f(x)$ is positive" or "$f(x)$ is negative". If she uses $f(x) = x-x_0$, where $x_0$ is Sally's chosen number then her new answers contain exactly the same information as her previous answers? Can you now explain how Sally's game is a root finding game?
+Imagine that Sally likes to formulate her answer not in the form "$x$ is too small" or "$x$ is too large" but in the form "$f(x)$ is positive" or "$f(x)$ is negative". If she uses $f(x) = x-x_0$, where $x_0$ is Sally's chosen number then her new answers contain exactly the same information as her previous answers? Can you now explain how Sally's game is a root finding game?
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-2.2}
-Now go and play the game with other functions $f(x)$. Choose someone from your group to be Sally and someone else to be Joe. Sally can choose a continuous function and Joe needs to guess its root. Does your strategy still allow Joe to find the root of $f(x)$? Does Sally need to give Joe some extra information to give him a fighting chance? 
+Now go and play the game with other functions $f(x)$. Choose someone from your group to be Sally and someone else to be Joe. Sally can choose a continuous function and Joe needs to guess its root. Does your strategy still allow Joe to find the root of $f(x)$ at least approximately? When should the game stop? Does Sally need to give Joe some extra information to give him a fighting chance? 
 :::
 
 ------------------------------------------------------------------------
@@ -145,9 +145,9 @@ In those exercises you likely came up with an algorithm such as this:
 
 -   Guess that the root is at the midpoint $m = \frac{a+b}{2}$.
 
--   By using the signs of the function, narrow the interval which contains the root to either $[a,m]$ or $[m,b]$.
+-   By using the signs of the function, narrow the interval that contains the root to either $[a,m]$ or $[m,b]$.
 
--   Repeat
+-   Repeat until the interval is small enough.
 
 Now we will turn this strategy into computer code that will simply play the game for us. But first we need to pay careful attention to some of the mathematical details.
 
@@ -194,7 +194,7 @@ Goal: We want to solve the equation $f(x) = 0$ for $x$ assuming that the solutio
 
     -   What do you do if $f(m)$ and $f(b)$ have opposite signs?
 
-4.  Repeat steps 2 and 3 and stop when $f(m)$ is *close enough* to zero.
+4.  Repeat steps 2 and 3 and stop when the interval containing the root is small enough.
 
 :::
 
@@ -208,11 +208,12 @@ Draw a picture illustrating what the Bisection Method does to approximate a solu
 ------------------------------------------------------------------------
 
 ::: {#exr-2.11}
-We want to write a Python function for the Bisection Method. Instead of jumping straight into writing the code we should first come up with the structure of the code. It is often helpful to outline the structure as comments in your file. Use the template below and complete the comments.
-Don't write the code yet, just the comments. I recommend switching off the AI for this exercise because otherwise the AI will keep already suggesting the code while you write the comments.
+We want to write a Python function for the Bisection Method. Instead of jumping straight into writing the code we should first come up with the structure of the code. It is often helpful to outline the structure as comments in your file. Use the template below and complete the comments. Note how the function starts with a so-called docstring that describes what the function does and explains the function parameters and its return value. This is standard practice and is how the help text is generated that you see when you hove over a function name in your code.
+
+Don't write the code yet, just complete the comments. I recommend switching off the AI for this exercise because otherwise the AI will keep already suggesting the code while you write the comments.
 
 ``` python         
-def Bisection(f , a , b , tol):
+def Bisection(f , a , b , tol=1e-5):
     """
     Find a root of f(x) in the interval [a, b] using the bisection method
     with a given tolerance tol.
@@ -232,11 +233,14 @@ def Bisection(f , a , b , tol):
 
     # calculate the midpoint m = (a+b)/2
 
-    # start a while loop
+    # start a while loop that runs while the interval is 
+    # larger than 2 * tol
     
         # if ...
         # elif ...
         # elif ...
+        
+        # Calculate midpoint of new interval
 
     # end the while loop
     # return the approximate root
@@ -252,7 +256,7 @@ Test your Bisection Method code on the following equations.
 
 1.  $x^2 - 2 = 0$ on $x \in [0,2]$
 
-2. 🎓 $\sin(x) + x^2 = 2\log(x) + 5$ on $x \in [0,5]$ (be careful! make a plot first)
+2. $\sin(x) + x^2 = 2\log(x) + 5$ on $x \in [1,5]$
 
 3.  $(5-x)e^{x}=5$ on $x \in [0,5]$
 
@@ -320,12 +324,6 @@ plt.close()
 # Display the animation
 HTML(ani.to_jshtml())
 ```
-:::
-
-------------------------------------------------------------------------
-
-:::{#exr-bisection-feedback}
-Modify your code for the bisection method so that instead of splitting the interval $[a,b]$ at the algebraic mean $a+b/2$ on each iteration, it splits the interval at the geometric mean $m=\sqrt{ab}$. Use a starting interval of $[1,3]$  to find an approximation for the root of $f(x)=\log(x)-\sin(x)$. Stop the method when $|f(m)| < 10^{-5}$. What is $m$ at that point?
 :::
 
 ------------------------------------------------------------------------
@@ -407,7 +405,7 @@ If $f(x)$ is a continuous function with a root in the interval $[a,b]$ and if th
  where $n$ is the number of iterations that it takes to achieve that tolerance.
 :::
 
-Solving for the number of iterations ($n$) we get 
+Solving for the number $n$ of iterations we get 
 \begin{equation}
  n = \log_2\left( \frac{|b-a|}{\varepsilon} \right). 
 \end{equation}
@@ -424,7 +422,7 @@ Is it possible for a given function and a given interval that the Bisection Meth
 ------------------------------------------------------------------------
 
 ::: {#exr-2.19}
-🎓 Create a second version of your Python Bisection Method function that uses a `for` loop that takes the required number of steps to approximate the root and guarantee that it lies within a requested tolerance. This should be in contrast to your first version which likely used a `while` loop to decide when to stop. Is there an advantage to using one of these version of the Bisection Method over the other?
+Create a second version of your Python Bisection Method function that uses a `for` loop that takes the exact number of steps required to guarantee that the approximation to the root lies within a requested tolerance. This should be in contrast to your first version which likely used a `while` loop to decide when to stop. Is there an advantage to using one of these version of the Bisection Method over the other?
 
 :::
 
@@ -648,7 +646,7 @@ etc. Examining the slope of the trend line in this plot shows how we expect the 
 ------------------------------------------------------------------------
 
 ::: {#exr-2.20b}
-🎓 Reproduce plots like those in the previous example but for the different equation that you used in @exr-2.20. Again check that the plots have the expected shape.
+Reproduce plots like those in the previous example but for the different equation that you used in @exr-2.20. Again check that the plots have the expected shape.
 
 :::
 
