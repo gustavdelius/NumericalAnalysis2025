@@ -752,7 +752,7 @@ The plot that emerges in @fig-fixed is known as a cobweb diagram, for obvious re
 ------------------------------------------------------------------------
 
 ::: {#exr-costrig}
-The animation in @fig-fixed is a graphical representation of the fixed point iteration $x_{n} = \cos(x_{n-1})$. Use Python to calculate the first 10 iterations of this sequence with $x_0=0.2$. Use that to get an estimate of the solution to the equation $\cos(x)-x=0$.
+🎓 The animation in @fig-fixed is a graphical representation of the fixed point iteration $x_{n} = \cos(x_{n-1})$. Use Python to calculate the first 10 iterations of this sequence with $x_0=0.2$. Use that to get an estimate of the solution to the equation $\cos(x)-x=0$.
 :::
 
 ------------------------------------------------------------------------
@@ -908,7 +908,7 @@ which implies that $(x_n)$ converges to $p$. 
 ------------------------------------------------------------------------
 
 ::: {#exr-two_iterations}
-This exercise shows why the conditions of the @thm-fixedpoint1d are important.
+🎓 This exercise shows why the conditions of the @thm-fixedpoint1d are important.
 
 The equation 
 $$
@@ -935,7 +935,7 @@ Note at this point that @thm-fixedpoint1d gives only sufficient conditions for c
 ------------------------------------------------------------------------
 
 ::: {#exr-fp_python}
-In this exercise you will write a Python function to implement the fixed point iteration algorithm.
+🎓 In this exercise you will write a Python function to implement the fixed point iteration algorithm.
 
 For implementing the fixed point method as a computer algorithm, there's one more complication to be taken into account: how many steps of the iteration should be taken, i.e., how large should $n$ be chosen, in order to reach the desired precision?
 The error estimate in @eq-fperr is often difficult to use for this purpose because it involves estimates on the derivative of $g$ which may not be known.
@@ -954,23 +954,19 @@ In pseudocode the fixed point iteration algorithm is then implemented as follows
 
 $$
 \begin{array}{ll}
-\ 1: \ \textbf{function} \ FixedPoint(g,x_0,\tau, N) &\sharp \ function \ g, \ start \ point \ x_0,\\
-\ 2: \ \quad x \gets x_0; \ n \gets 0               &\sharp \ tolerance \ \tau, \ max. \ num. \ of \\
-\ 3: \ \quad \textbf{loop}                          &\sharp \ iterations \ N \\
+\ 1: \ \textbf{function} \ FixedPoint(g,x_0,tol, N) &\sharp \ function \ g, \ start \ point \ x_0,\\
+\ 2: \ \quad x \gets x_0; \ n \gets 0               &\sharp \ tolerance \ tol,\\
+\ 3: \ \quad \textbf{for} \ i \gets 1 \ \textbf{to}\ N                         &\sharp \ max. \ num. \ of \ iterations \ N \\
 \ 4: \ \quad\quad y \gets x; \ x \gets g(x)  & \\
-\ 5: \ \quad\quad \textbf{if} \ |y-x| < \tau \ \textbf{then}  &\sharp \ Desired \ tolerance \ reached  \\
-\ 6: \ \quad\quad\quad \textbf{break}  & \\
+\ 5: \ \quad\quad \textbf{if} \ |y-x| < tol \ \textbf{then}  &\sharp \ Desired \ tolerance \ reached  \\
+\ 6: \ \quad\quad\quad \textbf{return} \ x  & \\
 \ 7: \ \quad\quad \textbf{end \ if}  &  \\
-\ 8: \ \quad\quad \quad n\gets n+1  & \\
-\ 9: \ \quad\quad \textbf{if} \ n > N \ \textbf{then}  &\sharp \ Max.~num. \ of \ iterations  \\
-10: \ \quad\quad\quad \textbf{exception}("Iteration \ does \ not \ converge") &\sharp \ reached  \\
-11: \ \quad\quad \textbf{end if}  & \\
-12: \ \quad \textbf{end loop}  & \\
-13: \ \quad \textbf{return} \ x  & \\
-14: \ \textbf{end function} &
+\ 8: \ \quad \textbf{end for}  & \\
+\ 9: \ \quad \textbf{exception}(Iteration \ has \ not \ converged) & \\
+10: \ \textbf{end function} &
 \end{array}
 $$
-Implement this algorithm in Python. Use it to approximate the fixed point of the function $g(x)=\cos(x)$ with start value $x_0=2$ and tolerance $\tau=10^{-8}$.
+Implement this algorithm in Python. Use it to approximate the fixed point of the function $g(x)=\cos(x)$ with start value $x_0=2$ and tolerance $tol=10^{-8}$.
 :::
 
 ------------------------------------------------------------------------
@@ -1014,11 +1010,9 @@ The idea of approximating the function by its tangent line gives us an algorithm
 
 The first step has been shown for you in @fig-2.8. The tangent line to the function $f(x)$ at the point $(x_0, f(x_0))$ is shown in red. The $x$-intercept of the tangent line is the new $x$ value, $x_1$. The process is then repeated with $x_1$ as the new $x_0$ and so on.
 
-This algorithm is known as Newton's Method. The method was originally proposed by Isaac Newton, and later modified by Joseph Raphson, for approximating roots of the equation $f(x)=0$. The method is therefore also known as the Newton-Raphson method.
-
 ![Using successive tangent line approximations to find the root of a function](figures/Algebra/newton.png){#fig-2.8 alt="Using successive tangent line approximations to find the root of a function"}
 
-
+The graphical method illustrated in @fig-2.8 was introduced by Sir Isaac Newton and is therefore known as Newton's Method.  Joseph Raphson then gave the algebraic formulation and popularised the method which is therefore also known as the Newton-Raphson method.
 
 ------------------------------------------------------------------------
 
@@ -1047,7 +1041,7 @@ Fill in the blank in the above formula.
 ------------------------------------------------------------------------
 
 ::: {#exr-2.34d}
-Apply Newton's method to find the root of the function $f(x) = x^2 - 2$ with an initial guess of $x_0=1$. Calculate the first two iterations of the sequence by hand (you do not need a calculator or computer for this). Use a calculator or computer to calculate the next two iterations and fill in the following table:
+🎓 Apply Newton's method to find the root of the function $f(x) = x^2 - 2$ with an initial guess of $x_0=1$. Calculate the first two iterations of the sequence by hand (you do not need a calculator or computer for this). Use a calculator or computer to calculate the next two iterations and fill in the following table:
 
 | $n$      | $x_n$                                  | $f(x_n)$     | $f'(x_n)$    |
 |----------|----------------------------------------|--------------|--------------|
@@ -1067,7 +1061,7 @@ Repeat the previous exercise but with an initial guess of $x_0=4$. What do you o
 ------------------------------------------------------------------------
 
 ::: {#exr-2.35}
-Make a complete list of what you must know about the function $f(x)$ for Newton's method to work?
+🎓 Consider the function $f(x)=\sin(x)+1$. It has roots at $x=2n\pi+3\pi/2$ for $n\in\mathbb{Z}$. However at the roots we have $f'(x)=0$. Make yourself a sketch to see why. What will happen when you apply Newton's method with a starting value of $x_0=\pi$?  You should be able to answer this just by looking at the sketch.
 :::
 
 ------------------------------------------------------------------------

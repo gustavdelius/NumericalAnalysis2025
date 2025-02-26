@@ -9009,7 +9009,7 @@ Figure&nbsp;4.6: Fixed point iteration <span class="math inline">\(x_{n} = \cos(
 </div>
 <hr>
 <div id="exr-costrig" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.23</strong></span> The animation in <a href="#fig-fixed" class="quarto-xref">Figure&nbsp;<span>4.6</span></a> is a graphical representation of the fixed point iteration <span class="math inline">\(x_{n} = \cos(x_{n-1})\)</span>. Use Python to calculate the first 10 iterations of this sequence with <span class="math inline">\(x_0=0.2\)</span>. Use that to get an estimate of the solution to the equation <span class="math inline">\(\cos(x)-x=0\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 4.23</strong></span> 🎓 The animation in <a href="#fig-fixed" class="quarto-xref">Figure&nbsp;<span>4.6</span></a> is a graphical representation of the fixed point iteration <span class="math inline">\(x_{n} = \cos(x_{n-1})\)</span>. Use Python to calculate the first 10 iterations of this sequence with <span class="math inline">\(x_0=0.2\)</span>. Use that to get an estimate of the solution to the equation <span class="math inline">\(\cos(x)-x=0\)</span>.</p>
 </div>
 <hr>
 <p>Why is the sequence <span class="math inline">\((x_n)\)</span> expected to approximate a fixed point? Suppose for a moment that the sequence <span class="math inline">\((x_n)\)</span> converges to some number <span class="math inline">\(p\)</span>, and that <span class="math inline">\(g\)</span> is continuous. Then <span id="eq-pfixed"><span class="math display">\[
@@ -9076,7 +9076,7 @@ h(a) &amp;= g(a)-a&gt;0, &amp; h(b)&amp;=g(b)-b&lt;0
 </div>
 <hr>
 <div id="exr-two_iterations" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.26</strong></span> This exercise shows why the conditions of the <a href="#thm-fixedpoint1d" class="quarto-xref">Theorem&nbsp;<span>4.3</span></a> are important.</p>
+<p><span class="theorem-title"><strong>Exercise 4.26</strong></span> 🎓 This exercise shows why the conditions of the <a href="#thm-fixedpoint1d" class="quarto-xref">Theorem&nbsp;<span>4.3</span></a> are important.</p>
 <p>The equation <span class="math display">\[
 f(x)=x^{2}-2=0
 \]</span> has a unique root <span class="math inline">\(\sqrt{2}\)</span> in <span class="math inline">\([1, 2]\)</span>. There are many ways of writing this equation in the form <span class="math inline">\(x=g(x)\)</span>; we consider two of them: <span class="math display">\[
@@ -9090,7 +9090,7 @@ x&amp;=g(x)=x-(x^{2}-2), &amp;
 <p>Note at this point that <a href="#thm-fixedpoint1d" class="quarto-xref">Theorem&nbsp;<span>4.3</span></a> gives only sufficient conditions for convergence; in practice, convergence might occur even if the conditions are violated.</p>
 <hr>
 <div id="exr-fp_python" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.27</strong></span> In this exercise you will write a Python function to implement the fixed point iteration algorithm.</p>
+<p><span class="theorem-title"><strong>Exercise 4.27</strong></span> 🎓 In this exercise you will write a Python function to implement the fixed point iteration algorithm.</p>
 <p>For implementing the fixed point method as a computer algorithm, there’s one more complication to be taken into account: how many steps of the iteration should be taken, i.e., how large should <span class="math inline">\(n\)</span> be chosen, in order to reach the desired precision? The error estimate in <a href="#eq-fperr" class="quarto-xref">Eq.&nbsp;<span>4.4</span></a> is often difficult to use for this purpose because it involves estimates on the derivative of <span class="math inline">\(g\)</span> which may not be known.</p>
 <p>Instead, one uses a different <strong>stopping condition</strong> for the algorithm. Since the sequence is expected to converge rapidly, one uses the difference <span class="math inline">\(|x_n-x_{n-1}|\)</span> to measure the precision reached. If this difference is below a specified limit, say <span class="math inline">\(\tau\)</span>, the iteration is stopped. Since it is possible that the iteration does <em>not</em> converge—see the example above—one would also stop the iteration (with an error message) if a certain number of steps is exceeded, in order to avoid infinite loops. In pseudocode the fixed point iteration algorithm is then implemented as follows:</p>
 <hr>
@@ -9098,22 +9098,18 @@ x&amp;=g(x)=x-(x^{2}-2), &amp;
 <hr>
 <p><span class="math display">\[
 \begin{array}{ll}
-\ 1: \ \textbf{function} \ FixedPoint(g,x_0,\tau, N) &amp;\sharp \ function \ g, \ start \ point \ x_0,\\
-\ 2: \ \quad x \gets x_0; \ n \gets 0               &amp;\sharp \ tolerance \ \tau, \ max. \ num. \ of \\
-\ 3: \ \quad \textbf{loop}                          &amp;\sharp \ iterations \ N \\
+\ 1: \ \textbf{function} \ FixedPoint(g,x_0,tol, N) &amp;\sharp \ function \ g, \ start \ point \ x_0,\\
+\ 2: \ \quad x \gets x_0; \ n \gets 0               &amp;\sharp \ tolerance \ tol,\\
+\ 3: \ \quad \textbf{for} \ i \gets 1 \ \textbf{to}\ N                         &amp;\sharp \ max. \ num. \ of \ iterations \ N \\
 \ 4: \ \quad\quad y \gets x; \ x \gets g(x)  &amp; \\
-\ 5: \ \quad\quad \textbf{if} \ |y-x| &lt; \tau \ \textbf{then}  &amp;\sharp \ Desired \ tolerance \ reached  \\
-\ 6: \ \quad\quad\quad \textbf{break}  &amp; \\
+\ 5: \ \quad\quad \textbf{if} \ |y-x| &lt; tol \ \textbf{then}  &amp;\sharp \ Desired \ tolerance \ reached  \\
+\ 6: \ \quad\quad\quad \textbf{return} \ x  &amp; \\
 \ 7: \ \quad\quad \textbf{end \ if}  &amp;  \\
-\ 8: \ \quad\quad \quad n\gets n+1  &amp; \\
-\ 9: \ \quad\quad \textbf{if} \ n &gt; N \ \textbf{then}  &amp;\sharp \ Max.~num. \ of \ iterations  \\
-10: \ \quad\quad\quad \textbf{exception}("Iteration \ does \ not \ converge") &amp;\sharp \ reached  \\
-11: \ \quad\quad \textbf{end if}  &amp; \\
-12: \ \quad \textbf{end loop}  &amp; \\
-13: \ \quad \textbf{return} \ x  &amp; \\
-14: \ \textbf{end function} &amp;
+\ 8: \ \quad \textbf{end for}  &amp; \\
+\ 9: \ \quad \textbf{exception}(Iteration \ has \ not \ converged) &amp; \\
+10: \ \textbf{end function} &amp;
 \end{array}
-\]</span> Implement this algorithm in Python. Use it to approximate the fixed point of the function <span class="math inline">\(g(x)=\cos(x)\)</span> with start value <span class="math inline">\(x_0=2\)</span> and tolerance <span class="math inline">\(\tau=10^{-8}\)</span>.</p>
+\]</span> Implement this algorithm in Python. Use it to approximate the fixed point of the function <span class="math inline">\(g(x)=\cos(x)\)</span> with start value <span class="math inline">\(x_0=2\)</span> and tolerance <span class="math inline">\(tol=10^{-8}\)</span>.</p>
 </div>
 <hr>
 <p>Further reading: Section 2.2 of <span class="citation" data-cites="Burden_Faires">(<a href="#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>.</p>
@@ -9141,7 +9137,6 @@ y = f(x_0) + f'(x_0) \left( x - x_0 \right).
 <li><p>Use this intersection as the new <span class="math inline">\(x\)</span> value and repeat.</p></li>
 </ul>
 <p>The first step has been shown for you in <a href="#fig-2.8" class="quarto-xref">Figure&nbsp;<span>4.8</span></a>. The tangent line to the function <span class="math inline">\(f(x)\)</span> at the point <span class="math inline">\((x_0, f(x_0))\)</span> is shown in red. The <span class="math inline">\(x\)</span>-intercept of the tangent line is the new <span class="math inline">\(x\)</span> value, <span class="math inline">\(x_1\)</span>. The process is then repeated with <span class="math inline">\(x_1\)</span> as the new <span class="math inline">\(x_0\)</span> and so on.</p>
-<p>This algorithm is known as Newton’s Method. The method was originally proposed by Isaac Newton, and later modified by Joseph Raphson, for approximating roots of the equation <span class="math inline">\(f(x)=0\)</span>. The method is therefore also known as the Newton-Raphson method.</p>
 <div id="fig-2.8" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-2.8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -9152,6 +9147,7 @@ Figure&nbsp;4.8: Using successive tangent line approximations to find the root o
 </figcaption>
 </figure>
 </div>
+<p>The graphical method illustrated in <a href="#fig-2.8" class="quarto-xref">Figure&nbsp;<span>4.8</span></a> was introduced by Sir Isaac Newton and is therefore known as Newton’s Method. Joseph Raphson then gave the algebraic formulation and popularised the method which is therefore also known as the Newton-Raphson method.</p>
 <hr>
 <div id="exr-2.34" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 4.29</strong></span> If we had started not at <span class="math inline">\(x_0\)</span> in <a href="#fig-2.8" class="quarto-xref">Figure&nbsp;<span>4.8</span></a> but instead at the very end of the x-axis in that figure, what would have happened? Would this initial guess have worked to eventually approximate the root?</p>
@@ -9168,7 +9164,7 @@ x_{n} = x_{n-1} - \dots.
 </div>
 <hr>
 <div id="exr-2.34d" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.32</strong></span> Apply Newton’s method to find the root of the function <span class="math inline">\(f(x) = x^2 - 2\)</span> with an initial guess of <span class="math inline">\(x_0=1\)</span>. Calculate the first two iterations of the sequence by hand (you do not need a calculator or computer for this). Use a calculator or computer to calculate the next two iterations and fill in the following table:</p>
+<p><span class="theorem-title"><strong>Exercise 4.32</strong></span> 🎓 Apply Newton’s method to find the root of the function <span class="math inline">\(f(x) = x^2 - 2\)</span> with an initial guess of <span class="math inline">\(x_0=1\)</span>. Calculate the first two iterations of the sequence by hand (you do not need a calculator or computer for this). Use a calculator or computer to calculate the next two iterations and fill in the following table:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 12%">
@@ -9224,7 +9220,7 @@ x_{n} = x_{n-1} - \dots.
 </div>
 <hr>
 <div id="exr-2.35" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.34</strong></span> Make a complete list of what you must know about the function <span class="math inline">\(f(x)\)</span> for Newton’s method to work?</p>
+<p><span class="theorem-title"><strong>Exercise 4.34</strong></span> 🎓 Consider the function <span class="math inline">\(f(x)=\sin(x)+1\)</span>. It has roots at <span class="math inline">\(x=2n\pi+3\pi/2\)</span> for <span class="math inline">\(n\in\mathbb{Z}\)</span>. However at the roots we have <span class="math inline">\(f'(x)=0\)</span>. Make yourself a sketch to see why. What will happen when you apply Newton’s method with a starting value of <span class="math inline">\(x_0=\pi\)</span>? You should be able to answer this just by looking at the sketch.</p>
 </div>
 <hr>
 <div id="exr-2.38" class="theorem exercise">
