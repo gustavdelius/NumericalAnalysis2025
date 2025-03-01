@@ -440,24 +440,22 @@ Let us solve the very simple equation $x^2 - 2 = 0$ for $x$ to get the solution 
  \text{Absolute Error} = | \text{Approximate Solution} - \text{Exact Solution}|. 
 \end{equation}
 
-
-If we plot the absolute error on the vertical axis and the iteration number on the horizontal axis we get @fig-2.2. As expected, the absolute error follows an exponentially decreasing trend. Notice that it is not a completely smooth curve since we will have some jumps in the accuracy just due to the fact that sometimes the root will be near the midpoint of the interval and sometimes it will not be.
-
+Let us write a Python function that implements the bisection method and collects the absolute errors at each iteration into a list.
 ```{python}
-#| label: fig-2.2
-#| fig-cap: The evolution of the absolute error when solving the equation $x^2-2=0$ with the bisection method.
-#| fig-alt: The evolution of the absolute error when solving the equation $x^2-2=0$ with the bisection method.
-#| code-fold: true
-#| column: page-right
-import matplotlib.pyplot as plt
-from math import sqrt
-
-def f(x):
-    return x**2 - 2
-
-x_exact = sqrt(2)
-
-def bisection(a, b, tol):
+def bisection_with_error_tracking(f, x_exact, a, b, tol):
+    """
+    Implements the bisection method and tracks absolute error at each iteration.
+    
+    Args:
+        f (callable): Function for which to find the root
+        x_exact (float): The exact root of the function
+        a (float): Left endpoint of initial interval
+        b (float): Right endpoint of initial interval 
+        tol (float): Tolerance for stopping criterion
+        
+    Returns:
+        list: List of absolute errors between approximate and exact solution at each iteration
+    """
     errors = []
     while (b - a) / 2.0 > tol:
         midpoint = (a + b) / 2.0
@@ -470,22 +468,51 @@ def bisection(a, b, tol):
         error = abs(midpoint - x_exact)
         errors.append(error)
     return errors
+```
+
+We can now use this function to see the absolute error at each iteration when solving the equation $x^2-2=0$ with the bisection method.
+```{python}
+import numpy as np
+
+def f(x):
+    return x**2 - 2
+
+x_exact = np.sqrt(2)
 
 # Using the interval [1, 2] and a tolerance of 1e-7
 tolerance = 1e-7
-errors = bisection(1, 2, tolerance)
+errors = bisection_with_error_tracking(f, x_exact, 1, 2, tolerance)
+errors
+```
 
-# Creating the x values for the plot (iterations)
-iterations = np.arange(len(errors))
+Next we write a function to plot the absolute error on the vertical axis and the iteration number on the horizontal axis. We get @fig-2.2. As expected, the absolute error follows an exponentially decreasing trend. Notice that it is not a completely smooth curve since we will have some jumps in the accuracy just due to the fact that sometimes the root will be near the midpoint of the interval and sometimes it will not be.
 
-# Plotting the errors
-plt.scatter(iterations, errors, label='Error per Iteration')
+```{python}
+#| label: fig-2.2
+#| fig-cap: The evolution of the absolute error when solving the equation $x^2-2=0$ with the bisection method.
+#| fig-alt: The evolution of the absolute error when solving the equation $x^2-2=0$ with the bisection method.
+#| column: page-right
+import matplotlib.pyplot as plt
+def plot_errors(errors):
+    """
+    Plot the absolute errors.
+    
+    Args:
+        errors (list): List of absolute errors
+    """
+    # Creating the x values for the plot (iterations) 
+    iterations = np.arange(len(errors))
 
-plt.xlabel('Iteration')
-plt.ylabel('Absolute Error')
-plt.title('Absolute Error in Each Iteration of the Bisection Method')
-plt.legend()
-plt.show()
+    # Plotting the errors
+    plt.scatter(iterations, errors, label='Error per Iteration')
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('Absolute Error') 
+    plt.title('Absolute Error in Each Iteration')
+    plt.legend()
+    plt.show()
+
+plot_errors(errors)
 ```
 
 Without @thm-2.2 it would be rather hard to tell what the exact behaviour is in the exponential plot above. We know from @thm-2.2 that the error will divide by 2 at every step, so if we instead plot the base-2 logarithm of the absolute error against the iteration number we should see a linear trend as shown in @fig-2.3. 
@@ -494,54 +521,36 @@ Without @thm-2.2 it would be rather hard to tell what the exact behaviour is in 
 #| label: fig-2.3
 #| fig-cap: Iteration number vs the base-2 logarithm of the absolute error.  Notice the slope of $-1$ indicating that the error is divided by a factor of 2 at each step of the algorithm.
 #| fig-alt: Iteration number vs the base-2 logarithm of the absolute error.
-#| code-fold: true
 #| column: page-right
-import matplotlib.pyplot as plt
-from math import sqrt
-from scipy.stats import linregress
 
-def f(x):
-    return x**2 - 2
+def plot_log_errors(errors):
+    """
+    Plot the base-2 logarithm of absolute errors and a best fit line.
+    
+    Args:
+        errors (list): List of absolute errors
+    """
+    # Convert errors to base 2 logarithm
+    log_errors = np.log2(errors)
+    # Creating the x values for the plot (iterations)
+    iterations = np.arange(len(log_errors))
 
-x_exact = sqrt(2)
+    # Plotting the errors
+    plt.scatter(iterations, log_errors, label='Log Error per Iteration')
 
-def bisection(a, b, tol):
-    errors = []
-    while (b - a) / 2.0 > tol:
-        midpoint = (a + b) / 2.0
-        if f(midpoint) == 0:
-            break
-        elif f(a) * f(midpoint) < 0:
-            b = midpoint
-        else:
-            a = midpoint
-        error = abs(midpoint - x_exact)
-        errors.append(error)
-    return errors
+    # Determine slope and intercept of the best-fit straight line
+    slope, intercept = np.polyfit(iterations, log_errors, deg=1)
+    best_fit_line = slope * iterations + intercept
+    # Plot the best-fit line
+    plt.plot(iterations, best_fit_line, label='Best Fit Line', color='red')
 
-# Using the interval [1, 2] and a tolerance of 1e-7
-tolerance = 1e-7
-errors = bisection(1, 2, tolerance)
+    plt.xlabel('Iteration')
+    plt.ylabel('Base 2 Log of Absolute Error')
+    plt.title('Absolute Error in Each Iteration')
+    plt.legend()
+    plt.show()
 
-# Convert errors to base 2 logarithm
-log_errors = np.log2(errors)
-# Creating the x values for the plot (iterations)
-iterations = np.arange(len(log_errors))
-
-# Plotting the errors
-plt.scatter(iterations, log_errors, label='Log Error per Iteration')
-
-# Determine slope and intercept of the best-fit straight line
-slope, intercept = np.polyfit(iterations, log_errors, deg=1)
-best_fit_line = slope * iterations + intercept
-# Plot the best-fit line
-plt.plot(iterations, best_fit_line, label='Best Fit Line', color='red')
-
-plt.xlabel('Iteration')
-plt.ylabel('Base 2 Log of Absolute Error')
-plt.title('Absolute Error in Each Iteration of the Bisection Method')
-plt.legend()
-plt.show()
+plot_log_errors(errors)
 ```
 
 There will be times later in this course where we will not have a nice theorem like @thm-2.2 and instead we will need to deduce the relationship from plots like these.
@@ -571,72 +580,40 @@ Another plot that numerical analysts use quite frequently for determining how an
 #| label: fig-2.4
 #| fig-cap: The base-2 logarithm of the absolute error at iteration $k$ vs the base-2 logarithm of the absolute error at iteration $k+1$.
 #| fig-alt: The base-2 logarithm of the absolute error at iteration $k$ vs the base-2 logarithm of the absolute error at iteration $k+1$.
-#| code-fold: true
 #| column: page-right
-import numpy as np
-import matplotlib.pyplot as plt
 
-def f(x):
-    return x**2 - 2
+def plot_error_progression(errors):
+    # Calculating the log2 of the absolute error at step k and k+1
+    log_errors = np.log2(errors)
+    log_errors_k = log_errors[:-1]  # log errors at step k (excluding the last one)
+    log_errors_k_plus_1 = log_errors[1:]  # log errors at step k+1 (excluding the first one)
 
-x_exact = sqrt(2)
+    # Plotting log_errors_k+1 vs log_errors_k
+    plt.scatter(log_errors_k, log_errors_k_plus_1, label='Log Error at k+1 vs Log Error at k')
 
-def bisection(a, b, tol):
-    errors = []
-    while (b - a) / 2.0 > tol:
-        midpoint = (a + b) / 2.0
-        if f(midpoint) == 0:
-            break
-        elif f(a) * f(midpoint) < 0:
-            b = midpoint
-        else:
-            a = midpoint
-        error = abs(midpoint - x_exact)
-        errors.append(error)
-    return errors
+    # Fitting a straight line to the data points
+    slope, intercept = np.polyfit(log_errors_k, log_errors_k_plus_1, deg=1)
+    best_fit_line = slope * log_errors_k + intercept
+    plt.plot(log_errors_k, best_fit_line, color='red', label='Best Fit Line')
 
-# Running the bisection method again
-tolerance = 1e-7
-errors = bisection(1, 2, tolerance)
+    # Setting up the plot
+    plt.xlabel('Log2 of Absolute Error at Step k')
+    plt.ylabel('Log2 of Absolute Error at Step k+1')
+    plt.title('Log2 of Absolute Error at Step k+1 vs Step k')
+    plt.legend()
+    plt.show()
 
-# Calculating the log2 of the absolute error at step k and k+1
-log_errors = np.log2(errors)
-log_errors_k = log_errors[:-1]  # log errors at step k (excluding the last one)
-log_errors_k_plus_1 = log_errors[1:]  # log errors at step k+1 (excluding the first one)
-
-# Plotting log_errors_k+1 vs log_errors_k
-plt.scatter(log_errors_k, log_errors_k_plus_1, label='Log Error at k+1 vs Log Error at k')
-
-# Fitting a straight line to the data points
-slope, intercept = np.polyfit(log_errors_k, log_errors_k_plus_1, deg=1)
-best_fit_line = slope * log_errors_k + intercept
-plt.plot(log_errors_k, best_fit_line, color='red', label='Best Fit Line')
-
-# Setting up the plot
-plt.xlabel('Log2 of Absolute Error at Step k')
-plt.ylabel('Log2 of Absolute Error at Step k+1')
-plt.title('Log2 of Absolute Error at Step k+1 vs Step k')
-plt.legend()
-plt.show()
+plot_error_progression(errors)
 ```
 
-This type of plot takes a bit of explaining the first time you see it. Start on the right-hand side of the plot where the error is the largest (this will be where the algorithm starts). The coordinates of the first point are interpreted as: 
-\begin{equation}
- (\text{absolute error at step 1} \, , \, \text{absolute error at step 2}). 
-\end{equation}
- The coordinates of the second point are interpreted as: 
-\begin{equation}
- (\text{absolute error at step 2} \, , \, \text{absolute error at step 3}),
-\end{equation}
-etc. Examining the slope of the trend line in this plot shows how we expect the error to progress from step to step. The slope appears to be about $1$ in @fig-2.4 and the intercept appears to be about $-1$. In this case we used a base-2 logarithm for each axis so we have just empirically shown that 
+This type of plot takes a bit of explaining the first time you see it. 
+Each point in the plot corresponds to an iteration of the algorithm. The x-coordinate of each point is the base-2 logarithm of the absolute error at step $k$ and the y-coordinate is the base-2 logarithm of the absolute error at step $k+1$. The initial interations are on the right-hand side of the plot where the error is the largest (this will be where the algorithm starts). As the iterations progress and the error decreases the points move to the left-hand side of the plot.
+Examining the slope of the trend line in this plot shows how we expect the error to progress from step to step. The slope appears to be about $1$ in @fig-2.4 and the intercept appears to be about $-1$. In this case we used a base-2 logarithm for each axis so we have just empirically shown that 
 \begin{equation}
  \log_2(\text{absolute error at step $k+1$}) \approx 1\cdot \log_2(\text{absolute error at step $k$}) -1. 
 \end{equation}
- Rearranging the algebra a bit we see that this linear relationship turns into 
-\begin{equation}
- \frac{\text{absolute error at step $k+1$}}{\text{absolute error at step $k$}} \approx \frac{1}{2}. 
-\end{equation}
- (You should stop now and do this algebra.) Rearranging a bit more we get 
+Exponentiating both sides we see that this linear relationship turns into
+(You should stop now and do this algebra.) Rearranging a bit more we get 
 \begin{equation}
  (\text{absolute error at step $k+1$}) = \frac{1}{2}(\text{absolute error at step $k$}), 
 \end{equation}
@@ -979,7 +956,7 @@ Further reading: Section 2.2 of [@Burden_Faires].
 
 In the Bisection Method (@sec-bisection) we had used only the sign of of the function at the guessed points. We will now investigate how we can use also the value and the slope (derivative) of the function to get a much improved method.
 
-### Intuition and Implementation
+### Intuition
 
 Root finding is really the process of finding the $x$-intercept of the function. If the function is complicated (e.g. highly nonlinear or does not lend itself to traditional by-hand techniques) then we can approximate the $x$-intercept by creating a Taylor Series approximation of the function at a nearby point and then finding the $x$-intercept of that simpler Taylor Series. The simplest non-trivial Taylor Series is a linear function -- a tangent line!
 
@@ -1012,7 +989,7 @@ The first step has been shown for you in @fig-2.8. The tangent line to the funct
 
 ![Using successive tangent line approximations to find the root of a function](figures/Algebra/newton.png){#fig-2.8 alt="Using successive tangent line approximations to find the root of a function"}
 
-The graphical method illustrated in @fig-2.8 was introduced by Sir Isaac Newton and is therefore known as Newton's Method.  Joseph Raphson then gave the algebraic formulation and popularised the method which is therefore also known as the Newton-Raphson method.
+The graphical method illustrated in @fig-2.8 was introduced by Sir Isaac Newton and is therefore known as Newton's Method.  Joseph Raphson then gave the algebraic formulation and popularised the method, which is therefore also known as the Newton-Raphson method.
 
 ------------------------------------------------------------------------
 
@@ -1030,10 +1007,16 @@ Sketch some other function $f(x)$ with a root and choose an initial point $x_0$ 
 
 ------------------------------------------------------------------------
 
+::: {#exr-2.35}
+🎓 Consider the function $f(x)=\sin(x)+1$. It has roots at $x=2n\pi+3\pi/2$ for $n\in\mathbb{Z}$. However at the roots we have $f'(x)=0$. Make yourself a sketch to see why. What will happen when you apply Newton's method with a starting value of $x_0=\pi$?  You should be able to answer this just by looking at the sketch.
+:::
+
+------------------------------------------------------------------------
+
 ::: {#exr-2.34c}
-Using your result from @exr-2.32, write the formula for the $x$-intercept of the tangent line to $f(x)$ at the point $(x_0, f(x_0))$. This is the formula for the next guess in Newton's Method. Newton's method is a fixed point iteration method with the formula
+Using your result from @exr-2.32, write the formula for the $x$-intercept of the tangent line to $f(x)$ at the point $(x_n, f(x_n))$. This is the formula for the next guess $x_{n-1}$ in Newton's Method. Newton's method is a fixed point iteration method of the form $x_{n+1} = g(x_{n})$ with 
 $$
-x_{n} = x_{n-1} - \dots.
+g(x)= \dots.
 $$
 Fill in the blank in the above formula.
 :::
@@ -1054,33 +1037,52 @@ Fill in the blank in the above formula.
 
 ------------------------------------------------------------------------
 
-::: {#exr-2.34d}
-Repeat the previous exercise but with an initial guess of $x_0=4$. What do you observe.
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-2.35}
-🎓 Consider the function $f(x)=\sin(x)+1$. It has roots at $x=2n\pi+3\pi/2$ for $n\in\mathbb{Z}$. However at the roots we have $f'(x)=0$. Make yourself a sketch to see why. What will happen when you apply Newton's method with a starting value of $x_0=\pi$?  You should be able to answer this just by looking at the sketch.
-:::
-
-------------------------------------------------------------------------
+### Implementation
 
 ::: {#exr-2.38}
-Create a Python function called `newton()` and write comments giving pseudo-code for Newton's method. Your function needs to accept a Python function for $f(x)$, a Python function for $f'(x)$, an initial guess, and an optional error tolerance. You do not need to set aside any code for calculating the derivative.
+The following is an outline a Python function called `newton()` for Newton's method. The function needs to accept a Python function for $f(x)$, a Python function for $f'(x)$, an initial guess, and an optional error tolerance.
+
+```python
+def newton(f, fprime, x0, tol=1e-12):
+    """
+    Find root of f(x) using Newton's Method.
+    
+    Parameters:
+        f (function): Function whose root we want to find
+        fprime (function): Derivative of f
+        x0 (float): Initial guess for the root
+        tol (float, optional): Error tolerance. Defaults to 1e-6
+        
+    Returns:
+        float: Approximate root of f(x)
+        or error message if method fails
+    """
+    
+    # Set x equal to initial guess x0
+    
+    # Loop for maximum of 30 iterations:
+    #   1. Calculate next Newton iteration:
+    #      x_new = x - f(x)/f'(x)
+    
+    #   2. Check if within tolerance:
+    #      If |x_new - x| < tol, return x_new as root
+    #      If not, update x = x_new
+    
+    # 3. If loop completes without finding root,
+    #    return message that method did not converge
+```
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-2.39}
-Using your pseudocode from the previous problem, write the full `newton()` function. The only output should be the solution to the equation that you are solving. Write a test script to verify that your Newton's method code indeed works.
-
+🎓 Use your implementation from @exr-2.38 to approximate the root of the function $f(x) = x^2 - 2$ with an initial guess of $x_0=1$. Use a tolerance of $10^{-12}$.
 :::
 
 ------------------------------------------------------------------------
 
-### Analysis
+### Failures
 
 There are several ways in which Newton's Method will behave unexpectedly -- or downright fail. Some of these issues can be foreseen by examining the Newton iteration formula 
 \begin{equation}
@@ -1107,7 +1109,7 @@ One of the failures of Newton's Method is that it requires a division by $f'(x_n
 ------------------------------------------------------------------------
 
 ::: {#exr-2.42}
-An interesting failure can occur with Newton's Method that you might not initially expect. Consider the function $f(x) = x^3 - 2x + 2$. This function has a root near $x=-1.77$. Fill in the table below and draw the tangent lines on the figure for approximating the solution to $f(x) = 0$ with a starting point of $x=0$.
+An interesting failure can occur with Newton's Method that you might not initially expect. Consider the function $f(x) = x^3 - 2x + 2$. This function has a root near $x=-1.77$. Fill in the table below by hand. You really do not need a computer for this. Then draw the tangent lines into @fig-2.9 for approximating the solution to $f(x) = 0$ with a starting point of $x=0$.
 
 | $n$      | $x_n$                                  | $f(x_n)$     | $f'(x_n)$    |
 |------------|------------------------------------------|----------------|----------------|
@@ -1118,7 +1120,7 @@ An interesting failure can occur with Newton's Method that you might not initial
 | $4$      | $x_4 =$                                | $f(x_4) =$   | $f'(x_4) =$ |
 | $\vdots$ | $\vdots$                               | $\vdots$     | $\vdots$     |
 
-![An interesting Newton's Method failure.](figures/Algebra/Newton02.png){#fig-2.9 alt="An interesting Newton's Method failure."}
+![An interesting Newton's Method failure when $f(x) = x^3 - 2x + 2$.](figures/Algebra/Newton02.png){#fig-2.9 alt="An interesting Newton's Method failure."}
 
 :::
 
@@ -1142,19 +1144,16 @@ f'(x) = \frac{1}{3} x^{-2/3} = \frac{1}{3x^{2/3}}.
 | $4$      |                                       |                 |                 |
 | $\vdots$ | $\vdots$                            | $\vdots$      | $\vdots$      |
 
-![Another surprising Newton's Method failure.](figures/Algebra/Newton03.png){#fig-2.10 alt="Another surprising Newton's Method failure."}
+![Another surprising Newton's Method failure when $f(x) = \sqrt[3]{x}$.](figures/Algebra/Newton03.png){#fig-2.10 alt="Another surprising Newton's Method failure."}
 
 2.  Now let us look at the Newton iteration in a bit more detail. Since $f(x) = x^{1/3}$ and $f'(x) = \frac{1}{3} x^{-2/3}$ the Newton iteration can be simplified as 
 \begin{equation}
-x_{n+1} = x_n - \frac{x^{1/3}}{ \left( \frac{1}{3} x^{-2/3} \right)} = x_n - 3 \frac{x^{1/3}}{x^{-2/3}} = x_n - 3x_n = -2x_n.
+x_{n+1} = x_n - \frac{x_n^{1/3}}{ \left( \frac{1}{3} x_n^{-2/3} \right)} = x_n - 3 \frac{x_n^{1/3}}{x_n^{-2/3}} = x_n - 3x_n = -2x_n.
 \end{equation}
  What does this tell us about the Newton iterations?\
-    Hint: You should have found the exact same thing in the numerical experiment in part (a).
+    Hint: You should have found the exact same thing in the numerical experiment in part 1.
 
 3.  Was there anything special about the starting point $x_0=-1$? Will this problem exist for every starting point?
-
-
-
 
 :::
 
@@ -1163,36 +1162,38 @@ x_{n+1} = x_n - \frac{x^{1/3}}{ \left( \frac{1}{3} x^{-2/3} \right)} = x_n - 3 \
 ::: {#exr-2.44}
 Repeat the previous exercise with the function $f(x) = x^3 - 5x$ with the starting point $x_0 = -1$.
 
-![Another surprising Newton's Method failure.](figures/Algebra/Newton04.png){#fig-2.11 alt="Another surprising Newton's Method failure."}
+![Another surprising Newton's Method failure when $f(x) = x^3 - 5x$.](figures/Algebra/Newton04.png){#fig-2.11 alt="Another surprising Newton's Method failure."}
 
 :::
 
 ------------------------------------------------------------------------
 
-Newton's Method is known to have a *quadratic convergence rate*. This means that there is some constant $C$ such that 
-\begin{equation}
-|x_{k+1} - x_*| \leq C |x_{k} - x_*|^2,
-\end{equation}
- where $x_*$ is the root that we are hunting for.
+### Rate of Convergence
 
-The quadratic convergence implies that if we plot the error in the new iterate on the $y$-axis and the error in the old iterate on the $x$ axis of a log-log plot then we will see a constant slope of 2. To see this we can take the log of both sides of the previous equation to get 
-\begin{equation}
-\log(|x_{k+1} - x_*|) = \log(C) + 2 \log(|x_{k} - x_*|),
-\end{equation}
- and we see that this is a linear function (on a log-log plot) and the slope is 2. We created plots like this back in @exm-3.1b.
+We saw in @exm-3.1b how we could empirically determine the rate of convergence of the bisection method by plotting the error in the new iterate on the $y$-axis and the error in the old iterate on the $x$ axis of a log-log plot. Take a look at that example again and make sure you understand the code and the explanation of the plot. Then, to investigate the rate of convergence of Newton's method you can do the same thing. 
 
-------------------------------------------------------------------------
+::: {#exr-newton_error_tracking}
+🎓 Write a Python function `newton_with_error_tracking()` that returns a list of absolute errors between the iterates and the exact solution.
+You can start with your code from `newton()` from @exr-2.38 and add the collection of the errors in a list as in the `bisection_with_error_tracking()` function that we wrote in @exm-2.1.
+Your new function should accept a Python function for $f(x)$, a Python function for $f'(x)$, the exact root, an initial guess, and an optional error tolerance.
+
+Then, use this function to list the error progression for Newton's method for finding the root of $f(x) = x^2 - 2$ with the initial guess $x_0 = 1$ and tolerance $10^{-12}$. You should find that the error goes down extremely quickly and that for the final iteration Python can no longer detect a difference between the new iterate and its own value for $\sqrt{2}$.
+:::
 
 ::: {#exr-2.45}
 
-1.  Pick an equation where you know the solution.
+1.  Plot the errors you calculated in @exr-newton_error_tracking using the `plot_error_progression()` function that we wrote in @exm-3.1b. Note that you will first need to remove the zeros from the error list, otherwise you will get an error. You can remind yourself of how to work with lists in @sec-lists.
 
-2.  Create the error plot with $|x_{k} - x_*|$ on the horizontal axis and $|x_{k+1} - x_*|$ on the vertical axis. You can re-use some code from @exm-3.1b.
+2.  Give a thorough explanation for how to interpret the plot that you just made.
 
-3.  Demonstrate that this plot has a slope of 2.
+3.  🎓 Extract the slope and intercept of the line that you fitted to the log-log plot of the error progression using the `np.polyfit` function. What does this tell you about how the error at each iteration is related to the error at the previous iteration?
 
-4.  Give a thorough explanation for how to interpret the plot that you just made.
+:::
 
+------------------------------------------------------------------------
+
+::: {#exr-2.45b}
+Reproduce plots like those in the previous example but for the different equation that you used in @exr-2.20. Again check that the plots have the expected shape.
 :::
 
 ------------------------------------------------------------------------
@@ -1237,15 +1238,8 @@ Discuss whether it is important to choose these starting points close to the roo
 
 ------------------------------------------------------------------------
 
-::: {#exr-2.48}
-Write pseudo-code to outline how you will implement the Secant Method.
-:::
-
-------------------------------------------------------------------------
-
 ::: {#exr-2.49}
-Write Python code for solving equations of the form $f(x) = 0$ with the Secant method. Your function should accept a Python function, two starting points, and an optional error tolerance. Also write a test script that clearly shows that your code is working.
-
+🎓 Write a Python function for solving equations of the form $f(x) = 0$ with the secant method. Your function should accept a Python function, two starting points, and an optional error tolerance. Also write a test script that clearly shows that your code is working.
 :::
 
 ------------------------------------------------------------------------
@@ -1259,8 +1253,23 @@ Up to this point we have done analysis work on the Bisection Method and Newton's
 ------------------------------------------------------------------------
 
 ::: {#exr-2.50}
-Choose a non-trivial equation for which you know the solution and write a script to empirically determine the convergence rate of the Secant method.
+Write a function `secant_with_error_tracking()` that returns a list of absolute errors between the iterates and the exact solution.
+You can start with your code from `secant()` from @exr-2.49 and add the collection of the errors in a list as in the `bisection_with_error_tracking()` function that we wrote in @exm-2.1.
+Your new function should accept a Python function, the exact root, two starting points, and an optional error tolerance.
 
+Use this function to list the error progression for the secant method for finding the root of $f(x) = x^2 - 2$ with the starting points $x_0 = 1$ and $x_1 = 3$. Use a tolerance of $10^{-12}$. Use the `plot_error_progression()` function that we wrote in @exm-3.1b to plot the error progression.
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-2.50b}
+🎓 Using the `np.polyfit` function, extract the slope of the line that you had fit to the log-log plot of the error progression in @exr-2.50. What does this slope tell you about how the error at each iteration is related to the error at the previous iteration?
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-2.50c}
+Make error progression plots for a few different functions and look at the slopes. What do you notice?
 :::
 
 ------------------------------------------------------------------------

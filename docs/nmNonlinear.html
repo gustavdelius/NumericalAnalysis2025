@@ -258,13 +258,15 @@ window.Quarto = {
   <li><a href="#sec-fixedpoint1d" id="toc-sec-fixedpoint1d" class="nav-link" data-scroll-target="#sec-fixedpoint1d"><span class="header-section-number">4.3</span> Fixed point iteration</a></li>
   <li><a href="#sec-newtons_method" id="toc-sec-newtons_method" class="nav-link" data-scroll-target="#sec-newtons_method"><span class="header-section-number">4.4</span> Newton’s Method</a>
   <ul>
-  <li><a href="#intuition-and-implementation" id="toc-intuition-and-implementation" class="nav-link" data-scroll-target="#intuition-and-implementation"><span class="header-section-number">4.4.1</span> Intuition and Implementation</a></li>
-  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis"><span class="header-section-number">4.4.2</span> Analysis</a></li>
+  <li><a href="#intuition-1" id="toc-intuition-1" class="nav-link" data-scroll-target="#intuition-1"><span class="header-section-number">4.4.1</span> Intuition</a></li>
+  <li><a href="#implementation-1" id="toc-implementation-1" class="nav-link" data-scroll-target="#implementation-1"><span class="header-section-number">4.4.2</span> Implementation</a></li>
+  <li><a href="#failures" id="toc-failures" class="nav-link" data-scroll-target="#failures"><span class="header-section-number">4.4.3</span> Failures</a></li>
+  <li><a href="#rate-of-convergence" id="toc-rate-of-convergence" class="nav-link" data-scroll-target="#rate-of-convergence"><span class="header-section-number">4.4.4</span> Rate of Convergence</a></li>
   </ul></li>
   <li><a href="#sec-secant_method" id="toc-sec-secant_method" class="nav-link" data-scroll-target="#sec-secant_method"><span class="header-section-number">4.5</span> The Secant Method</a>
   <ul>
-  <li><a href="#intuition-and-implementation-1" id="toc-intuition-and-implementation-1" class="nav-link" data-scroll-target="#intuition-and-implementation-1"><span class="header-section-number">4.5.1</span> Intuition and Implementation</a></li>
-  <li><a href="#analysis-1" id="toc-analysis-1" class="nav-link" data-scroll-target="#analysis-1"><span class="header-section-number">4.5.2</span> Analysis</a></li>
+  <li><a href="#intuition-and-implementation" id="toc-intuition-and-implementation" class="nav-link" data-scroll-target="#intuition-and-implementation"><span class="header-section-number">4.5.1</span> Intuition and Implementation</a></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis"><span class="header-section-number">4.5.2</span> Analysis</a></li>
   </ul></li>
   <li><a href="#algorithm-summaries" id="toc-algorithm-summaries" class="nav-link" data-scroll-target="#algorithm-summaries"><span class="header-section-number">4.6</span> Algorithm Summaries</a></li>
   <li><a href="#problems" id="toc-problems" class="nav-link" data-scroll-target="#problems"><span class="header-section-number">4.7</span> Problems</a></li>
@@ -316,7 +318,7 @@ window.Quarto = {
 \text{ Find } x \text{ such that } f(x) = 0.
 \end{equation}\]</span> This gives us a common language for which to frame all of our numerical algorithms. An <span class="math inline">\(x\)</span> where <span class="math inline">\(f(x)=0\)</span> is called a <strong>root</strong> of <span class="math inline">\(f\)</span> and thus we have seen that solving an equation is always a root finding problem.</p>
 <p>For example, if we want to solve the equation <span class="math inline">\(3\sin(x) + 9 = x^2 - \cos(x)\)</span> then this is the same as solving <span class="math inline">\((3\sin(x) + 9 ) - (x^2 - \cos(x)) = 0\)</span>. We illustrate this idea in <a href="#fig-2.1" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>. You should pause and notice that there is no way that you are going to apply by-hand techniques from algebra to solve this equation … an approximate answer is pretty much our only hope.</p>
-<div id="cell-fig-2.1" class="cell page-columns page-full" data-execution_count="1">
+<div id="cell-fig-2.1" class="cell page-columns page-full" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
@@ -502,7 +504,7 @@ Figure&nbsp;4.1: Two ways to visualise the same root finding problem
 </div>
 <hr>
 <p><a href="#fig-2.5" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> shows the bisection method in action on the equation <span class="math inline">\(x^2 - 2 = 0\)</span>.</p>
-<div id="cell-fig-2.5" class="cell page-columns page-full" data-execution_count="2">
+<div id="cell-fig-2.5" class="cell page-columns page-full" data-execution_count="3">
 <div id="fig-2.5" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" data-execution_count="2">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-2.5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
@@ -690,36 +692,36 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation page-columns page-full">
-  <img id="_anim_img42783b14b0af466cb5f84c0f9377aa0e" class="figure-img column-page-right">
+  <img id="_anim_imgc1eb465bcc224a08bcf2824885ed9f60" class="figure-img column-page-right">
   <div class="anim-controls">
-    <input id="_anim_slider42783b14b0af466cb5f84c0f9377aa0e" type="range" class="anim-slider" name="points" min="0" max="1" step="1" value="0" oninput="anim42783b14b0af466cb5f84c0f9377aa0e.set_frame(parseInt(this.value));">
+    <input id="_anim_sliderc1eb465bcc224a08bcf2824885ed9f60" type="range" class="anim-slider" name="points" min="0" max="1" step="1" value="0" oninput="animc1eb465bcc224a08bcf2824885ed9f60.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="animc1eb465bcc224a08bcf2824885ed9f60.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="animc1eb465bcc224a08bcf2824885ed9f60.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="animc1eb465bcc224a08bcf2824885ed9f60.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="animc1eb465bcc224a08bcf2824885ed9f60.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="animc1eb465bcc224a08bcf2824885ed9f60.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.play_animation()">
+      <button title="Play" aria-label="Play" onclick="animc1eb465bcc224a08bcf2824885ed9f60.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="animc1eb465bcc224a08bcf2824885ed9f60.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="animc1eb465bcc224a08bcf2824885ed9f60.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim42783b14b0af466cb5f84c0f9377aa0e.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="animc1eb465bcc224a08bcf2824885ed9f60.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select42783b14b0af466cb5f84c0f9377aa0e" class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_42783b14b0af466cb5f84c0f9377aa0e" checked="">
-      <label for="_anim_radio1_42783b14b0af466cb5f84c0f9377aa0e">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_42783b14b0af466cb5f84c0f9377aa0e">
-      <label for="_anim_radio2_42783b14b0af466cb5f84c0f9377aa0e">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_42783b14b0af466cb5f84c0f9377aa0e">
-      <label for="_anim_radio3_42783b14b0af466cb5f84c0f9377aa0e">Reflect</label>
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectc1eb465bcc224a08bcf2824885ed9f60" class="anim-state">
+      <input type="radio" name="state" value="once" id="_anim_radio1_c1eb465bcc224a08bcf2824885ed9f60" checked="">
+      <label for="_anim_radio1_c1eb465bcc224a08bcf2824885ed9f60">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_c1eb465bcc224a08bcf2824885ed9f60">
+      <label for="_anim_radio2_c1eb465bcc224a08bcf2824885ed9f60">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_c1eb465bcc224a08bcf2824885ed9f60">
+      <label for="_anim_radio3_c1eb465bcc224a08bcf2824885ed9f60">Reflect</label>
     </form>
   </div>
 </div>
@@ -729,9 +731,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img42783b14b0af466cb5f84c0f9377aa0e";
-    var slider_id = "_anim_slider42783b14b0af466cb5f84c0f9377aa0e";
-    var loop_select_id = "_anim_loop_select42783b14b0af466cb5f84c0f9377aa0e";
+    var img_id = "_anim_imgc1eb465bcc224a08bcf2824885ed9f60";
+    var slider_id = "_anim_sliderc1eb465bcc224a08bcf2824885ed9f60";
+    var loop_select_id = "_anim_loop_selectc1eb465bcc224a08bcf2824885ed9f60";
     var frames = new Array(7);
     
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAYAAAB6jN80AAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -3997,7 +3999,7 @@ e8gmg4JCdQAAAABJRU5ErkJggg==\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim42783b14b0af466cb5f84c0f9377aa0e = new Animation(frames, img_id, slider_id, 1000.0,
+        animc1eb465bcc224a08bcf2824885ed9f60 = new Animation(frames, img_id, slider_id, 1000.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -4113,48 +4115,97 @@ n = \log_2\left( \frac{|b-a|}{\varepsilon} \right).
 <p><span class="theorem-title"><strong>Example 4.1</strong></span> Let us solve the very simple equation <span class="math inline">\(x^2 - 2 = 0\)</span> for <span class="math inline">\(x\)</span> to get the solution <span class="math inline">\(x = \sqrt{2}\)</span> with the bisection method. Since we know the exact answer we can compare the exact answer to the value of the midpoint given at each iteration and calculate an absolute error: <span class="math display">\[\begin{equation}
 \text{Absolute Error} = | \text{Approximate Solution} - \text{Exact Solution}|.
 \end{equation}\]</span></p>
-<p>If we plot the absolute error on the vertical axis and the iteration number on the horizontal axis we get <a href="#fig-2.2" class="quarto-xref">Figure&nbsp;<span>4.3</span></a>. As expected, the absolute error follows an exponentially decreasing trend. Notice that it is not a completely smooth curve since we will have some jumps in the accuracy just due to the fact that sometimes the root will be near the midpoint of the interval and sometimes it will not be.</p>
-<div id="cell-fig-2.2" class="cell page-columns page-full" data-execution_count="3">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> sqrt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">2</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>x_exact <span class="op">=</span> sqrt(<span class="dv">2</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bisection(a, b, tol):</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    errors <span class="op">=</span> []</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (b <span class="op">-</span> a) <span class="op">/</span> <span class="fl">2.0</span> <span class="op">&gt;</span> tol:</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        midpoint <span class="op">=</span> (a <span class="op">+</span> b) <span class="op">/</span> <span class="fl">2.0</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> f(midpoint) <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> f(a) <span class="op">*</span> f(midpoint) <span class="op">&lt;</span> <span class="dv">0</span>:</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            b <span class="op">=</span> midpoint</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            a <span class="op">=</span> midpoint</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        error <span class="op">=</span> <span class="bu">abs</span>(midpoint <span class="op">-</span> x_exact)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        errors.append(error)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> errors</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the interval [1, 2] and a tolerance of 1e-7</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>tolerance <span class="op">=</span> <span class="fl">1e-7</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>errors <span class="op">=</span> bisection(<span class="dv">1</span>, <span class="dv">2</span>, tolerance)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating the x values for the plot (iterations)</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>iterations <span class="op">=</span> np.arange(<span class="bu">len</span>(errors))</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the errors</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>plt.scatter(iterations, errors, label<span class="op">=</span><span class="st">'Error per Iteration'</span>)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Iteration'</span>)</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Absolute Error'</span>)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Absolute Error in Each Iteration of the Bisection Method'</span>)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<p>Let us write a Python function that implements the bisection method and collects the absolute errors at each iteration into a list.</p>
+<div id="980c427c" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bisection_with_error_tracking(f, x_exact, a, b, tol):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Implements the bisection method and tracks absolute error at each iteration.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">        f (callable): Function for which to find the root</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">        x_exact (float): The exact root of the function</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">        a (float): Left endpoint of initial interval</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">        b (float): Right endpoint of initial interval </span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">        tol (float): Tolerance for stopping criterion</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">        list: List of absolute errors between approximate and exact solution at each iteration</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    errors <span class="op">=</span> []</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (b <span class="op">-</span> a) <span class="op">/</span> <span class="fl">2.0</span> <span class="op">&gt;</span> tol:</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        midpoint <span class="op">=</span> (a <span class="op">+</span> b) <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> f(midpoint) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> f(a) <span class="op">*</span> f(midpoint) <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            b <span class="op">=</span> midpoint</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            a <span class="op">=</span> midpoint</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        error <span class="op">=</span> <span class="bu">abs</span>(midpoint <span class="op">-</span> x_exact)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        errors.append(error)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> errors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now use this function to see the absolute error at each iteration when solving the equation <span class="math inline">\(x^2-2=0\)</span> with the bisection method.</p>
+<div id="18a280f2" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>x_exact <span class="op">=</span> np.sqrt(<span class="dv">2</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the interval [1, 2] and a tolerance of 1e-7</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>tolerance <span class="op">=</span> <span class="fl">1e-7</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>errors <span class="op">=</span> bisection_with_error_tracking(f, x_exact, <span class="dv">1</span>, <span class="dv">2</span>, tolerance)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>errors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>[0.08578643762690485,
+ 0.16421356237309515,
+ 0.039213562373095145,
+ 0.023286437626904855,
+ 0.007963562373095145,
+ 0.0076614376269048545,
+ 0.00015106237309514547,
+ 0.0037551876269048545,
+ 0.0018020626269048545,
+ 0.0008255001269048545,
+ 0.0003372188769048545,
+ 9.307825190485453e-05,
+ 2.8992060595145475e-05,
+ 3.2043095654854525e-05,
+ 1.5255175298545254e-06,
+ 1.3733271532645475e-05,
+ 6.103877001395475e-06,
+ 2.2891797357704746e-06,
+ 3.818311029579746e-07,
+ 5.718432134482754e-07,
+ 9.500605524515038e-08,
+ 1.4341252385641212e-07,
+ 2.4203234305630872e-08]</code></pre>
+</div>
+</div>
+<p>Next we write a function to plot the absolute error on the vertical axis and the iteration number on the horizontal axis. We get <a href="#fig-2.2" class="quarto-xref">Figure&nbsp;<span>4.3</span></a>. As expected, the absolute error follows an exponentially decreasing trend. Notice that it is not a completely smooth curve since we will have some jumps in the accuracy just due to the fact that sometimes the root will be near the midpoint of the interval and sometimes it will not be.</p>
+<div id="cell-fig-2.2" class="cell page-columns page-full" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_errors(errors):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Plot the absolute errors.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">        errors (list): List of absolute errors</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Creating the x values for the plot (iterations) </span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    iterations <span class="op">=</span> np.arange(<span class="bu">len</span>(errors))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plotting the errors</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    plt.scatter(iterations, errors, label<span class="op">=</span><span class="st">'Error per Iteration'</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Iteration'</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Absolute Error'</span>) </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Absolute Error in Each Iteration'</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>plot_errors(errors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display page-columns page-full">
 <div id="fig-2.2" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="The evolution of the absolute error when solving the equation $x^2-2=0$ with the bisection method.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
@@ -4169,56 +4220,35 @@ Figure&nbsp;4.3: The evolution of the absolute error when solving the equation <
 </div>
 </div>
 <p>Without <a href="#thm-2.2" class="quarto-xref">Theorem&nbsp;<span>4.2</span></a> it would be rather hard to tell what the exact behaviour is in the exponential plot above. We know from <a href="#thm-2.2" class="quarto-xref">Theorem&nbsp;<span>4.2</span></a> that the error will divide by 2 at every step, so if we instead plot the base-2 logarithm of the absolute error against the iteration number we should see a linear trend as shown in <a href="#fig-2.3" class="quarto-xref">Figure&nbsp;<span>4.4</span></a>.</p>
-<div id="cell-fig-2.3" class="cell page-columns page-full" data-execution_count="4">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> sqrt</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> linregress</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">2</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>x_exact <span class="op">=</span> sqrt(<span class="dv">2</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bisection(a, b, tol):</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    errors <span class="op">=</span> []</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (b <span class="op">-</span> a) <span class="op">/</span> <span class="fl">2.0</span> <span class="op">&gt;</span> tol:</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        midpoint <span class="op">=</span> (a <span class="op">+</span> b) <span class="op">/</span> <span class="fl">2.0</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> f(midpoint) <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> f(a) <span class="op">*</span> f(midpoint) <span class="op">&lt;</span> <span class="dv">0</span>:</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            b <span class="op">=</span> midpoint</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            a <span class="op">=</span> midpoint</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        error <span class="op">=</span> <span class="bu">abs</span>(midpoint <span class="op">-</span> x_exact)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        errors.append(error)</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> errors</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the interval [1, 2] and a tolerance of 1e-7</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>tolerance <span class="op">=</span> <span class="fl">1e-7</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>errors <span class="op">=</span> bisection(<span class="dv">1</span>, <span class="dv">2</span>, tolerance)</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert errors to base 2 logarithm</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>log_errors <span class="op">=</span> np.log2(errors)</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating the x values for the plot (iterations)</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>iterations <span class="op">=</span> np.arange(<span class="bu">len</span>(log_errors))</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the errors</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>plt.scatter(iterations, log_errors, label<span class="op">=</span><span class="st">'Log Error per Iteration'</span>)</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Determine slope and intercept of the best-fit straight line</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>slope, intercept <span class="op">=</span> np.polyfit(iterations, log_errors, deg<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>best_fit_line <span class="op">=</span> slope <span class="op">*</span> iterations <span class="op">+</span> intercept</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the best-fit line</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>plt.plot(iterations, best_fit_line, label<span class="op">=</span><span class="st">'Best Fit Line'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Iteration'</span>)</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Base 2 Log of Absolute Error'</span>)</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Absolute Error in Each Iteration of the Bisection Method'</span>)</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="cell-fig-2.3" class="cell page-columns page-full" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_log_errors(errors):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Plot the base-2 logarithm of absolute errors and a best fit line.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">        errors (list): List of absolute errors</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert errors to base 2 logarithm</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    log_errors <span class="op">=</span> np.log2(errors)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Creating the x values for the plot (iterations)</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    iterations <span class="op">=</span> np.arange(<span class="bu">len</span>(log_errors))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plotting the errors</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    plt.scatter(iterations, log_errors, label<span class="op">=</span><span class="st">'Log Error per Iteration'</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Determine slope and intercept of the best-fit straight line</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    slope, intercept <span class="op">=</span> np.polyfit(iterations, log_errors, deg<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    best_fit_line <span class="op">=</span> slope <span class="op">*</span> iterations <span class="op">+</span> intercept</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot the best-fit line</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    plt.plot(iterations, best_fit_line, label<span class="op">=</span><span class="st">'Best Fit Line'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Iteration'</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Base 2 Log of Absolute Error'</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Absolute Error in Each Iteration'</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plot_log_errors(errors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display page-columns page-full">
 <div id="fig-2.3" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="Iteration number vs the base-2 logarithm of the absolute error.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
@@ -4249,55 +4279,29 @@ Figure&nbsp;4.4: Iteration number vs the base-2 logarithm of the absolute error.
 <li>The horizontal axis is the absolute error at iteration <span class="math inline">\(k\)</span>.</li>
 <li>The vertical axis is the absolute error at iteration <span class="math inline">\(k+1\)</span>.</li>
 </ul>
-<div id="cell-fig-2.4" class="cell page-columns page-full" data-execution_count="5">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">2</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>x_exact <span class="op">=</span> sqrt(<span class="dv">2</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bisection(a, b, tol):</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    errors <span class="op">=</span> []</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (b <span class="op">-</span> a) <span class="op">/</span> <span class="fl">2.0</span> <span class="op">&gt;</span> tol:</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        midpoint <span class="op">=</span> (a <span class="op">+</span> b) <span class="op">/</span> <span class="fl">2.0</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> f(midpoint) <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> f(a) <span class="op">*</span> f(midpoint) <span class="op">&lt;</span> <span class="dv">0</span>:</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            b <span class="op">=</span> midpoint</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            a <span class="op">=</span> midpoint</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        error <span class="op">=</span> <span class="bu">abs</span>(midpoint <span class="op">-</span> x_exact)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        errors.append(error)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> errors</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Running the bisection method again</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>tolerance <span class="op">=</span> <span class="fl">1e-7</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>errors <span class="op">=</span> bisection(<span class="dv">1</span>, <span class="dv">2</span>, tolerance)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating the log2 of the absolute error at step k and k+1</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>log_errors <span class="op">=</span> np.log2(errors)</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>log_errors_k <span class="op">=</span> log_errors[:<span class="op">-</span><span class="dv">1</span>]  <span class="co"># log errors at step k (excluding the last one)</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>log_errors_k_plus_1 <span class="op">=</span> log_errors[<span class="dv">1</span>:]  <span class="co"># log errors at step k+1 (excluding the first one)</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting log_errors_k+1 vs log_errors_k</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>plt.scatter(log_errors_k, log_errors_k_plus_1, label<span class="op">=</span><span class="st">'Log Error at k+1 vs Log Error at k'</span>)</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Fitting a straight line to the data points</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>slope, intercept <span class="op">=</span> np.polyfit(log_errors_k, log_errors_k_plus_1, deg<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>best_fit_line <span class="op">=</span> slope <span class="op">*</span> log_errors_k <span class="op">+</span> intercept</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>plt.plot(log_errors_k, best_fit_line, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Best Fit Line'</span>)</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting up the plot</span></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Log2 of Absolute Error at Step k'</span>)</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Log2 of Absolute Error at Step k+1'</span>)</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Log2 of Absolute Error at Step k+1 vs Step k'</span>)</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="cell-fig-2.4" class="cell page-columns page-full" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_error_progression(errors):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculating the log2 of the absolute error at step k and k+1</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    log_errors <span class="op">=</span> np.log2(errors)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    log_errors_k <span class="op">=</span> log_errors[:<span class="op">-</span><span class="dv">1</span>]  <span class="co"># log errors at step k (excluding the last one)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    log_errors_k_plus_1 <span class="op">=</span> log_errors[<span class="dv">1</span>:]  <span class="co"># log errors at step k+1 (excluding the first one)</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plotting log_errors_k+1 vs log_errors_k</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    plt.scatter(log_errors_k, log_errors_k_plus_1, label<span class="op">=</span><span class="st">'Log Error at k+1 vs Log Error at k'</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fitting a straight line to the data points</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    slope, intercept <span class="op">=</span> np.polyfit(log_errors_k, log_errors_k_plus_1, deg<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    best_fit_line <span class="op">=</span> slope <span class="op">*</span> log_errors_k <span class="op">+</span> intercept</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    plt.plot(log_errors_k, best_fit_line, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Best Fit Line'</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setting up the plot</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Log2 of Absolute Error at Step k'</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Log2 of Absolute Error at Step k+1'</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Log2 of Absolute Error at Step k+1 vs Step k'</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>plot_error_progression(errors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display page-columns page-full">
 <div id="fig-2.4" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="The base-2 logarithm of the absolute error at iteration $k$ vs the base-2 logarithm of the absolute error at iteration $k+1$.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
@@ -4311,15 +4315,9 @@ Figure&nbsp;4.5: The base-2 logarithm of the absolute error at iteration <span c
 </div>
 </div>
 </div>
-<p>This type of plot takes a bit of explaining the first time you see it. Start on the right-hand side of the plot where the error is the largest (this will be where the algorithm starts). The coordinates of the first point are interpreted as: <span class="math display">\[\begin{equation}
-(\text{absolute error at step 1} \, , \, \text{absolute error at step 2}).
-\end{equation}\]</span> The coordinates of the second point are interpreted as: <span class="math display">\[\begin{equation}
-(\text{absolute error at step 2} \, , \, \text{absolute error at step 3}),
-\end{equation}\]</span> etc. Examining the slope of the trend line in this plot shows how we expect the error to progress from step to step. The slope appears to be about <span class="math inline">\(1\)</span> in <a href="#fig-2.4" class="quarto-xref">Figure&nbsp;<span>4.5</span></a> and the intercept appears to be about <span class="math inline">\(-1\)</span>. In this case we used a base-2 logarithm for each axis so we have just empirically shown that <span class="math display">\[\begin{equation}
+<p>This type of plot takes a bit of explaining the first time you see it. Each point in the plot corresponds to an iteration of the algorithm. The x-coordinate of each point is the base-2 logarithm of the absolute error at step <span class="math inline">\(k\)</span> and the y-coordinate is the base-2 logarithm of the absolute error at step <span class="math inline">\(k+1\)</span>. The initial interations are on the right-hand side of the plot where the error is the largest (this will be where the algorithm starts). As the iterations progress and the error decreases the points move to the left-hand side of the plot. Examining the slope of the trend line in this plot shows how we expect the error to progress from step to step. The slope appears to be about <span class="math inline">\(1\)</span> in <a href="#fig-2.4" class="quarto-xref">Figure&nbsp;<span>4.5</span></a> and the intercept appears to be about <span class="math inline">\(-1\)</span>. In this case we used a base-2 logarithm for each axis so we have just empirically shown that <span class="math display">\[\begin{equation}
 \log_2(\text{absolute error at step $k+1$}) \approx 1\cdot \log_2(\text{absolute error at step $k$}) -1.
-\end{equation}\]</span> Rearranging the algebra a bit we see that this linear relationship turns into <span class="math display">\[\begin{equation}
-\frac{\text{absolute error at step $k+1$}}{\text{absolute error at step $k$}} \approx \frac{1}{2}.
-\end{equation}\]</span> (You should stop now and do this algebra.) Rearranging a bit more we get <span class="math display">\[\begin{equation}
+\end{equation}\]</span> Exponentiating both sides we see that this linear relationship turns into (You should stop now and do this algebra.) Rearranging a bit more we get <span class="math display">\[\begin{equation}
 (\text{absolute error at step $k+1$}) = \frac{1}{2}(\text{absolute error at step $k$}),
 \end{equation}\]</span> exactly as expected!! Pause and ponder this result for a second – we just empirically verified the convergence rate for the bisection method just by examining <a href="#fig-2.4" class="quarto-xref">Figure&nbsp;<span>4.5</span></a>. That’s what makes these types of plots so powerful!</p>
 </div>
@@ -4342,8 +4340,8 @@ f(x) = 0 \quad \Leftrightarrow\quad g(x)=x.
 x_{n}:=g(x_{n-1}).
 \]</span> A graphical representation of this sequence when <span class="math inline">\(g = \cos\)</span> and <span class="math inline">\(x_0=2\)</span> is shown in <a href="#fig-fixed" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>.</p>
 <p>To view the animation, click on the play button below the plot.</p>
-<div id="cell-fig-fixed" class="cell page-columns page-full" data-execution_count="6">
-<div id="fig-fixed" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" data-execution_count="6">
+<div id="cell-fig-fixed" class="cell page-columns page-full" data-execution_count="9">
+<div id="fig-fixed" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" data-execution_count="8">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-fixed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
 
@@ -4530,36 +4528,36 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation page-columns page-full">
-  <img id="_anim_img544ff11bed2b4be3b6721dad6aa0982b" class="figure-img column-page-right">
+  <img id="_anim_img2d93e0f6776241b5a391b2129cb560a2" class="figure-img column-page-right">
   <div class="anim-controls">
-    <input id="_anim_slider544ff11bed2b4be3b6721dad6aa0982b" type="range" class="anim-slider" name="points" min="0" max="1" step="1" value="0" oninput="anim544ff11bed2b4be3b6721dad6aa0982b.set_frame(parseInt(this.value));">
+    <input id="_anim_slider2d93e0f6776241b5a391b2129cb560a2" type="range" class="anim-slider" name="points" min="0" max="1" step="1" value="0" oninput="anim2d93e0f6776241b5a391b2129cb560a2.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim2d93e0f6776241b5a391b2129cb560a2.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="anim2d93e0f6776241b5a391b2129cb560a2.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="anim2d93e0f6776241b5a391b2129cb560a2.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="anim2d93e0f6776241b5a391b2129cb560a2.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="anim2d93e0f6776241b5a391b2129cb560a2.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.play_animation()">
+      <button title="Play" aria-label="Play" onclick="anim2d93e0f6776241b5a391b2129cb560a2.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="anim2d93e0f6776241b5a391b2129cb560a2.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="anim2d93e0f6776241b5a391b2129cb560a2.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim544ff11bed2b4be3b6721dad6aa0982b.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="anim2d93e0f6776241b5a391b2129cb560a2.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select544ff11bed2b4be3b6721dad6aa0982b" class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_544ff11bed2b4be3b6721dad6aa0982b" checked="">
-      <label for="_anim_radio1_544ff11bed2b4be3b6721dad6aa0982b">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_544ff11bed2b4be3b6721dad6aa0982b">
-      <label for="_anim_radio2_544ff11bed2b4be3b6721dad6aa0982b">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_544ff11bed2b4be3b6721dad6aa0982b">
-      <label for="_anim_radio3_544ff11bed2b4be3b6721dad6aa0982b">Reflect</label>
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select2d93e0f6776241b5a391b2129cb560a2" class="anim-state">
+      <input type="radio" name="state" value="once" id="_anim_radio1_2d93e0f6776241b5a391b2129cb560a2" checked="">
+      <label for="_anim_radio1_2d93e0f6776241b5a391b2129cb560a2">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_2d93e0f6776241b5a391b2129cb560a2">
+      <label for="_anim_radio2_2d93e0f6776241b5a391b2129cb560a2">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_2d93e0f6776241b5a391b2129cb560a2">
+      <label for="_anim_radio3_2d93e0f6776241b5a391b2129cb560a2">Reflect</label>
     </form>
   </div>
 </div>
@@ -4569,9 +4567,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img544ff11bed2b4be3b6721dad6aa0982b";
-    var slider_id = "_anim_slider544ff11bed2b4be3b6721dad6aa0982b";
-    var loop_select_id = "_anim_loop_select544ff11bed2b4be3b6721dad6aa0982b";
+    var img_id = "_anim_img2d93e0f6776241b5a391b2129cb560a2";
+    var slider_id = "_anim_slider2d93e0f6776241b5a391b2129cb560a2";
+    var loop_select_id = "_anim_loop_select2d93e0f6776241b5a391b2129cb560a2";
     var frames = new Array(9);
     
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAYAAAB6jN80AAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -8991,7 +8989,7 @@ AAAASUVORK5CYII=\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim544ff11bed2b4be3b6721dad6aa0982b = new Animation(frames, img_id, slider_id, 200.0,
+        anim2d93e0f6776241b5a391b2129cb560a2 = new Animation(frames, img_id, slider_id, 200.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -9024,7 +9022,7 @@ g\left(\lim_{n\to\infty}x_{n-1}\right)=g(p).
 <hr>
 <div id="exr-cobweb2" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 4.24</strong></span> Copy the two plots in <a href="#fig-cobweb2" class="quarto-xref">Figure&nbsp;<span>4.7</span></a> to a piece of paper and draw the first few iterations of the fixed point iteration <span class="math inline">\(x_{n} = g(x_{n-1})\)</span> on each of them. In the first plot start with <span class="math inline">\(x_0=0.2\)</span> and in the second plot start with <span class="math inline">\(x_0=1.5\)</span> and in the second plot start with <span class="math inline">\(x=0.9\)</span> What do you observe about the convergence of the sequence in each case?</p>
-<div id="cell-fig-cobweb2" class="cell" data-execution_count="7">
+<div id="cell-fig-cobweb2" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div id="fig-cobweb2" class="quarto-float quarto-figure quarto-figure-left anchored" alt="Two plots for practicing your cobweb skills.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -9118,8 +9116,8 @@ x&amp;=g(x)=x-(x^{2}-2), &amp;
 <section id="sec-newtons_method" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="sec-newtons_method"><span class="header-section-number">4.4</span> Newton’s Method</h2>
 <p>In the Bisection Method (<a href="#sec-bisection" class="quarto-xref"><span>Section 4.2</span></a>) we had used only the sign of of the function at the guessed points. We will now investigate how we can use also the value and the slope (derivative) of the function to get a much improved method.</p>
-<section id="intuition-and-implementation" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="intuition-and-implementation"><span class="header-section-number">4.4.1</span> Intuition and Implementation</h3>
+<section id="intuition-1" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="intuition-1"><span class="header-section-number">4.4.1</span> Intuition</h3>
 <p>Root finding is really the process of finding the <span class="math inline">\(x\)</span>-intercept of the function. If the function is complicated (e.g.&nbsp;highly nonlinear or does not lend itself to traditional by-hand techniques) then we can approximate the <span class="math inline">\(x\)</span>-intercept by creating a Taylor Series approximation of the function at a nearby point and then finding the <span class="math inline">\(x\)</span>-intercept of that simpler Taylor Series. The simplest non-trivial Taylor Series is a linear function – a tangent line!</p>
 <hr>
 <div id="exr-2.32" class="theorem exercise">
@@ -9147,7 +9145,7 @@ Figure&nbsp;4.8: Using successive tangent line approximations to find the root o
 </figcaption>
 </figure>
 </div>
-<p>The graphical method illustrated in <a href="#fig-2.8" class="quarto-xref">Figure&nbsp;<span>4.8</span></a> was introduced by Sir Isaac Newton and is therefore known as Newton’s Method. Joseph Raphson then gave the algebraic formulation and popularised the method which is therefore also known as the Newton-Raphson method.</p>
+<p>The graphical method illustrated in <a href="#fig-2.8" class="quarto-xref">Figure&nbsp;<span>4.8</span></a> was introduced by Sir Isaac Newton and is therefore known as Newton’s Method. Joseph Raphson then gave the algebraic formulation and popularised the method, which is therefore also known as the Newton-Raphson method.</p>
 <hr>
 <div id="exr-2.34" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 4.29</strong></span> If we had started not at <span class="math inline">\(x_0\)</span> in <a href="#fig-2.8" class="quarto-xref">Figure&nbsp;<span>4.8</span></a> but instead at the very end of the x-axis in that figure, what would have happened? Would this initial guess have worked to eventually approximate the root?</p>
@@ -9157,14 +9155,18 @@ Figure&nbsp;4.8: Using successive tangent line approximations to find the root o
 <p><span class="theorem-title"><strong>Exercise 4.30</strong></span> Sketch some other function <span class="math inline">\(f(x)\)</span> with a root and choose an initial point <span class="math inline">\(x_0\)</span> and graphically perform the Newton iteration a few times, similar to <a href="#fig-2.8" class="quarto-xref">Figure&nbsp;<span>4.8</span></a>. Does the algorithm appear to converge to the root in your example? Do you think that this will generally take more or fewer steps than the Bisection Method?</p>
 </div>
 <hr>
+<div id="exr-2.35" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.31</strong></span> 🎓 Consider the function <span class="math inline">\(f(x)=\sin(x)+1\)</span>. It has roots at <span class="math inline">\(x=2n\pi+3\pi/2\)</span> for <span class="math inline">\(n\in\mathbb{Z}\)</span>. However at the roots we have <span class="math inline">\(f'(x)=0\)</span>. Make yourself a sketch to see why. What will happen when you apply Newton’s method with a starting value of <span class="math inline">\(x_0=\pi\)</span>? You should be able to answer this just by looking at the sketch.</p>
+</div>
+<hr>
 <div id="exr-2.34c" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.31</strong></span> Using your result from <a href="#exr-2.32" class="quarto-xref">Exercise&nbsp;<span>4.28</span></a>, write the formula for the <span class="math inline">\(x\)</span>-intercept of the tangent line to <span class="math inline">\(f(x)\)</span> at the point <span class="math inline">\((x_0, f(x_0))\)</span>. This is the formula for the next guess in Newton’s Method. Newton’s method is a fixed point iteration method with the formula <span class="math display">\[
-x_{n} = x_{n-1} - \dots.
+<p><span class="theorem-title"><strong>Exercise 4.32</strong></span> Using your result from <a href="#exr-2.32" class="quarto-xref">Exercise&nbsp;<span>4.28</span></a>, write the formula for the <span class="math inline">\(x\)</span>-intercept of the tangent line to <span class="math inline">\(f(x)\)</span> at the point <span class="math inline">\((x_n, f(x_n))\)</span>. This is the formula for the next guess <span class="math inline">\(x_{n-1}\)</span> in Newton’s Method. Newton’s method is a fixed point iteration method of the form <span class="math inline">\(x_{n+1} = g(x_{n})\)</span> with <span class="math display">\[
+g(x)= \dots.
 \]</span> Fill in the blank in the above formula.</p>
 </div>
 <hr>
 <div id="exr-2.34d" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.32</strong></span> 🎓 Apply Newton’s method to find the root of the function <span class="math inline">\(f(x) = x^2 - 2\)</span> with an initial guess of <span class="math inline">\(x_0=1\)</span>. Calculate the first two iterations of the sequence by hand (you do not need a calculator or computer for this). Use a calculator or computer to calculate the next two iterations and fill in the following table:</p>
+<p><span class="theorem-title"><strong>Exercise 4.33</strong></span> 🎓 Apply Newton’s method to find the root of the function <span class="math inline">\(f(x) = x^2 - 2\)</span> with an initial guess of <span class="math inline">\(x_0=1\)</span>. Calculate the first two iterations of the sequence by hand (you do not need a calculator or computer for this). Use a calculator or computer to calculate the next two iterations and fill in the following table:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 12%">
@@ -9215,39 +9217,61 @@ x_{n} = x_{n-1} - \dots.
 </table>
 </div>
 <hr>
-<div id="exr-2.34d" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.33</strong></span> Repeat the previous exercise but with an initial guess of <span class="math inline">\(x_0=4\)</span>. What do you observe.</p>
-</div>
-<hr>
-<div id="exr-2.35" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.34</strong></span> 🎓 Consider the function <span class="math inline">\(f(x)=\sin(x)+1\)</span>. It has roots at <span class="math inline">\(x=2n\pi+3\pi/2\)</span> for <span class="math inline">\(n\in\mathbb{Z}\)</span>. However at the roots we have <span class="math inline">\(f'(x)=0\)</span>. Make yourself a sketch to see why. What will happen when you apply Newton’s method with a starting value of <span class="math inline">\(x_0=\pi\)</span>? You should be able to answer this just by looking at the sketch.</p>
-</div>
-<hr>
+</section>
+<section id="implementation-1" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="implementation-1"><span class="header-section-number">4.4.2</span> Implementation</h3>
 <div id="exr-2.38" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.35</strong></span> Create a Python function called <code>newton()</code> and write comments giving pseudo-code for Newton’s method. Your function needs to accept a Python function for <span class="math inline">\(f(x)\)</span>, a Python function for <span class="math inline">\(f'(x)\)</span>, an initial guess, and an optional error tolerance. You do not need to set aside any code for calculating the derivative.</p>
+<p><span class="theorem-title"><strong>Exercise 4.34</strong></span> The following is an outline a Python function called <code>newton()</code> for Newton’s method. The function needs to accept a Python function for <span class="math inline">\(f(x)\)</span>, a Python function for <span class="math inline">\(f'(x)\)</span>, an initial guess, and an optional error tolerance.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> newton(f, fprime, x0, tol<span class="op">=</span><span class="fl">1e-12</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Find root of f(x) using Newton's Method.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">        f (function): Function whose root we want to find</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">        fprime (function): Derivative of f</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">        x0 (float): Initial guess for the root</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">        tol (float, optional): Error tolerance. Defaults to 1e-6</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">        float: Approximate root of f(x)</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">        or error message if method fails</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set x equal to initial guess x0</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop for maximum of 30 iterations:</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   1. Calculate next Newton iteration:</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">#      x_new = x - f(x)/f'(x)</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   2. Check if within tolerance:</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">#      If |x_new - x| &lt; tol, return x_new as root</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#      If not, update x = x_new</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. If loop completes without finding root,</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">#    return message that method did not converge</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 <div id="exr-2.39" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.36</strong></span> Using your pseudocode from the previous problem, write the full <code>newton()</code> function. The only output should be the solution to the equation that you are solving. Write a test script to verify that your Newton’s method code indeed works.</p>
+<p><span class="theorem-title"><strong>Exercise 4.35</strong></span> 🎓 Use your implementation from <a href="#exr-2.38" class="quarto-xref">Exercise&nbsp;<span>4.34</span></a> to approximate the root of the function <span class="math inline">\(f(x) = x^2 - 2\)</span> with an initial guess of <span class="math inline">\(x_0=1\)</span>. Use a tolerance of <span class="math inline">\(10^{-12}\)</span>.</p>
 </div>
 <hr>
 </section>
-<section id="analysis" class="level3" data-number="4.4.2">
-<h3 data-number="4.4.2" class="anchored" data-anchor-id="analysis"><span class="header-section-number">4.4.2</span> Analysis</h3>
+<section id="failures" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="failures"><span class="header-section-number">4.4.3</span> Failures</h3>
 <p>There are several ways in which Newton’s Method will behave unexpectedly – or downright fail. Some of these issues can be foreseen by examining the Newton iteration formula <span class="math display">\[\begin{equation}
 x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}.
 \end{equation}\]</span> Some of the failures that we will see are a little more surprising. Also in this section we will look at the convergence rate of Newton’s Method and we will show that we can greatly outperform the Bisection method.</p>
 <hr>
 <div id="exr-2.40" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.37</strong></span> There are several reasons why Newton’s method could fail. Work with your partners to come up with a list of reasons. Support each of your reasons with a sketch or an example.</p>
+<p><span class="theorem-title"><strong>Exercise 4.36</strong></span> There are several reasons why Newton’s method could fail. Work with your partners to come up with a list of reasons. Support each of your reasons with a sketch or an example.</p>
 </div>
 <hr>
 <div id="exr-2.41" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.38</strong></span> One of the failures of Newton’s Method is that it requires a division by <span class="math inline">\(f'(x_n)\)</span>. If <span class="math inline">\(f'(x_n)\)</span> is zero then the algorithm completely fails. Go back to your Python function and put an <code>if</code> statement in the function that catches instances when Newton’s Method fails in this way.</p>
+<p><span class="theorem-title"><strong>Exercise 4.37</strong></span> One of the failures of Newton’s Method is that it requires a division by <span class="math inline">\(f'(x_n)\)</span>. If <span class="math inline">\(f'(x_n)\)</span> is zero then the algorithm completely fails. Go back to your Python function and put an <code>if</code> statement in the function that catches instances when Newton’s Method fails in this way.</p>
 </div>
 <hr>
 <div id="exr-2.42" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.39</strong></span> An interesting failure can occur with Newton’s Method that you might not initially expect. Consider the function <span class="math inline">\(f(x) = x^3 - 2x + 2\)</span>. This function has a root near <span class="math inline">\(x=-1.77\)</span>. Fill in the table below and draw the tangent lines on the figure for approximating the solution to <span class="math inline">\(f(x) = 0\)</span> with a starting point of <span class="math inline">\(x=0\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 4.38</strong></span> An interesting failure can occur with Newton’s Method that you might not initially expect. Consider the function <span class="math inline">\(f(x) = x^3 - 2x + 2\)</span>. This function has a root near <span class="math inline">\(x=-1.77\)</span>. Fill in the table below by hand. You really do not need a computer for this. Then draw the tangent lines into <a href="#fig-2.9" class="quarto-xref">Figure&nbsp;<span>4.9</span></a> for approximating the solution to <span class="math inline">\(f(x) = 0\)</span> with a starting point of <span class="math inline">\(x=0\)</span>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 13%">
@@ -9308,14 +9332,14 @@ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}.
 <img src="figures/Algebra/Newton02.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2.9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.9: An interesting Newton’s Method failure.
+Figure&nbsp;4.9: An interesting Newton’s Method failure when <span class="math inline">\(f(x) = x^3 - 2x + 2\)</span>.
 </figcaption>
 </figure>
 </div>
 </div>
 <hr>
 <div id="exr-2.43" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.40</strong></span> Now let us consider the function <span class="math inline">\(f(x) = \sqrt[3]{x}\)</span>. This function has a root <span class="math inline">\(x=0\)</span>. Furthermore, it is differentiable everywhere except at <span class="math inline">\(x=0\)</span> since <span class="math display">\[\begin{equation}
+<p><span class="theorem-title"><strong>Exercise 4.39</strong></span> Now let us consider the function <span class="math inline">\(f(x) = \sqrt[3]{x}\)</span>. This function has a root <span class="math inline">\(x=0\)</span>. Furthermore, it is differentiable everywhere except at <span class="math inline">\(x=0\)</span> since <span class="math display">\[\begin{equation}
 f'(x) = \frac{1}{3} x^{-2/3} = \frac{1}{3x^{2/3}}.
 \end{equation}\]</span> The point of this exercise is to show what can happen when the point of non-differentiability is precisely the point that you are looking for.</p>
 <ol type="1">
@@ -9381,56 +9405,60 @@ f'(x) = \frac{1}{3} x^{-2/3} = \frac{1}{3x^{2/3}}.
 <img src="figures/Algebra/Newton03.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2.10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.10: Another surprising Newton’s Method failure.
+Figure&nbsp;4.10: Another surprising Newton’s Method failure when <span class="math inline">\(f(x) = \sqrt[3]{x}\)</span>.
 </figcaption>
 </figure>
 </div>
 <ol start="2" type="1">
 <li><p>Now let us look at the Newton iteration in a bit more detail. Since <span class="math inline">\(f(x) = x^{1/3}\)</span> and <span class="math inline">\(f'(x) = \frac{1}{3} x^{-2/3}\)</span> the Newton iteration can be simplified as <span class="math display">\[\begin{equation}
-x_{n+1} = x_n - \frac{x^{1/3}}{ \left( \frac{1}{3} x^{-2/3} \right)} = x_n - 3 \frac{x^{1/3}}{x^{-2/3}} = x_n - 3x_n = -2x_n.
+x_{n+1} = x_n - \frac{x_n^{1/3}}{ \left( \frac{1}{3} x_n^{-2/3} \right)} = x_n - 3 \frac{x_n^{1/3}}{x_n^{-2/3}} = x_n - 3x_n = -2x_n.
 \end{equation}\]</span> What does this tell us about the Newton iterations?<br>
-Hint: You should have found the exact same thing in the numerical experiment in part (a).</p></li>
+Hint: You should have found the exact same thing in the numerical experiment in part 1.</p></li>
 <li><p>Was there anything special about the starting point <span class="math inline">\(x_0=-1\)</span>? Will this problem exist for every starting point?</p></li>
 </ol>
 </div>
 <hr>
 <div id="exr-2.44" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.41</strong></span> Repeat the previous exercise with the function <span class="math inline">\(f(x) = x^3 - 5x\)</span> with the starting point <span class="math inline">\(x_0 = -1\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 4.40</strong></span> Repeat the previous exercise with the function <span class="math inline">\(f(x) = x^3 - 5x\)</span> with the starting point <span class="math inline">\(x_0 = -1\)</span>.</p>
 <div id="fig-2.11" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-2.11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figures/Algebra/Newton04.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2.11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.11: Another surprising Newton’s Method failure.
+Figure&nbsp;4.11: Another surprising Newton’s Method failure when <span class="math inline">\(f(x) = x^3 - 5x\)</span>.
 </figcaption>
 </figure>
 </div>
 </div>
 <hr>
-<p>Newton’s Method is known to have a <em>quadratic convergence rate</em>. This means that there is some constant <span class="math inline">\(C\)</span> such that <span class="math display">\[\begin{equation}
-|x_{k+1} - x_*| \leq C |x_{k} - x_*|^2,
-\end{equation}\]</span> where <span class="math inline">\(x_*\)</span> is the root that we are hunting for.</p>
-<p>The quadratic convergence implies that if we plot the error in the new iterate on the <span class="math inline">\(y\)</span>-axis and the error in the old iterate on the <span class="math inline">\(x\)</span> axis of a log-log plot then we will see a constant slope of 2. To see this we can take the log of both sides of the previous equation to get <span class="math display">\[\begin{equation}
-\log(|x_{k+1} - x_*|) = \log(C) + 2 \log(|x_{k} - x_*|),
-\end{equation}\]</span> and we see that this is a linear function (on a log-log plot) and the slope is 2. We created plots like this back in <a href="#exm-3.1b" class="quarto-xref">Example&nbsp;<span>4.2</span></a>.</p>
-<hr>
+</section>
+<section id="rate-of-convergence" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="rate-of-convergence"><span class="header-section-number">4.4.4</span> Rate of Convergence</h3>
+<p>We saw in <a href="#exm-3.1b" class="quarto-xref">Example&nbsp;<span>4.2</span></a> how we could empirically determine the rate of convergence of the bisection method by plotting the error in the new iterate on the <span class="math inline">\(y\)</span>-axis and the error in the old iterate on the <span class="math inline">\(x\)</span> axis of a log-log plot. Take a look at that example again and make sure you understand the code and the explanation of the plot. Then, to investigate the rate of convergence of Newton’s method you can do the same thing.</p>
+<div id="exr-newton_error_tracking" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.41</strong></span> 🎓 Write a Python function <code>newton_with_error_tracking()</code> that returns a list of absolute errors between the iterates and the exact solution. You can start with your code from <code>newton()</code> from <a href="#exr-2.38" class="quarto-xref">Exercise&nbsp;<span>4.34</span></a> and add the collection of the errors in a list as in the <code>bisection_with_error_tracking()</code> function that we wrote in <a href="#exm-2.1" class="quarto-xref">Example&nbsp;<span>4.1</span></a>. Your new function should accept a Python function for <span class="math inline">\(f(x)\)</span>, a Python function for <span class="math inline">\(f'(x)\)</span>, the exact root, an initial guess, and an optional error tolerance.</p>
+<p>Then, use this function to list the error progression for Newton’s method for finding the root of <span class="math inline">\(f(x) = x^2 - 2\)</span> with the initial guess <span class="math inline">\(x_0 = 1\)</span> and tolerance <span class="math inline">\(10^{-12}\)</span>. You should find that the error goes down extremely quickly and that for the final iteration Python can no longer detect a difference between the new iterate and its own value for <span class="math inline">\(\sqrt{2}\)</span>.</p>
+</div>
 <div id="exr-2.45" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 4.42</strong></span> &nbsp;</p>
 <ol type="1">
-<li><p>Pick an equation where you know the solution.</p></li>
-<li><p>Create the error plot with <span class="math inline">\(|x_{k} - x_*|\)</span> on the horizontal axis and <span class="math inline">\(|x_{k+1} - x_*|\)</span> on the vertical axis. You can re-use some code from <a href="#exm-3.1b" class="quarto-xref">Example&nbsp;<span>4.2</span></a>.</p></li>
-<li><p>Demonstrate that this plot has a slope of 2.</p></li>
+<li><p>Plot the errors you calculated in <a href="#exr-newton_error_tracking" class="quarto-xref">Exercise&nbsp;<span>4.41</span></a> using the <code>plot_error_progression()</code> function that we wrote in <a href="#exm-3.1b" class="quarto-xref">Example&nbsp;<span>4.2</span></a>. Note that you will first need to remove the zeros from the error list, otherwise you will get an error. You can remind yourself of how to work with lists in <a href="nmPython.html#sec-lists" class="quarto-xref"><span>Section 1.3.2</span></a>.</p></li>
 <li><p>Give a thorough explanation for how to interpret the plot that you just made.</p></li>
+<li><p>🎓 Extract the slope and intercept of the line that you fitted to the log-log plot of the error progression using the <code>np.polyfit</code> function. What does this tell you about how the error at each iteration is related to the error at the previous iteration?</p></li>
 </ol>
+</div>
+<hr>
+<div id="exr-2.45b" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.43</strong></span> Reproduce plots like those in the previous example but for the different equation that you used in <a href="#exr-2.20" class="quarto-xref">Exercise&nbsp;<span>4.20</span></a>. Again check that the plots have the expected shape.</p>
 </div>
 <hr>
 </section>
 </section>
 <section id="sec-secant_method" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="sec-secant_method"><span class="header-section-number">4.5</span> The Secant Method</h2>
-<section id="intuition-and-implementation-1" class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="intuition-and-implementation-1"><span class="header-section-number">4.5.1</span> Intuition and Implementation</h3>
+<section id="intuition-and-implementation" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="intuition-and-implementation"><span class="header-section-number">4.5.1</span> Intuition and Implementation</h3>
 <p>Newton’s Method has second-order (quadratic) convergence and, as such, will perform faster than the Bisection method. However, Newton’s Method requires that you have a function and a derivative of that function. The conundrum here is that sometimes the derivative is cumbersome or impossible to obtain but you still want to have the great quadratic convergence exhibited by Newton’s method.</p>
 <p>Recall that Newton’s method is <span class="math display">\[\begin{equation}
 x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}.
@@ -9448,7 +9476,7 @@ Figure&nbsp;4.12: Using successive secant line approximations to find the root o
 </div>
 <hr>
 <div id="exr-2.46" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.43</strong></span> Use the backward difference <span class="math display">\[\begin{equation}
+<p><span class="theorem-title"><strong>Exercise 4.44</strong></span> Use the backward difference <span class="math display">\[\begin{equation}
 f'(x_n) \approx \frac{f(x_n) - f(x_{n-1})}{x_n - x_{n-1}}
 \end{equation}\]</span> to approximate the derivative of <span class="math inline">\(f\)</span> at <span class="math inline">\(x_n\)</span>. &nbsp;Discuss why this approximates the derivative. Use this approximation of <span class="math inline">\(f'(x_n)\)</span> in the expression for <span class="math inline">\(x_{n+1}\)</span> of Newton’s method. Show that that the result simplifies to <span class="math display">\[\begin{equation}
 x_{n+1} = x_n - \frac{f(x_n)\left( x_n - x_{n-1} \right)}{f(x_n) - f(x_{n-1})}.
@@ -9456,24 +9484,29 @@ x_{n+1} = x_n - \frac{f(x_n)\left( x_n - x_{n-1} \right)}{f(x_n) - f(x_{n-1})}.
 </div>
 <hr>
 <div id="exr-2.47" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.44</strong></span> Notice that the iteration formula for <span class="math inline">\(x_{n+1}\)</span> that you derived depends on both <span class="math inline">\(x_n\)</span> and <span class="math inline">\(x_{n-1}\)</span>. So to start the iteration you need to choose two points <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_1\)</span> before you can calculate <span class="math inline">\(x_2, x_3, \dots\)</span>. Draw several pictures showing what the secant method does pictorially. Discuss whether it is important to choose these starting points close to the root and close to each other.</p>
-</div>
-<hr>
-<div id="exr-2.48" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.45</strong></span> Write pseudo-code to outline how you will implement the Secant Method.</p>
+<p><span class="theorem-title"><strong>Exercise 4.45</strong></span> Notice that the iteration formula for <span class="math inline">\(x_{n+1}\)</span> that you derived depends on both <span class="math inline">\(x_n\)</span> and <span class="math inline">\(x_{n-1}\)</span>. So to start the iteration you need to choose two points <span class="math inline">\(x_0\)</span> and <span class="math inline">\(x_1\)</span> before you can calculate <span class="math inline">\(x_2, x_3, \dots\)</span>. Draw several pictures showing what the secant method does pictorially. Discuss whether it is important to choose these starting points close to the root and close to each other.</p>
 </div>
 <hr>
 <div id="exr-2.49" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.46</strong></span> Write Python code for solving equations of the form <span class="math inline">\(f(x) = 0\)</span> with the Secant method. Your function should accept a Python function, two starting points, and an optional error tolerance. Also write a test script that clearly shows that your code is working.</p>
+<p><span class="theorem-title"><strong>Exercise 4.46</strong></span> 🎓 Write a Python function for solving equations of the form <span class="math inline">\(f(x) = 0\)</span> with the secant method. Your function should accept a Python function, two starting points, and an optional error tolerance. Also write a test script that clearly shows that your code is working.</p>
 </div>
 <hr>
 </section>
-<section id="analysis-1" class="level3" data-number="4.5.2">
-<h3 data-number="4.5.2" class="anchored" data-anchor-id="analysis-1"><span class="header-section-number">4.5.2</span> Analysis</h3>
+<section id="analysis" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="analysis"><span class="header-section-number">4.5.2</span> Analysis</h3>
 <p>Up to this point we have done analysis work on the Bisection Method and Newton’s Method. We have found that the methods are first order and second order respectively. We end this chapter by doing the same for the Secant Method.</p>
 <hr>
 <div id="exr-2.50" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.47</strong></span> Choose a non-trivial equation for which you know the solution and write a script to empirically determine the convergence rate of the Secant method.</p>
+<p><span class="theorem-title"><strong>Exercise 4.47</strong></span> Write a function <code>secant_with_error_tracking()</code> that returns a list of absolute errors between the iterates and the exact solution. You can start with your code from <code>secant()</code> from <a href="#exr-2.49" class="quarto-xref">Exercise&nbsp;<span>4.46</span></a> and add the collection of the errors in a list as in the <code>bisection_with_error_tracking()</code> function that we wrote in <a href="#exm-2.1" class="quarto-xref">Example&nbsp;<span>4.1</span></a>. Your new function should accept a Python function, the exact root, two starting points, and an optional error tolerance.</p>
+<p>Use this function to list the error progression for the secant method for finding the root of <span class="math inline">\(f(x) = x^2 - 2\)</span> with the starting points <span class="math inline">\(x_0 = 1\)</span> and <span class="math inline">\(x_1 = 3\)</span>. Use a tolerance of <span class="math inline">\(10^{-12}\)</span>. Use the <code>plot_error_progression()</code> function that we wrote in <a href="#exm-3.1b" class="quarto-xref">Example&nbsp;<span>4.2</span></a> to plot the error progression.</p>
+</div>
+<hr>
+<div id="exr-2.50b" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.48</strong></span> 🎓 Using the <code>np.polyfit</code> function, extract the slope of the line that you had fit to the log-log plot of the error progression in <a href="#exr-2.50" class="quarto-xref">Exercise&nbsp;<span>4.47</span></a>. What does this slope tell you about how the error at each iteration is related to the error at the previous iteration?</p>
+</div>
+<hr>
+<div id="exr-2.50c" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.49</strong></span> Make error progression plots for a few different functions and look at the slopes. What do you notice?</p>
 </div>
 <hr>
 </section>
@@ -9483,40 +9516,40 @@ x_{n+1} = x_n - \frac{f(x_n)\left( x_n - x_{n-1} \right)}{f(x_n) - f(x_{n-1})}.
 <p>The following four problems are meant to have you re-build each of the algorithms that we developed in this chapter. Write all of the mathematical details completely and clearly. Do not just write “how” the method works, but give all of the mathematical details for “why” it works.</p>
 <hr>
 <div id="exr-2.51" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.48</strong></span> Let <span class="math inline">\(f(x)\)</span> be a continuous function on the interval <span class="math inline">\([a,b]\)</span> where <span class="math inline">\(f(a) \cdot f(b) &lt; 0\)</span>. Clearly give all of the mathematical details for how the Bisection Method approximates the root of the function <span class="math inline">\(f(x)\)</span> in the interval <span class="math inline">\([a,b]\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 4.50</strong></span> Let <span class="math inline">\(f(x)\)</span> be a continuous function on the interval <span class="math inline">\([a,b]\)</span> where <span class="math inline">\(f(a) \cdot f(b) &lt; 0\)</span>. Clearly give all of the mathematical details for how the Bisection Method approximates the root of the function <span class="math inline">\(f(x)\)</span> in the interval <span class="math inline">\([a,b]\)</span>.</p>
 </div>
 <hr>
 <div id="exr-2.53" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.49</strong></span> Let <span class="math inline">\(f(x)\)</span> be a differentiable function with a root <em>near</em> <span class="math inline">\(x=x_0\)</span>. Clearly give all of the mathematical details for how Newton’s Method approximates the root of the function <span class="math inline">\(f(x)\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 4.51</strong></span> Let <span class="math inline">\(f(x)\)</span> be a differentiable function with a root <em>near</em> <span class="math inline">\(x=x_0\)</span>. Clearly give all of the mathematical details for how Newton’s Method approximates the root of the function <span class="math inline">\(f(x)\)</span>.</p>
 </div>
 <hr>
 <div id="exr-2.54" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.50</strong></span> Let <span class="math inline">\(f(x)\)</span> be a continuous function with a root <em>near</em> <span class="math inline">\(x=x_0\)</span>. Clearly give all of the mathematical details for how the Secant Method approximates the root of the function <span class="math inline">\(f(x)\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 4.52</strong></span> Let <span class="math inline">\(f(x)\)</span> be a continuous function with a root <em>near</em> <span class="math inline">\(x=x_0\)</span>. Clearly give all of the mathematical details for how the Secant Method approximates the root of the function <span class="math inline">\(f(x)\)</span>.</p>
 </div>
 <hr>
 </section>
 <section id="problems" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="problems"><span class="header-section-number">4.7</span> Problems</h2>
 <div id="exr-2.62" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.51</strong></span> Can the Bisection Method or Newton’s Method be used to find the roots of the function <span class="math inline">\(f(x) = \cos(x) + 1\)</span>? Explain why or why not for each technique?</p>
+<p><span class="theorem-title"><strong>Exercise 4.53</strong></span> Can the Bisection Method or Newton’s Method be used to find the roots of the function <span class="math inline">\(f(x) = \cos(x) + 1\)</span>? Explain why or why not for each technique?</p>
 </div>
 <hr>
 <div id="exr-2.55" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.52</strong></span> How many iterations of the bisection method are necessary to approximate <span class="math inline">\(\sqrt{3}\)</span> to within <span class="math inline">\(10^{-3}\)</span>, <span class="math inline">\(10^{-4}\)</span>, …, <span class="math inline">\(10^{-15}\)</span> using the initial interval <span class="math inline">\([a,b]=[0,2]\)</span>? See <a href="#thm-2.2" class="quarto-xref">Theorem&nbsp;<span>4.2</span></a>.</p>
+<p><span class="theorem-title"><strong>Exercise 4.54</strong></span> How many iterations of the bisection method are necessary to approximate <span class="math inline">\(\sqrt{3}\)</span> to within <span class="math inline">\(10^{-3}\)</span>, <span class="math inline">\(10^{-4}\)</span>, …, <span class="math inline">\(10^{-15}\)</span> using the initial interval <span class="math inline">\([a,b]=[0,2]\)</span>? See <a href="#thm-2.2" class="quarto-xref">Theorem&nbsp;<span>4.2</span></a>.</p>
 </div>
 <hr>
 <div id="exr-2.56" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.53</strong></span> Refer back to <a href="#exm-2.1" class="quarto-xref">Example&nbsp;<span>4.1</span></a> and demonstrate that you get the same results for the order of convergence when solving the problem <span class="math inline">\(x^3 - 3 = 0\)</span>. Generate versions of all of the plots from that example and give thorough descriptions of what you learn from each plot.</p>
+<p><span class="theorem-title"><strong>Exercise 4.55</strong></span> Refer back to <a href="#exm-2.1" class="quarto-xref">Example&nbsp;<span>4.1</span></a> and demonstrate that you get the same results for the order of convergence when solving the problem <span class="math inline">\(x^3 - 3 = 0\)</span>. Generate versions of all of the plots from that example and give thorough descriptions of what you learn from each plot.</p>
 </div>
 <hr>
 <div id="exr-2.57" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.54</strong></span> In this problem you will demonstrate that all of your root finding codes work. At the beginning of this chapter we proposed the equation solving problem <span class="math display">\[\begin{equation}
+<p><span class="theorem-title"><strong>Exercise 4.56</strong></span> In this problem you will demonstrate that all of your root finding codes work. At the beginning of this chapter we proposed the equation solving problem <span class="math display">\[\begin{equation}
 3\sin(x) + 9 = x^2 - \cos(x).
 \end{equation}\]</span> Write a script that calls upon your Bisection, Newton, and Secant methods one at a time to find the positive solution to this equation. Your script needs to output the solutions in a clear and readable way so you can tell which answer came from which root finding algorithm.</p>
 </div>
 <hr>
 <div id="exr-2.58" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.55</strong></span> A root-finding method has a convergence rate of order <span class="math inline">\(M\)</span> if there is a constant <span class="math inline">\(C\)</span> such that <span class="math display">\[\begin{equation}
+<p><span class="theorem-title"><strong>Exercise 4.57</strong></span> A root-finding method has a convergence rate of order <span class="math inline">\(M\)</span> if there is a constant <span class="math inline">\(C\)</span> such that <span class="math display">\[\begin{equation}
 |x_{k+1} - x_*| \leq C |x_k - x_*|^M.
 \end{equation}\]</span> Here, <span class="math inline">\(x_*\)</span> is the exact root, <span class="math inline">\(x_k\)</span> is the <span class="math inline">\(k^{th}\)</span> iteration of the root finding technique, and <span class="math inline">\(x_{k+1}\)</span> is the <span class="math inline">\((k+1)^{st}\)</span> iteration of the root finding technique.</p>
 <ol type="a">
@@ -9544,7 +9577,7 @@ Figure&nbsp;4.13: Six Error Plots
 </div>
 <hr>
 <div id="exr-2.60" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.56</strong></span> There are MANY other root finding techniques beyond the four that we have studied thus far. We can build these methods using Taylor Series as follows:</p>
+<p><span class="theorem-title"><strong>Exercise 4.58</strong></span> There are MANY other root finding techniques beyond the four that we have studied thus far. We can build these methods using Taylor Series as follows:</p>
 <p>Near <span class="math inline">\(x=x_0\)</span> the function <span class="math inline">\(f(x)\)</span> is approximated by the Taylor Series <span class="math display">\[\begin{equation}
 f(x) \approx y = f(x_0) + \sum_{n=1}^N \frac{f^{(n)}(x_0)}{n!} (x-x_0)^n
 \end{equation}\]</span> where <span class="math inline">\(N\)</span> is a positive integer. In a root-finding algorithm we set <span class="math inline">\(y\)</span> to zero to find the root of the approximation function. The root of this function <em>should</em> be close to the actual root that we are looking for. Therefore, to find the next iterate we solve the equation <span class="math display">\[\begin{equation}
@@ -9561,7 +9594,7 @@ f(x) \approx y = f(x_0) + \sum_{n=1}^N \frac{f^{(n)}(x_0)}{n!} (x-x_0)^n
 </div>
 <hr>
 <div id="exr-2.61" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.57</strong></span> (modified from <span class="citation" data-cites="Burden_Faires">(<a href="#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>) An object falling vertically through the air is subject to friction due to air resistance as well as gravity. The function describing the position of such an object is <span class="math display">\[\begin{equation}
+<p><span class="theorem-title"><strong>Exercise 4.59</strong></span> (modified from <span class="citation" data-cites="Burden_Faires">(<a href="#ref-Burden_Faires" role="doc-biblioref">Burden and Faires 2010</a>)</span>) An object falling vertically through the air is subject to friction due to air resistance as well as gravity. The function describing the position of such an object is <span class="math display">\[\begin{equation}
 s(t) = s_0 - \frac{mg}{k} t + \frac{m^2 g}{k^2}\left( 1- e^{-kt/m} \right),
 \end{equation}\]</span> where <span class="math inline">\(m\)</span> is the mass measured in kg, <span class="math inline">\(g\)</span> is gravity measured in meters per second per second, <span class="math inline">\(s_0\)</span> is the initial position measured in meters, and <span class="math inline">\(k\)</span> is the coefficient of air resistance.</p>
 <ol type="1">
@@ -9572,12 +9605,12 @@ s(t) = s_0 - \frac{mg}{k} t + \frac{m^2 g}{k^2}\left( 1- e^{-kt/m} \right),
 </div>
 <hr>
 <div id="exr-2.63" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.58</strong></span> In Single Variable Calculus you studied methods for finding local and global extrema of functions. You likely recall that part of the process is to set the first derivative to zero and to solve for the independent variable (remind yourself why you are doing this). The trouble with this process is that it may be very very challenging to solve by hand. This is a perfect place for Newton’s method or any other root finding technique!<br>
+<p><span class="theorem-title"><strong>Exercise 4.60</strong></span> In Single Variable Calculus you studied methods for finding local and global extrema of functions. You likely recall that part of the process is to set the first derivative to zero and to solve for the independent variable (remind yourself why you are doing this). The trouble with this process is that it may be very very challenging to solve by hand. This is a perfect place for Newton’s method or any other root finding technique!<br>
 Find the local extrema for the function <span class="math inline">\(f(x) = x^3(x-3)(x-6)^4\)</span> using numerical techniques where appropriate.</p>
 </div>
 <hr>
 <div id="exr-2.65" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.59</strong></span> (<code>scipy.optimize.fsolve()</code>) The <code>scipy</code> library in Python has many built-in numerical analysis routines much like the ones that we have built in this chapter. Of particular interest to the task of root finding is the <code>fsolve</code> command in the <code>scipy.optimize</code> library.</p>
+<p><span class="theorem-title"><strong>Exercise 4.61</strong></span> (<code>scipy.optimize.fsolve()</code>) The <code>scipy</code> library in Python has many built-in numerical analysis routines much like the ones that we have built in this chapter. Of particular interest to the task of root finding is the <code>fsolve</code> command in the <code>scipy.optimize</code> library.</p>
 <ol type="1">
 <li><p>Go to the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fsolve.html">help documentation</a> for <code>scipy.optimize.fsolve</code> and make yourself familiar with how to use the tool.</p></li>
 <li><p>First solve the equation <span class="math inline">\(x\sin(x) - \log(x) = 0\)</span> for <span class="math inline">\(x\)</span> starting at <span class="math inline">\(x_0 = 3\)</span>.</p>
@@ -9591,14 +9624,14 @@ Find the local extrema for the function <span class="math inline">\(f(x) = x^3(x
 \begin{aligned} x_0 \cos(x_1) &amp;= 4 \\ x_0 x_1 - x_1 &amp;= 5 \end{aligned}
 \end{equation}\]</span> The following Python code allows you to use <code>scipy.optimize.fsolve()</code> so solve this system of nonlinear equations in much the same way as we did in part (b) of this problem. However, be aware that we need to think of <code>x</code> as a vector of <span class="math inline">\(x\)</span>-values. Go through the code below and be sure that you understand every line of code.</p></li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> fsolve</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> F(x):</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> <span class="cf">return</span> [x[<span class="dv">0</span>]<span class="op">*</span>np.cos(x[<span class="dv">1</span>])<span class="op">-</span><span class="dv">4</span>, x[<span class="dv">0</span>]<span class="op">*</span>x[<span class="dv">1</span>] <span class="op">-</span> x[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">5</span>]</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>fsolve(F, [<span class="dv">6</span>,<span class="dv">1</span>], full_output<span class="op">=</span><span class="dv">1</span>) </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: full_output=1 gives the solver diagnostics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> fsolve</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> F(x):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a> <span class="cf">return</span> [x[<span class="dv">0</span>]<span class="op">*</span>np.cos(x[<span class="dv">1</span>])<span class="op">-</span><span class="dv">4</span>, x[<span class="dv">0</span>]<span class="op">*</span>x[<span class="dv">1</span>] <span class="op">-</span> x[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">5</span>]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>fsolve(F, [<span class="dv">6</span>,<span class="dv">1</span>], full_output<span class="op">=</span><span class="dv">1</span>) </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: full_output=1 gives the solver diagnostics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="5" type="1">
 <li>Solve the system of nonlinear equations below using <code>.fsolve()</code>. <span class="math display">\[\begin{equation}
 \begin{aligned} x^2-xy^2 &amp;=2 \\ xy &amp;= 2 \end{aligned}
