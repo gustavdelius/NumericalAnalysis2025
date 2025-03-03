@@ -1,0 +1,8 @@
+---
+title: "Sketches of Newton's method"
+editor: visual
+---
+
+![Newton's Method failure when $f(x) = \sqrt[3]{x}$.](figures/Algebra/Newton03.png)
+
+![Newton's Method failure when $f(x) = x^3 - 5x$.](figures/Algebra/Newton04.png)
