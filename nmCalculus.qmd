@@ -3,56 +3,10 @@
 > *The calculus was the first achievement of modern mathematics and it is difficult to overestimate its importance.*\
 > --[Hungarian-American Mathematician John von Neumann](https://en.wikipedia.org/wiki/John_von_Neumann)
 
-## Intro to Numerical Calculus
+In this chapter we build some of the common techniques for approximating the two primary computations in calculus: taking derivatives and evaluating definite integrals. The primary goal of this chapter is to build a solid understanding of the basic techniques for numerical differentiation and integration. These will be crucial in the later chapters of this book when we do optimisation and when we numerically integrate ordinary and partial differential equations.
 
-In this chapter we build some of the common techniques for approximating the two primary computations in calculus: taking derivatives and evaluating definite integrals. The primary goal of this chapter is to build a solid understanding of the basic techniques for numerical differentiation and integration. These will be crucial in the later chapters of this book when we numerically integrate ordinary and partial differential equations.
-
-Recall the typical techniques from differential calculus: the power rule, the chain rule, the product rule, the quotient rule, the differentiation rules for exponentials, inverses, and trig functions, implicit differentiation, etc. With these rules, and enough time and patience, we can find a derivative of any algebraically defined function. The truth of the matter is that not all functions are given to us algebraically, and even the ones that are given algebraically are sometimes really cumbersome.
-
-------------------------------------------------------------------------
-
-::: {#exr-3.2}
- When a police officer fires a radar gun at a moving car it uses a laser to measure the distance from the officer to the car:
-
--   The speed of light is constant.
-
--   The time between when the laser is fired and when the light reflected off of the car is received can be measured very accurately.
-
--   Using the formula $\text{distance} = \text{rate} \cdot \text{time}$, the time for the laser pulse to be sent and received can then be converted to a distance.
-
-How does the radar gun then use that information to calculate the speed of the moving car?
-:::
-
-------------------------------------------------------------------------
-
-Integration, on the other hand, is a more difficult situation. You may recall some of the techniques of integral calculus such as the power rule, $u$-substitution, and integration by parts. However, these tools are not enough to find an antiderviative for every given function. Furthermore, not every function can be written algebraically.
-
-------------------------------------------------------------------------
-
-::: {#exr-3.3}
- In statistics the function known as *the normal distribution* (the bell curve) is defined as 
-\begin{equation}
-N(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}.
-\end{equation}
- One of the primary computations of introductory statistics is to find the area under a portion of this curve since this area gives the probability of some event 
-\begin{equation}
-P(a < x < b) = \int_a^b \frac{1}{\sqrt{2\pi}} e^{-x^2/2} dx.
-\end{equation}
- The trouble is that there is no known antiderivative of this function. Propose a method for approximating this area.
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-3.5}
- A dam operator has control of the rate at which water is flowing out of a hydroelectric dam. He has records for the approximate flow rate through the dam over the course of a day. Propose a way for the operator to use his data to determine the total amount of water that has passed through the dam during that day.
-
-:::
-
-------------------------------------------------------------------------
-
-What you have seen here are just a few examples of why you might need to use numerical calculus instead of the classical routines that you learned earlier in your mathematical career. Another typical need for numerical derivatives and integrals arises when we approximate the solutions to differential equations in the later chapters of this book.
-
-Throughout this chapter we will make heavy use of Taylor's Theorem to build approximations of derivatives and integrals. If you find yourself still a bit shaky on Taylor's Theorem it would probably be wise to go back to @sec-functions and do a quick review.
+We use this chapter also to comment on the importance of writing vectorized code using NumPy.
+And this chapter will again let us investigate truncation errors that we first discussed in @sec-functions. This is because in this chapter too, we will make use of Taylor series that we need to truncate at some order to give us practical methods.
 
 ## Differentiation {#sec-differentiation}
 
