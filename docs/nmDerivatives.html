@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Derivatives – Numerical Analysis 2025</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./nmNonlinear.html" rel="prev">
+<link href="./faviconNA.webp" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-eee2ee4d5e4f76f365a16d0cec9c0489.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="5&nbsp; Derivatives – Numerical Analysis 2025">
+<meta property="og:description" content="">
+<meta property="og:image" content="figures/Calculus/IntervalPartition.png">
+<meta property="og:site_name" content="Numerical Analysis 2025">
+<meta name="twitter:title" content="5&nbsp; Derivatives – Numerical Analysis 2025">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="figures/Calculus/IntervalPartition.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./nmDerivatives.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Derivatives</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Numerical Analysis 2025</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://vle.york.ac.uk/ultra/courses/_111634_1/outline" title="VLE" class="quarto-navigation-tool px-1" aria-label="VLE"><i class="bi bi-house-door-fill"></i></a>
+    <a href="https://maths.york.ac.uk/moodle/course/view.php?id=2725" title="Moodle quizzes" class="quarto-navigation-tool px-1" aria-label="Moodle quizzes"><i class="bi bi-mortarboard-fill"></i></a>
+    <a href="https://forms.gle/Z8nYvVonGN98L7nv5" title="Submit a correction" class="quarto-navigation-tool px-1" aria-label="Submit a correction"><i class="bi bi-bug-fill"></i></a>
+    <a href="https://github.com/gustavdelius/NumericalAnalysis2025/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmPython.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Essential Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmNumbers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Numbers</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmFunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmNonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Non-linear Equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmDerivatives.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Derivatives</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-differentiation" id="toc-sec-differentiation" class="nav-link active" data-scroll-target="#sec-differentiation"><span class="header-section-number">5.1</span> Differentiation with Finite Differences</a>
+  <ul>
+  <li><a href="#the-first-derivative" id="toc-the-first-derivative" class="nav-link" data-scroll-target="#the-first-derivative"><span class="header-section-number">5.1.1</span> The First Derivative</a></li>
+  <li><a href="#truncation-error" id="toc-truncation-error" class="nav-link" data-scroll-target="#truncation-error"><span class="header-section-number">5.1.2</span> Truncation error</a></li>
+  <li><a href="#efficient-coding" id="toc-efficient-coding" class="nav-link" data-scroll-target="#efficient-coding"><span class="header-section-number">5.1.3</span> Efficient Coding</a></li>
+  <li><a href="#a-better-first-derivative" id="toc-a-better-first-derivative" class="nav-link" data-scroll-target="#a-better-first-derivative"><span class="header-section-number">5.1.4</span> A Better First Derivative</a></li>
+  <li><a href="#the-second-derivative" id="toc-the-second-derivative" class="nav-link" data-scroll-target="#the-second-derivative"><span class="header-section-number">5.1.5</span> The Second Derivative</a></li>
+  </ul></li>
+  <li><a href="#automatic-differentiation" id="toc-automatic-differentiation" class="nav-link" data-scroll-target="#automatic-differentiation"><span class="header-section-number">5.2</span> Automatic Differentiation</a>
+  <ul>
+  <li><a href="#sec-forward-ad" id="toc-sec-forward-ad" class="nav-link" data-scroll-target="#sec-forward-ad"><span class="header-section-number">5.2.1</span> Forward mode AD</a></li>
+  <li><a href="#sec-reverse-ad" id="toc-sec-reverse-ad" class="nav-link" data-scroll-target="#sec-reverse-ad"><span class="header-section-number">5.2.2</span> Reverse mode AD</a></li>
+  </ul></li>
+  <li><a href="#algorithm-summaries" id="toc-algorithm-summaries" class="nav-link" data-scroll-target="#algorithm-summaries"><span class="header-section-number">5.3</span> Algorithm Summaries</a></li>
+  <li><a href="#problems" id="toc-problems" class="nav-link" data-scroll-target="#problems"><span class="header-section-number">5.4</span> Problems</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2025/edit/main/nmDerivatives.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-derivatives" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Derivatives</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><em>The calculus was the first achievement of modern mathematics and it is difficult to overestimate its importance.</em><br>
+–<a href="https://en.wikipedia.org/wiki/John_von_Neumann">Hungarian-American Mathematician John von Neumann</a></p>
+</blockquote>
+<p>The primary goal of this chapter is to build a solid understanding of the basic techniques for numerical differentiation. This will be crucial in the later chapters of this book when we do optimisation and when we numerically integrate ordinary and partial differential equations. We use this chapter also to comment on the importance of writing vectorized code using NumPy. And this chapter will again let us investigate truncation errors that we first discussed in <a href="nmFunctions.html" class="quarto-xref"><span>Chapter 3</span></a>. This is because in this chapter too, we will make use of Taylor series that we need to truncate at some order to give us practical methods.</p>
+<section id="sec-differentiation" class="level2 page-columns page-full" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-differentiation"><span class="header-section-number">5.1</span> Differentiation with Finite Differences</h2>
+<section id="the-first-derivative" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="the-first-derivative"><span class="header-section-number">5.1.1</span> The First Derivative</h3>
+<div id="exr-3.6" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.1</strong></span> Recall from your first-semester Calculus class that the derivative of a function <span class="math inline">\(f(x)\)</span> is defined as <span class="math display">\[\begin{equation}
+f'(x) = \lim_{\Delta x \to 0} \frac{f(x+\Delta x) - f(x)}{\Delta x}.
+\end{equation}\]</span> A Calculus student proposes that it would just be much easier if we dropped the limit and instead just always choose <span class="math inline">\(\Delta x\)</span> to be some small number, like <span class="math inline">\(0.001\)</span> or <span class="math inline">\(10^{-6}\)</span>. Discuss the following questions:</p>
+<ol type="1">
+<li><p>When might the Calculus student’s proposal actually work pretty well in place of calculating an actual derivative?</p></li>
+<li><p>When might the Calculus student’s proposal fail in terms of approximating the derivative?</p></li>
+</ol>
+</div>
+<hr>
+<p>In this section we will build several approximation of first and second derivatives. The primary idea for each of these approximations is:</p>
+<ul>
+<li><p>Partition the interval <span class="math inline">\([a,b]\)</span> into <span class="math inline">\(N\)</span> sub intervals</p></li>
+<li><p>Define the distance between two points in the partition as <span class="math inline">\(\Delta x\)</span>.</p></li>
+<li><p>Approximate the derivative at any point <span class="math inline">\(x\)</span> in the interval <span class="math inline">\([a,b]\)</span> by using linear combinations of <span class="math inline">\(f(x-\Delta x)\)</span>, <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(f(x+\Delta x)\)</span>, and/or other points in the partition.</p></li>
+</ul>
+<p>Partitioning the interval into discrete points turns the continuous problem of finding a derivative at every real point in <span class="math inline">\([a,b]\)</span> into a discrete problem where we calculate the approximate derivative at finitely many points in <span class="math inline">\([a,b]\)</span>.</p>
+<p>This distance <span class="math inline">\(\Delta x\)</span> between neighbouring points in the partition is often referred to as the <strong>step size</strong>. It is also common to denote the step size by the letter <span class="math inline">\(h\)</span>. We will use both notations for the step size interchangeably, using mostly <span class="math inline">\(h\)</span> in this section on differentiation and <span class="math inline">\(\Delta x\)</span> in the next section on integration. Note that in general the points in the partition do not need to be equally spaced, but that is the simplest place to start. <a href="#fig-3.1" class="quarto-xref">Figure&nbsp;<span>5.1</span></a> shows a depiction of the partition as well as making clear that <span class="math inline">\(h\)</span> is the separation between each of the points in the partition.</p>
+<div id="fig-3.1" class="quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-3.1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/Calculus/IntervalPartition.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3.1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: A partition of the interval <span class="math inline">\([a,b]\)</span>.
+</figcaption>
+</figure>
+</div>
+<hr>
+<div id="exr-3.7" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.2</strong></span> Let us take a close look at partitions before moving on to more details about numerical differentiation.</p>
+<ol type="1">
+<li><p>If we partition the interval <span class="math inline">\([0,1]\)</span> into <span class="math inline">\(3\)</span> equal sub intervals each with length <span class="math inline">\(h\)</span> then:</p>
+<ol type="a">
+<li><p><span class="math inline">\(h = \underline{\hspace{1in}}\)</span></p></li>
+<li><p><span class="math inline">\([0,1] = [0,\underline{\hspace{0.25in}}] \cup [\underline{\hspace{0.25in}},\underline{\hspace{0.25in}}] \cup [\underline{\hspace{0.25in}},1]\)</span></p></li>
+<li><p>There are four total points that define the partition. They are <span class="math inline">\(0, \underline{\hspace{0.25in}}, \underline{\hspace{0.25in}}, 1\)</span>.</p></li>
+</ol></li>
+<li><p>If we partition the interval <span class="math inline">\([3,7]\)</span> into <span class="math inline">\(5\)</span> equal sub intervals each with length <span class="math inline">\(h\)</span> then:</p>
+<ol type="a">
+<li><p><span class="math inline">\(h = \underline{\hspace{1in}}\)</span></p></li>
+<li><p><span class="math inline">\([3,7] = [3,\underline{\hspace{0.25in}}] \cup [\underline{\hspace{0.25in}},\underline{\hspace{0.25in}}] \cup [\underline{\hspace{0.25in}},\underline{\hspace{0.25in}}] \cup [\underline{\hspace{0.25in}},\underline{\hspace{0.25in}}] \cup [\underline{\hspace{0.25in}},7]\)</span></p></li>
+<li><p>There are 6 total points that define the partition. They are <span class="math inline">\(0, \underline{\hspace{0.25in}}, \underline{\hspace{0.25in}}, \underline{\hspace{0.25in}}, \underline{\hspace{0.25in}}, 7\)</span>.</p></li>
+</ol></li>
+<li><p>More generally, if a closed interval <span class="math inline">\([a,b]\)</span> contains <span class="math inline">\(N\)</span> equal sub intervals where <span class="math display">\[\begin{equation}
+[a,b] = \underbrace{[a,a+h] \cup [a+h, a+2h] \cup \cdots \cup [b-2h,b-h] \cup [b-h,b]}_{\text{$N$ total sub intervals}}
+\end{equation}\]</span> then the length of each sub interval, <span class="math inline">\(h\)</span>, is given by the formula <span class="math display">\[\begin{equation}
+h = \frac{\underline{\hspace{0.25in}} - \underline{\hspace{0.25in}}}{\underline{\hspace{0.25in}}}.
+\end{equation}\]</span></p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-3.8" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.3</strong></span> In Python’s <code>numpy</code> library there is a nice tool called <code>np.linspace()</code> that partitions an interval in exactly the way that we want. The command takes the form <code>np.linspace(a, b, n)</code> where the interval is <span class="math inline">\([a,b]\)</span> and <span class="math inline">\(n\)</span> the number of points used to create the partition. For example, <code>np.linspace(0,1,5)</code> will produce the list of numbers <code>0, 0.25, 0.5, 0.75, 1</code>. Notice that there are 5 total points, the first point is <span class="math inline">\(a\)</span>, the last point is <span class="math inline">\(b\)</span>, and there are <span class="math inline">\(4\)</span> total sub intervals in the partition. Hence, if we want to partition the interval <span class="math inline">\([0,1]\)</span> into 20 equal sub intervals then we would use the command <code>np.linspace(0,1,21)</code> which would result in a list of numbers starting with <code>0, 0.05, 0.1, 0.15,</code> etc. What command would you use to partition the interval <span class="math inline">\([5,10]\)</span> into <span class="math inline">\(100\)</span> equal sub intervals?</p>
+</div>
+<hr>
+<div id="exr-3.9" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.4</strong></span> Consider the Python command <code>np.linspace(0,1,50)</code>.</p>
+<ol type="1">
+<li><p>What interval does this command partition?</p></li>
+<li><p>How many points are going to be returned?</p></li>
+<li><p>How many equal length subintervals will we have in the resulting partition?</p></li>
+<li><p>What is the length of each of the subintervals in the resulting partition?</p></li>
+</ol>
+</div>
+<hr>
+<p>Now let us get back to the discussion of numerical differentiation. If we recall that the definition of the first derivative of a function is <span class="math display">\[\begin{equation}
+\begin{aligned} \frac{df(x)}{dx} = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}. \label{eqn:derivative_definition}\end{aligned}
+\end{equation}\]</span> our first approximation for the first derivative is naturally <span class="math display">\[\begin{equation}
+\begin{aligned} \frac{df(x)}{dx} \approx \frac{f(x+h) - f(x)}{h}=:\Delta f(x). \label{eqn:derivative_first_approx}\end{aligned}
+\end{equation}\]</span> In this approximation of the derivative we have simply removed the limit and instead approximated the derivative as the slope. It should be clear that this approximation is only good if the step size <span class="math inline">\(h\)</span> is <em>small</em>. In <a href="#fig-3.2" class="quarto-xref">Figure&nbsp;<span>5.2</span></a> we see a graphical depiction of what we are doing to approximate the derivative. The slope of the tangent line (<span class="math inline">\(\Delta y / \Delta x\)</span>) is what we are after, and a way to approximate it is to calculate the slope of the secant line formed by looking <span class="math inline">\(h\)</span> units forward from the point <span class="math inline">\(x\)</span>.</p>
+<div id="fig-3.2" class="quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-3.2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/Calculus/ForwardDifferenceDiagram.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3.2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: The forward difference differentiation scheme for the first derivative.
+</figcaption>
+</figure>
+</div>
+<p>While this is the simplest and most obvious approximation for the first derivative there is a much more elegant technique, using Taylor series, for arriving at this approximation. Furthermore, the Taylor series technique gives us information about the approximation error and later will suggest an infinite family of other techniques.</p>
+<hr>
+</section>
+<section id="truncation-error" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="truncation-error"><span class="header-section-number">5.1.2</span> Truncation error</h3>
+<div id="exr-3.10" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.5</strong></span> From Taylor’s Theorem we know that for an infinitely differentiable function <span class="math inline">\(f(x)\)</span>, <span class="math display">\[\begin{equation}
+f(x) = f(x_0) + \frac{f'(x_0)}{1!} (x-x_0)^1 + \frac{f''(x_0)}{2!}(x-x_0)^2 + \frac{f^{(3)}(x_0)}{3!}(x-x_0)^3 + \cdots.
+\end{equation}\]</span> What do we get if we replace every “<span class="math inline">\(x\)</span>” in the Taylor Series with “<span class="math inline">\(x+h\)</span>” and replace every “<span class="math inline">\(x_0\)</span>” in the Taylor Series with “<span class="math inline">\(x\)</span>?” In other words, in <a href="#fig-3.1" class="quarto-xref">Figure&nbsp;<span>5.1</span></a> we want to centre the Taylor series at <span class="math inline">\(x\)</span> and evaluate the resulting series at the point <span class="math inline">\(x+h\)</span>. <span class="math display">\[\begin{equation}
+f(x+h) = \underline{\hspace{3in}}
+\end{equation}\]</span></p>
+</div>
+<hr>
+<div id="exr-3.11" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.6</strong></span> Solve the result from the previous exercise for <span class="math inline">\(f'(x)\)</span> to create an approximation for <span class="math inline">\(f'(x)\)</span> using <span class="math inline">\(f(x+h)\)</span>, <span class="math inline">\(f(x)\)</span>, and some higher order terms. (fill in the blanks and the question marks) <span class="math display">\[\begin{equation}
+f'(x) = \frac{f(x+h) - ???}{??} + \underline{\hspace{2in}}
+\end{equation}\]</span></p>
+</div>
+<hr>
+<div id="exr-3.12" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.7</strong></span> In the formula that you developed in <a href="#exr-3.11" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>, if we were to truncate after the first fraction and drop everything else (called the <em>remainder</em>), we know that we would be introducing a truncation error into our derivative computation. If <span class="math inline">\(h\)</span> is taken to be very small then the first term in the remainder is the largest and everything else in the remainder can be ignored (since all subsequent terms should be extremely small … pause and ponder this fact). Therefore, the amount of error we make in the derivative computation by dropping the remainder depends on the power of <span class="math inline">\(h\)</span> in that first term in the remainder.</p>
+<p>What is the power of <span class="math inline">\(h\)</span> in the first term of the remainder from <a href="#exr-3.11" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>?</p>
+</div>
+<hr>
+<div id="def-3.1" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 5.1 (Order of a Numerical Differentiation Scheme)</strong></span> The <strong>order</strong> of a numerical derivative is the power of the step size in the first term of the remainder of the rearranged Taylor Series. For example, a first order method will have “<span class="math inline">\(h^1\)</span>” in the first term of the remainder. A second order method will have “<span class="math inline">\(h^2\)</span>” in the first term of the remainder. Etc.</p>
+<p>For sufficiently small step size <span class="math inline">\(h\)</span>, the error that you make by truncating the series is dominated by the first term in the remainder, which is proportional to the power of <span class="math inline">\(h\)</span> in that term. Hence, the <strong>order</strong> of a numerical differentiation scheme tells you how the error you are making by using the approximation scheme decreases as you decrease the step-size <span class="math inline">\(h\)</span>.</p>
+</div>
+<hr>
+<div id="def-3.2" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 5.2</strong></span> (<strong>Big O Notation</strong>) We say that the error in a differentiation scheme is <span class="math inline">\(\mathcal{O}(h)\)</span> (read: “big O of <span class="math inline">\(h\)</span>”), if and only if there is a positive constant <span class="math inline">\(M\)</span> such that <span class="math display">\[\begin{equation}
+|\text{Error}| \le M \cdot h
+\end{equation}\]</span> when <span class="math inline">\(h\)</span> is sufficiently small. This is equivalent to saying that a differentiation method is “first order.”</p>
+<p>More generally, we say that the error in a differentiation scheme is <span class="math inline">\(\mathcal{O}(h^k)\)</span> (read: “big O of <span class="math inline">\(h^k\)</span>”) if and only if there is a positive constant <span class="math inline">\(M\)</span> such that <span class="math display">\[\begin{equation}
+|\text{Error}| \leq M \cdot h^k.
+\end{equation}\]</span> when <span class="math inline">\(h\)</span> is sufficiently small. This is equivalent to saying that a differentiation scheme is “<span class="math inline">\(k^{th}\)</span> order.”</p>
+</div>
+<hr>
+<div id="thm-3.1" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 5.1</strong></span> The approximation you derived in <a href="#exr-3.11" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a> gives a first order approximation of the first derivative: <span class="math display">\[\begin{equation}
+f'(x) = \frac{f(x+h) - f(x)}{h} + \mathcal{O}(h).
+\end{equation}\]</span> This is called the <strong>forward difference approximation</strong> of the first derivative.</p>
+</div>
+<hr>
+<div id="exr-3.13" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.8</strong></span> Consider the function <span class="math inline">\(f(x) = \sin(x) (1- x)\)</span>. The goal of this exercise is to make sense of the discussion of the “order” of the derivative approximation. You may want to pause first and reread the previous couple of pages.</p>
+<ol type="a">
+<li><p>Find <span class="math inline">\(f'(x)\)</span> by hand.</p></li>
+<li><p>Use your answer to part (a) to verify that <span class="math inline">\(f'(1) = -\sin(1) \approx -0.8414709848\)</span>.</p></li>
+<li><p>To approximate the first derivative at <span class="math inline">\(x=1\)</span> numerically with the forward-difference approximation formula from <a href="#thm-3.1" class="quarto-xref">Theorem&nbsp;<span>5.1</span></a> we calculate <span class="math display">\[\begin{equation}
+f'(1) \approx \frac{f(1+h) - f(1)}{h}=:\Delta f(1).
+\end{equation}\]</span> We want to see how the error in the approximation behaves as <span class="math inline">\(h\)</span> is made smaller and smaller. Fill in the table below with the derivative approximation and the absolute error associated with each given <span class="math inline">\(h\)</span>. You may want to use a spreadsheet to organize your data (be sure that you are working in radians!).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 45%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(h\)</span></th>
+<th><span class="math inline">\(\Delta f(1)\)</span></th>
+<th><span class="math inline">\(|f'(1)-\Delta f(1)|\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(2^{-1} = 0.5\)</span></td>
+<td><span class="math inline">\(\frac{f(1+0.5)-f(1)}{0.5} \approx -0.99749\)</span></td>
+<td><span class="math inline">\(0.15602\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-2} = 0.25\)</span></td>
+<td><span class="math inline">\(\frac{f(1+0.25)-f(1)}{0.25} \approx -0.94898\)</span></td>
+<td><span class="math inline">\(0.10751\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2^{-3} = 0.125\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-4}=0.0625\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2^{-5}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-6}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2^{-7}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-8}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2^{-9}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-10}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></li>
+<li><p>There was nothing really special in part (c) about powers of 2. Use your spreadsheet to build similar tables for the following sequences of <span class="math inline">\(h\)</span>: <span class="math display">\[\begin{equation}
+\begin{aligned} h &amp;= 3^{-1}, \, 3^{-2}, \, 3^{-3}, \, \ldots \\ h &amp;= 5^{-1}, \, 5^{-2}, \, 5^{-3}, \, \ldots \\ h &amp;= 10^{-1}, \, 10^{-2}, \, 10^{-3}, \, \ldots \\ h &amp;= \pi^{-1}, \, \pi^{-2}, \, \pi^{-3}, \, \ldots. \\ \end{aligned}
+\end{equation}\]</span></p></li>
+<li><p>Observation: If you calculate a numerical derivative with a forward difference and then calculate the absolute error with a fixed value of <span class="math inline">\(h\)</span>, then what do you expect to happen to the absolute error if you divide the value of <span class="math inline">\(h\)</span> by some positive constant <span class="math inline">\(M\)</span>? It may be helpful at this point to go back to your table and include a column called the <em>error reduction factor</em> where you find the ratio of two successive absolute errors. Observe what happens to this error reduction factor as <span class="math inline">\(h\)</span> gets smaller and smaller.</p></li>
+<li><p>What does your answer to part (e) have to do with the approximation order of the numerical derivative method that you used?</p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-3.14" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.9</strong></span> The following incomplete block of Python code will help to streamline the previous exercise so that you do not need to do the computation with a spreadsheet.</p>
+<ol type="a">
+<li><p>Comment every existing line with a thorough description.</p></li>
+<li><p>Fill in the blanks in the code to perform the spreadsheet computations from the previous exercise.</p></li>
+<li><p>Run the code for several different sequences of values for <span class="math inline">\(h\)</span>. Do you still observe the same result that you observed in part (e) of the previous exercise?</p></li>
+<li><p>Run the code for several different choices of the function <span class="math inline">\(f\)</span> and several different choices for the point <span class="math inline">\(x\)</span>. What do you observe?</p></li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x) <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>x) <span class="co"># what does this line do?</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>exact <span class="op">=</span> <span class="op">-</span>np.sin(<span class="dv">1</span>) <span class="co"># what does this line do?</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> <span class="fl">2.0</span><span class="op">**</span>(<span class="op">-</span>np.arange(<span class="dv">1</span>,<span class="dv">10</span>)) <span class="co"># what does this line do?</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>AbsError <span class="op">=</span> [] <span class="co"># start off with a blank list of errors</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> h <span class="kw">in</span> H:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    approx <span class="op">=</span> <span class="co"># FINISH THIS LINE OF CODE</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    AbsError.append(np.<span class="bu">abs</span>((approx <span class="op">-</span> exact)<span class="op">/</span>exact))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> h<span class="op">==</span>H[<span class="dv">0</span>]:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="st">"h="</span>,h,<span class="st">"</span><span class="ch">\t\t</span><span class="st"> Absolute Pct Error="</span>, AbsError[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      err_reduction_factor <span class="op">=</span> AbsError[<span class="op">-</span><span class="dv">2</span>]<span class="op">/</span>AbsError[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="st">"h="</span>,h,<span class="st">"</span><span class="ch">\t</span><span class="st"> Absolute Error="</span>, AbsError[<span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>              <span class="st">"with error reduction"</span>,err_reduction_factor)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.loglog(H,AbsError,<span class="st">'b-*'</span>) <span class="co"># Why are we building a loglog plot?</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div id="exr-3.16" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.10</strong></span> Explain the phrase: <em>The forward difference approximation</em> <span class="math inline">\(f'(x) \approx \frac{f(x+h)-f(x)}{h}\)</span> <em>is first order.</em></p>
+</div>
+<hr>
+</section>
+<section id="efficient-coding" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="efficient-coding"><span class="header-section-number">5.1.3</span> Efficient Coding</h3>
+<p>Now that we have a handle on how the forward-difference approximation scheme for the first derivative works and how the error depends on the step size, let us build some code that will take in a function and output the approximate first derivative on an entire interval instead of just at a single point.</p>
+<hr>
+<div id="exr-3.17" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.11</strong></span> We want to build a Python function that accepts:</p>
+<ul>
+<li><p>a mathematical function,</p></li>
+<li><p>the bounds of an interval,</p></li>
+<li><p>and the number of subintervals.</p></li>
+</ul>
+<p>The function will return the forward-difference approximation of the first derivative at every point in the interval except at the right-hand side. For example, we could send the function <span class="math inline">\(f(x) = \sin(x)\)</span>, the interval <span class="math inline">\([0,2\pi]\)</span>, and tell it to split the interval into 100 subintervals. We would then get back an approximate value of the derivative <span class="math inline">\(f'(x)\)</span> at all of the points except at <span class="math inline">\(x=2\pi\)</span>.</p>
+<ol type="1">
+<li><p>First of all, why can we not compute the forward-difference approximation of the derivative at the last point?</p></li>
+<li><p>Next, fill in the blanks in the partially complete code below. Every line needs to have a comment explaining exactly what it does.</p></li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ForwardDiff(f,a,b,N):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(a,b,N<span class="op">+</span><span class="dv">1</span>) <span class="co"># What does this line of code do? </span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># What's up with the N+1 in the previous line?</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> x[<span class="dv">1</span>] <span class="op">-</span> x[<span class="dv">0</span>] <span class="co"># What does this line of code do?</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> [] <span class="co"># What does this line of code do?</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> np.arange(<span class="bu">len</span>(x)<span class="op">-</span><span class="dv">1</span>): <span class="co"># What does this line of code do?  </span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># What's up with the -1 in the definition of the loop?</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># </span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Now we want to build the approximation </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># (f(x+h) - f(x)) / h.</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Obviously "x+h" is just the next item in the list of </span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># x values so when we do f(x+h) mathematically we should </span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># write f( x[j+1] ) in Python (explain this).  </span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fill in the question marks below</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        df.append( (f( ??? ) <span class="op">-</span> f( ??? )) <span class="op">/</span> h )</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Now we want to call upon this function to build the first order approximation of the first derivative for some function. We will use the function <span class="math inline">\(f(x) = \sin(x)\)</span> on the interval <span class="math inline">\([0,2\pi]\)</span> with 100 sub intervals (since we know what the answer should be). Complete the code below to call upon your <code>ForwardDiff()</code> function and to plot <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(f'(x)\)</span>, and the approximation of <span class="math inline">\(f'(x)\)</span>.</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>exact_df <span class="op">=</span> <span class="kw">lambda</span> x: np.cos(x)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> ???</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> ???</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span> <span class="co"># What is this?</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(a,b,N<span class="op">+</span><span class="dv">1</span>) </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># What does the previous line do?  </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># What's up with the N+1?</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> ForwardDiff(f,a,b,N) <span class="co"># What does this line do?</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># In the next line we plot three curves: </span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) the function f(x)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) the function f'(x)</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) the approximation of f'(x)</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># However, we do something funny with the x in the last plot. Why?</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.plot(x,f(x),<span class="st">'b'</span>,x,exact_df(x),<span class="st">'r--'</span>,x[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>], df, <span class="st">'k-.'</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">'f(x) = sin(x)'</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">'exact first deriv'</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">'approx first deriv'</span>])</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li><p>Implement your completed code and then test it in several ways:</p>
+<ol type="a">
+<li><p>Test your code on functions where you know the derivative. Be sure that you get the plots that you expect.</p></li>
+<li><p>Test your code with a very large number of sub intervals, <span class="math inline">\(N\)</span>. What do you observe?</p></li>
+<li><p>Test your code with small number of sub intervals, <span class="math inline">\(N\)</span>. What do you observe?</p></li>
+</ol></li>
+</ol>
+</div>
+<hr>
+<div id="exr-3.18" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.12</strong></span> Now let us build the first derivative function in a much <em>smarter</em> way – using NumPy arrays in Python. Instead of looping over all of the <span class="math inline">\(x\)</span> values, we can take advantage of the fact that NumPy operations can act on all the elements of an array at once and hence we can do all of the function evaluations and all the subtractions and divisions at once without a loop.</p>
+<ol type="1">
+<li><p>The line of code <code>x = np.linspace(a,b,N+1)</code> builds a numpy vector of <span class="math inline">\(N+1\)</span> values of <span class="math inline">\(x\)</span> starting at <span class="math inline">\(a\)</span> and ending at <span class="math inline">\(b\)</span>. Then <code>y = f(x)</code> builds a vector with the function values at all the elements in <code>x</code>. In the following questions remember that Python indexes all lists starting at 0. Also remember that you can call on the last element of a list using an index of <code>-1</code>. Finally, remember that if you do <code>x[p:q]</code> in Python you will get a list of <code>x</code> values starting at index <code>p</code> and ending at index <code>q-1</code>.</p>
+<ol type="1">
+<li><p>What will we get if we evaluate the code <code>y[1:]</code>?</p></li>
+<li><p>What will we get if we evaluate the code <code>y[:-1]</code>?</p></li>
+<li><p>What will we get if we evaluate the code <code>y[1:] - y[:-1]</code>?</p></li>
+<li><p>What will we get if we evaluate the code <code>(y[1:] - y[:-1]) / h</code>?</p></li>
+</ol></li>
+<li><p>Use the insight from part (1) to simplify your first order first derivative function to look like the code below.</p></li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ForwardDiff(f,a,b,N):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(a,b,N<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> x[<span class="dv">1</span>] <span class="op">-</span> x[<span class="dv">0</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> f(x)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> <span class="co"># your line of code goes here?  </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="exr-3.19" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.13</strong></span> Write code that finds a first order approximation for the first derivative of <span class="math inline">\(f(x) = \sin(x) - x\sin(x)\)</span> on the interval <span class="math inline">\(x \in (0,15)\)</span>. Your script should output two plots (side-by-side).</p>
+<ol type="a">
+<li>The left-hand plot should show the function in blue and the approximate first derivative as a red dashed curve. Sample code for this exercise is given below.</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x) <span class="op">-</span> x<span class="op">*</span>np.sin(x)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">15</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="co"># make this an appropriately sized number of subintervals</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(a,b,N<span class="op">+</span><span class="dv">1</span>) <span class="co"># what does this line do?</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(x) <span class="co"># what does this line do?</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> ForwardDiff(f,a,b,N) <span class="co"># what does this line do?</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>) <span class="co"># what does this line do?</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].plot(x,y,<span class="st">'b'</span>,x[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>],df,<span class="st">'r--'</span>) <span class="co"># what does this line do?</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].grid()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="a">
+<li>The right-hand plot should show the absolute error between the exact derivative and the numerical derivative. You should use a logarithmic <span class="math inline">\(y\)</span> axis for this plot.</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>exact <span class="op">=</span> <span class="kw">lambda</span> x: <span class="co"># write a function for the exact derivative</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># There is a lot going on the next line of code ... explain it.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].semilogy(x[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>],<span class="bu">abs</span>(exact(x[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>]) <span class="op">-</span> df))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].grid()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="a">
+<li>Play with the number of sub intervals, <span class="math inline">\(N\)</span>, and demonstrate the fact that we are using a first order method to approximate the first derivative.</li>
+</ol>
+</div>
+<hr>
+</section>
+<section id="a-better-first-derivative" class="level3 page-columns page-full" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="a-better-first-derivative"><span class="header-section-number">5.1.4</span> A Better First Derivative</h3>
+<p>Next we will build a more accurate numerical first derivative scheme. The derivation technique is the same: play a little algebra game with the Taylor series and see if you can get the first derivative to simplify out. This time we will be hoping to get a second order method.</p>
+<hr>
+<div id="exr-3.20" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.14</strong></span> Consider again the Taylor series for an infinitely differentiable function <span class="math inline">\(f(x)\)</span>: <span class="math display">\[\begin{equation}
+f(x) = f(x_0) + \frac{f'(x_0)}{1!} (x-x_0)^1 + \frac{f''(x_0)}{2!}(x-x_0)^2 + \frac{f^{(3)}(x_0)}{3!}(x-x_0)^3 + \cdots .
+\end{equation}\]</span></p>
+<ol type="1">
+<li><p>Replace the “<span class="math inline">\(x\)</span>” in the Taylor Series with “<span class="math inline">\(x+h\)</span>” and replace the “<span class="math inline">\(x_0\)</span>” in the Taylor Series with “<span class="math inline">\(x\)</span>” and simplify. <span class="math display">\[\begin{equation}
+f(x+h) = \underline{\hspace{3in}}.
+\end{equation}\]</span></p></li>
+<li><p>Now replace the “<span class="math inline">\(x\)</span>” in the Taylor Series with “<span class="math inline">\(x-h\)</span>” and replace the “<span class="math inline">\(x_0\)</span>” in the Taylor Series with “<span class="math inline">\(x\)</span>” and simplify. <span class="math display">\[\begin{equation}
+f(x-h) = \underline{\hspace{3in}}.
+\end{equation}\]</span></p></li>
+<li><p>Find the difference between <span class="math inline">\(f(x+h)\)</span> and <span class="math inline">\(f(x-h)\)</span> and simplify. Be very careful of your signs. <span class="math display">\[\begin{equation}
+f(x+h) - f(x-h) = \underline{\hspace{3in}}.
+\end{equation}\]</span></p></li>
+<li><p>Solve for <span class="math inline">\(f'(x)\)</span> in your result from part (3). Fill in the question marks and blanks below once you have finished simplifying. <span class="math display">\[\begin{equation}
+f'(x) = \frac{??? - ???}{2h} + \underline{\hspace{3in}}.
+\end{equation}\]</span></p></li>
+<li><p>Use your result from part (4) to verify that <span class="math display">\[\begin{equation}
+f'(x) = \underline{\hspace{2in}} + \mathcal{O}(h^2).
+\end{equation}\]</span></p></li>
+<li><p>Draw a picture similar to <a href="#fig-3.2" class="quarto-xref">Figure&nbsp;<span>5.2</span></a> showing what this scheme is doing graphically.</p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-3.21" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.15</strong></span> Let us return to the function <span class="math inline">\(f(x) = \sin(x)(1- x)\)</span> but this time we will approximate the first derivative at <span class="math inline">\(x=1\)</span> using the formula <span class="math display">\[\begin{equation}
+f'(1) \approx \frac{f(1+h) - f(1-h)}{2h}=:\delta f(1).
+\end{equation}\]</span> You should already have the first derivative and the exact answer from <a href="#exr-3.13" class="quarto-xref">Exercise&nbsp;<span>5.8</span></a> (if not, then go get them by hand again).</p>
+<ol type="a">
+<li><p>Fill in the table below with the derivative approximation and the absolute error associated with each given <span class="math inline">\(h\)</span>. You may want to use a spreadsheet to organize your data (be sure that you are working in radians!).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 45%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(h\)</span></th>
+<th><span class="math inline">\(\delta f(1)\)</span></th>
+<th><span class="math inline">\(|f'(1)-\delta f(1)|\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(2^{-1} = 0.5\)</span></td>
+<td><span class="math inline">\(-0.73846\)</span></td>
+<td><span class="math inline">\(0.10301\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-2} = 0.25\)</span></td>
+<td><span class="math inline">\(-0.81531\)</span></td>
+<td><span class="math inline">\(0.02616\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2^{-3} = 0.125\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-4}=0.0625\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2^{-5}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-6}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2^{-7}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-8}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2^{-9}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{-10}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></li>
+<li><p>There was nothing really special in part (a) about powers of 2. Use your spreadsheet to build similar tables for the following sequences of <span class="math inline">\(h\)</span>: <span class="math display">\[\begin{equation}
+\begin{aligned} h &amp;= 3^{-1}, \, 3^{-2}, \, 3^{-3}, \, \ldots \\ h &amp;= 5^{-1}, \, 5^{-2}, \, 5^{-3}, \, \ldots \\ h &amp;= 10^{-1}, \, 10^{-2}, \, 10^{-3}, \, \ldots \\ h &amp;= \pi^{-1}, \, \pi^{-2}, \, \pi^{-3}, \, \ldots. \end{aligned}
+\end{equation}\]</span></p></li>
+<li><p>Observation: If you calculate a numerical derivative with a central difference and calculate the resulting absolute error with a fixed value of <span class="math inline">\(h\)</span>, then what do you expect to happen to the absolute error if you divide the value of <span class="math inline">\(h\)</span> by some positive constant <span class="math inline">\(M\)</span>? It may be helpful to include a column in your table that tracks the error reduction factor as we decrease <span class="math inline">\(h\)</span>.</p></li>
+<li><p>What does your answer to part (c) have to do with the approximation order of the numerical derivative method that you used?</p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-3.23" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.16</strong></span> Write a Python function <code>CentralDiff(f, a, b, N)</code> that takes a mathematical function <code>f</code>, the start and end values of an interval [<code>a</code>, <code>b</code>] and the number <code>N</code> of subintervals to use. It should return a second order numerical approximation to the first derivative on the interval. This should be a vector with <span class="math inline">\(N-1\)</span> entries (why?). You should try to write this code without using any loops. (Hint: This should really be a minor modification of your first order first derivative code.) Test the code on functions where you know the first derivative.</p>
+</div>
+<hr>
+<div id="exr-3.25" class="theorem exercise page-columns page-full">
+<p><span class="theorem-title"><strong>Exercise 5.17</strong></span> The plot shown in <a href="#fig-3.3" class="quarto-xref">Figure&nbsp;<span>5.3</span></a> shows the maximum absolute error between the exact first derivative of a function <span class="math inline">\(f(x)\)</span> and a numerical first derivative approximation scheme. At this point we know two schemes: <span class="math display">\[\begin{equation}
+f'(x) = \frac{f(x+h) - f(x)}{h} + \mathcal{O}(h)
+\end{equation}\]</span> and <span class="math display">\[\begin{equation}
+f'(x) = \frac{f(x+h) - f(x-h)}{2h} + \mathcal{O}(h^2).
+\end{equation}\]</span></p>
+<ol type="1">
+<li><p>Which curve in the plot matches with which method. How do you know?</p></li>
+<li><p>Recreate the plot with a function of your choosing.</p></li>
+</ol>
+<div id="cell-fig-3.3" class="cell page-columns page-full" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose a function f</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Give its derivative</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> <span class="kw">lambda</span> x: np.cos(x)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose interval</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>np.pi</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">16</span> <span class="co"># Number of different step sizes to plot</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-allocate vectors for errors</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>fd_error <span class="op">=</span> np.zeros(m)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>cd_error <span class="op">=</span> np.zeros(m)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-allocate vector for step sizes</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> np.zeros(m)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over the different step sizes</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(m):</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="dv">2</span><span class="op">**</span>(n<span class="op">+</span><span class="dv">2</span>) <span class="co"># Number of subintervals</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(a, b, N<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> f(x)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> x[<span class="dv">1</span>]<span class="op">-</span>x[<span class="dv">0</span>] <span class="co"># step size</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the derivative and approximations</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    exact <span class="op">=</span> df(x)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    forward_diff <span class="op">=</span> (y[<span class="dv">1</span>:]<span class="op">-</span>y[:<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span>h</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    central_diff <span class="op">=</span> (y[<span class="dv">2</span>:]<span class="op">-</span>y[:<span class="op">-</span><span class="dv">2</span>])<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>h)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># save the maximum of the errors for this step size</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    fd_error[n] <span class="op">=</span> <span class="bu">max</span>(<span class="bu">abs</span>(forward_diff <span class="op">-</span> df(x[:<span class="op">-</span><span class="dv">1</span>])))</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    cd_error[n] <span class="op">=</span> <span class="bu">max</span>(<span class="bu">abs</span>(central_diff <span class="op">-</span> df(x[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>])))</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    H[n] <span class="op">=</span> h</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a loglog plot of the errors agains step size</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>plt.loglog(H,fd_error,<span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Approximation Method A'</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>plt.loglog(H,cd_error,<span class="st">'r-'</span>, label<span class="op">=</span><span class="st">'Approximation Method B'</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Steps size h'</span>)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Maximum Absolute Error'</span>)</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Comparing Two First Derivative Approximations'</span>)</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display page-columns page-full">
+<div id="fig-3.3" class="quarto-float quarto-figure quarto-figure-left anchored page-columns page-full" alt="Maximum absolute error between the first derivative and two different approximations of the first derivative.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-3.3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="nmDerivatives_files/figure-html/fig-3.3-output-1.png" alt="Maximum absolute error between the first derivative and two different approximations of the first derivative." width="599" height="451" class="figure-img column-page-right">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3.3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.3: Maximum absolute error between the first derivative and two different approximations of the first derivative.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="the-second-derivative" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="the-second-derivative"><span class="header-section-number">5.1.5</span> The Second Derivative</h3>
+<p>Now we will search for an approximation of the second derivative. Again, the game will be the same: experiment with the Taylor series and some algebra with an eye toward getting the second derivative to pop out cleanly. This time we will do the algebra in such a way that the first derivative cancels.</p>
+<p>From the previous exercises you already have Taylor expansions of the form <span class="math inline">\(f(x+h)\)</span> and <span class="math inline">\(f(x-h)\)</span>. Let us summarize them here since you are going to need them for future computations. <span class="math display">\[\begin{equation}
+\begin{aligned} f(x+h) &amp;= f(x) + \frac{f'(x)}{1!} h + \frac{f''(x)}{2!} h^2 + \frac{f^{(3)}(x)}{3!} h^3 + \cdots \\ f(x-h) &amp;= f(x) - \frac{f'(x)}{1!} h + \frac{f''(x)}{2!} h^2 - \frac{f^{(3)}(x)}{3!} h^3 + \cdots. \end{aligned}
+\end{equation}\]</span></p>
+<hr>
+<div id="exr-3.26" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.18</strong></span> The goal of this exercise is to use the Taylor series for <span class="math inline">\(f(x+h)\)</span> and <span class="math inline">\(f(x-h)\)</span> to arrive at an approximation scheme for the second derivative <span class="math inline">\(f''(x)\)</span>.</p>
+<ol type="1">
+<li><p>Add the Taylor series for <span class="math inline">\(f(x+h)\)</span> and <span class="math inline">\(f(x-h)\)</span> and combine all like terms. You should notice that several terms cancel. <span class="math display">\[\begin{equation}
+f(x+h) + f(x-h) = \underline{\hspace{3in}}.
+\end{equation}\]</span></p></li>
+<li><p>Solve your answer in part (1) for <span class="math inline">\(f''(x)\)</span>. <span class="math display">\[\begin{equation}
+f''(x) = \frac{?? - 2 \cdot ?? + ??}{h^2} + \underline{\hspace{1in}}.
+\end{equation}\]</span></p></li>
+<li><p>If we were to drop all of the terms after the fraction on the right-hand side of the previous result we would be introducing some error into the derivative computation. What does this tell us about the order of the error for the second derivative approximation scheme we just built?</p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-3.27" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.19</strong></span> Again consider the function <span class="math inline">\(f(x) = \sin(x)(1 - x)\)</span>.</p>
+<ol type="1">
+<li><p>Calculate the derivative of this function and calculate the exact value of <span class="math inline">\(f''(1)\)</span>.</p></li>
+<li><p>If we calculate the second derivative with the central difference scheme that you built in the previous exercise using <span class="math inline">\(h = 0.5\)</span> then we get an absolute error of about 0.044466. Stop now and verify this error calculation.</p></li>
+<li><p>Based on our previous work with the order of the error in a numerical differentiation scheme, what do you predict the error will be if we calculate <span class="math inline">\(f''(1)\)</span> with <span class="math inline">\(h = 0.25\)</span>? With <span class="math inline">\(h = 0.05\)</span>? With <span class="math inline">\(h = 0.005\)</span>? Defend your answers.</p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-3.28" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.20</strong></span> Write a Python function <code>SecondDiff(f, a, b, N)</code> that takes a mathematical function <code>f</code>, the start and end values of an interval [<code>a</code>, <code>b</code>] and the number <code>N</code> of subintervals to use. It should return a second order numerical approximation to the second derivative on the interval. This should be a vector with <span class="math inline">\(N-1\)</span> entries (why?). As before, you should write your code without using any loops.</p>
+</div>
+<hr>
+<div id="exr-3.29" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.21</strong></span> Test your second derivative code on the function <span class="math inline">\(f(x) = \sin(x) - x\sin(x)\)</span> by doing the following.</p>
+<ol type="1">
+<li><p>Find the analytic second derivative by hand (you did this already in <a href="#exr-3.27" class="quarto-xref">Exercise&nbsp;<span>5.19</span></a>).</p></li>
+<li><p>Find the numerical second derivative with the code that you just wrote.</p></li>
+<li><p>Find the absolute difference between your numerical second derivative and the actual second derivative. This is point-by-point subtraction so you should end up with a vector of errors.</p></li>
+<li><p>Find the maximum of your errors.</p></li>
+<li><p>Now we want to see how the code works if you change the number of points used. Build a plot showing the value of <span class="math inline">\(h\)</span> on the horizontal axis and the maximum error on the vertical axis. You will need to write a loop that gets the error for many different values of <span class="math inline">\(h\)</span>. Finally, it is probably best to build this plot on a log-log scale.</p></li>
+<li><p>Discuss what you see? How do you see the fact that the numerical second derivative is second order accurate?</p></li>
+</ol>
+</div>
+<hr>
+<p>The table below summarizes the formulas that we have for derivatives thus far. The exercises at the end of this chapter contain several more derivative approximations. We will return to this idea when we study numerical differential equations in <span class="quarto-unresolved-ref">?sec-ode</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 48%">
+<col style="width: 19%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Derivative</strong></th>
+<th><strong>Formula</strong></th>
+<th><strong>Error</strong></th>
+<th><strong>Name</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(1^{st}\)</span></td>
+<td><span class="math inline">\(f'(x) \approx \frac{f(x+h) - f(x)}{h}\)</span></td>
+<td><span class="math inline">\(\mathcal{O}(h)\)</span></td>
+<td>Forward Difference</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(1^{st}\)</span></td>
+<td><span class="math inline">\(f'(x) \approx \frac{f(x) - f(x-h)}{h}\)</span></td>
+<td><span class="math inline">\(\mathcal{O}(h)\)</span></td>
+<td>Backward Difference</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(1^{st}\)</span></td>
+<td><span class="math inline">\(f'(x) \approx \frac{f(x+h) - f(x-h)}{2h}\)</span></td>
+<td><span class="math inline">\(\mathcal{O}(h^2)\)</span></td>
+<td>Central Difference</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^{nd}\)</span></td>
+<td><span class="math inline">\(f''(x) \approx \frac{f(x+h) - 2f(x) + f(x-h)}{h^2}\)</span></td>
+<td><span class="math inline">\(\mathcal{O}(h^2)\)</span></td>
+<td>Central Difference</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div id="exr-3.30" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.22</strong></span> Let <span class="math inline">\(f(x)\)</span> be a twice differentiable function. We are interested in the first and second derivative of the function <span class="math inline">\(f\)</span> at the point <span class="math inline">\(x = 1.74\)</span>. Use what you have learned in this section to answer the following questions. (For clarity, you can think of “<span class="math inline">\(f\)</span>” as a different function in each of the following questions …it does not really matter exactly what function <span class="math inline">\(f\)</span> is.)</p>
+<ol type="1">
+<li><p>Johnny used a numerical first derivative scheme with <span class="math inline">\(h = 0.1\)</span> to approximate <span class="math inline">\(f'(1.74)\)</span> and found an absolute error of 3.28. He then used <span class="math inline">\(h=0.01\)</span> and found an absolute error of 0.328. What was the order of the error in his first derivative scheme? How can you tell?</p></li>
+<li><p>Betty used a numerical first derivative scheme with <span class="math inline">\(h = 0.2\)</span> to approximate <span class="math inline">\(f'(1.74)\)</span> and found an absolute error of 4.32. She then used <span class="math inline">\(h=0.1\)</span> and found an absolute error of 1.08. What numerical first derivative scheme did she likely use?</p></li>
+<li><p>Harry wants to compute <span class="math inline">\(f''(1.74)\)</span> to within 1% using a central difference scheme. He tries <span class="math inline">\(h=0.25\)</span> and gets an absolute percentage error of 3.71%. What <span class="math inline">\(h\)</span> should he try next so that his absolute percentage error is close to 1%?</p></li>
+</ol>
+</div>
+<div id="exr-3.30n" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.23</strong></span> We said at the start of this section that the spacing of the steps do not have to be constant. Insteady of a constant step size <span class="math inline">\(h\)</span> we could have variable step sizes <span class="math inline">\(\Delta x_i:=x_{i+1}-x_i\)</span>. However, this complicates the expression for the second derivative. In this exercise you can check that you fully understood the derivation of the formula for the second derivative by repeating it for these variable step sizes. So you will need to start with the Taylor expansions of <span class="math inline">\(f(x_{i+1})=f(x_i+\Delta x_i)\)</span> and <span class="math inline">\(f(x_{i-1})=f(x_i-\Delta x_{i-1})\)</span> around <span class="math inline">\(x_i\)</span>.</p>
+</div>
+<hr>
+</section>
+</section>
+<section id="automatic-differentiation" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="automatic-differentiation"><span class="header-section-number">5.2</span> Automatic Differentiation</h2>
+<p>In the previous section, we explored numerical differentiation through finite difference methods. These methods approximate derivatives by evaluating the function at different points and calculating differences. While straightforward to implement, they suffer from two main limitations:</p>
+<ol type="1">
+<li><strong>Truncation error</strong>: As we’ve seen, the error scales with some power of the step size <span class="math inline">\(h\)</span></li>
+<li><strong>Round-off error</strong>: As <span class="math inline">\(h\)</span> gets extremely small, floating-point arithmetic leads to precision loss</li>
+</ol>
+<p>Automatic differentiation (AD) is a different approach that computes derivatives exactly (to machine precision) without relying on finite differences. AD leverages the chain rule and the fact that all computer programs, no matter how complex, ultimately break down into elementary operations (addition, multiplication, sin, exp, etc.) whose derivatives are known.</p>
+<p>Let’s introduce the concept of a <strong>computation graph</strong>, which is fundamental to understanding automatic differentiation.</p>
+<p>A computation graph represents a mathematical function as a directed graph where:</p>
+<ul>
+<li><strong>Nodes</strong> represent variables (inputs, outputs, or intermediate values)</li>
+<li><strong>Edges</strong> represent dependencies between variables</li>
+<li>Each node performs a simple operation with known derivatives</li>
+</ul>
+<hr>
+<div id="exm-3.31b" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.1</strong></span> Consider the function <span class="math inline">\(f(x, y) = x^2y + \sin(xy)\)</span>. We can break this down into elementary operations and visualize it as a computation graph:</p>
+<div id="cell-fig-computation-graph" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-computation-graph" class="quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-computation-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="nmDerivatives_files/figure-html/fig-computation-graph-output-1.png" width="758" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-computation-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.4: Computation graph for f(x,y) = x²y + sin(xy) at (x,y) = (2,1)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This computation graph for <span class="math inline">\(f(x,y) = x^2y + \sin(xy)\)</span> at <span class="math inline">\((x,y) = (2,3)\)</span> shows:</p>
+<ol type="1">
+<li>Input nodes: <span class="math inline">\(x = 2\)</span>, <span class="math inline">\(y = 3\)</span></li>
+<li>Intermediate computations:
+<ul>
+<li><span class="math inline">\(v_1 = x^2 = 4\)</span></li>
+<li><span class="math inline">\(v_3 = xy = 6\)</span></li>
+<li><span class="math inline">\(v_2 = v_1y = 12\)</span></li>
+<li><span class="math inline">\(v_4 = \sin(v_3) = \sin(6) \approx -0.2794\)</span></li>
+</ul></li>
+<li>Output node: <span class="math inline">\(f = v_2 + v_4 = 12 + (-0.2794) \approx 11.7206\)</span></li>
+</ol>
+</div>
+<p>For each operation in the computation graph, we know:</p>
+<ol type="1">
+<li>How to compute the function value (forward evaluation)</li>
+<li>How to compute the derivative of the operation with respect to its inputs</li>
+</ol>
+<p>The computation graph is the foundation for automatic differentiation:</p>
+<ul>
+<li><strong>Forward mode AD</strong>: Derivatives flow through the graph in the same direction as function evaluation</li>
+<li><strong>Reverse mode AD</strong>: Function values flow forward through the graph, derivatives flow backward</li>
+</ul>
+<p>This will become clearer in sections <a href="#sec-forward-ad" class="quarto-xref"><span>Section 5.2.1</span></a> and <a href="#sec-reverse-ad" class="quarto-xref"><span>Section 5.2.2</span></a>.</p>
+<hr>
+<div id="exr-3.31a" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.24</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>Draw the computation graph for the function <span class="math inline">\(f(x) = x^2\sin(x)\)</span>.</p></li>
+<li><p>For the function <span class="math inline">\(h(x,y,z) = xy + yz + zx\)</span>, identify:</p>
+<ul>
+<li>The input nodes</li>
+<li>The intermediate nodes and their operations</li>
+<li>The output node</li>
+</ul></li>
+<li><p>Explain why breaking a complex function into a computation graph of elementary operations is useful for derivative computation.</p></li>
+</ol>
+</div>
+<hr>
+<section id="sec-forward-ad" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="sec-forward-ad"><span class="header-section-number">5.2.1</span> Forward mode AD</h3>
+<p>In forward mode automatic differentiation, we track both the values of variables and their derivatives with respect to the input variables. This allows us to build the derivatives as we compute the function value.</p>
+<div id="exm-3.32" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.2</strong></span> Consider a simple function <span class="math inline">\(f(x) = x^2 \cdot \sin(x)\)</span>. We can compute both the value and the derivative at <span class="math inline">\(x = 2\)</span> as follows:</p>
+<ol type="1">
+<li><p>Initialize: <span class="math inline">\(x = 2\)</span>, <span class="math inline">\(\frac{dx}{dx} = 1\)</span> (The derivative of <span class="math inline">\(x\)</span> with respect to itself is 1)</p></li>
+<li><p>Compute <span class="math inline">\(u = x^2\)</span>:</p>
+<ul>
+<li>Value: <span class="math inline">\(u = 2^2 = 4\)</span></li>
+<li>Derivative: <span class="math inline">\(\frac{du}{dx} = \frac{d(x^2)}{dx} \cdot \frac{dx}{dx} = 2x \cdot 1 = 2 \cdot 2 = 4\)</span></li>
+</ul></li>
+<li><p>Compute <span class="math inline">\(v = \sin(x)\)</span>:</p>
+<ul>
+<li>Value: <span class="math inline">\(v = \sin(2) \approx 0.9093\)</span></li>
+<li>Derivative: <span class="math inline">\(\frac{dv}{dx} = \frac{d\sin(x)}{dx} \cdot \frac{dx}{dx} = \cos(x) \cdot 1 = \cos(2) \approx -0.4161\)</span></li>
+</ul></li>
+<li><p>Compute <span class="math inline">\(f = u \cdot v\)</span>:</p>
+<ul>
+<li>Value: <span class="math inline">\(f = 4 \cdot 0.9093 \approx 3.6372\)</span></li>
+<li>Derivative: <span class="math inline">\(\frac{df}{dx} = \frac{d(u \cdot v)}{dx} = \frac{du}{dx} \cdot v + u \cdot \frac{dv}{dx} = 4 \cdot 0.9093 + 4 \cdot (-0.4161) \approx 1.9728\)</span></li>
+</ul></li>
+</ol>
+<p>This is <strong>forward mode</strong> automatic differentiation.</p>
+<p>The figure below illustrates the computational graph for <span class="math inline">\(f(x) = x^2 \cdot \sin(x)\)</span> with forward mode AD. The blue values show the function evaluation, while the red values show the derivative calculation:</p>
+<div id="cell-fig-forward-ad" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Rectangle, FancyArrowPatch, Circle</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.patheffects <span class="im">as</span> path_effects</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure and axis</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create a node</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_node(ax, x, y, value, deriv, label, r<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create circle</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    circle <span class="op">=</span> Circle((x, y), r, facecolor<span class="op">=</span><span class="st">'lightblue'</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(circle)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add text for value and derivative</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    ax.text(x, y<span class="op">+</span><span class="fl">0.1</span>, <span class="ss">f"</span><span class="sc">{</span>value<span class="sc">:.4f}</span><span class="ss">"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    ax.text(x, y<span class="op">-</span><span class="fl">0.2</span>, <span class="ss">f"</span><span class="sc">{</span>deriv<span class="sc">:.4f}</span><span class="ss">"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add label</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> ax.text(x, y<span class="op">+</span>r<span class="op">+</span><span class="fl">0.3</span>, label, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    text.set_path_effects([path_effects.withStroke(linewidth<span class="op">=</span><span class="dv">3</span>, foreground<span class="op">=</span><span class="st">'white'</span>)])</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (x, y)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create an arrow</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_arrow(ax, start, end, label<span class="op">=</span><span class="st">""</span>):</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust start/end points to be at edges of nodes</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    start_x, start_y <span class="op">=</span> start</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    end_x, end_y <span class="op">=</span> end</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fl">0.5</span>  <span class="co"># Node radius</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate vector between centers</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> end_x <span class="op">-</span> start_x</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> end_y <span class="op">-</span> start_y</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    dist <span class="op">=</span> np.sqrt(dx<span class="op">*</span>dx <span class="op">+</span> dy<span class="op">*</span>dy)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust start/end points to be at node edges</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> (start_x <span class="op">+</span> r<span class="op">*</span>dx<span class="op">/</span>dist, start_y <span class="op">+</span> r<span class="op">*</span>dy<span class="op">/</span>dist)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> (end_x <span class="op">-</span> r<span class="op">*</span>dx<span class="op">/</span>dist, end_y <span class="op">-</span> r<span class="op">*</span>dy<span class="op">/</span>dist)</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    arrow <span class="op">=</span> FancyArrowPatch(start, end, connectionstyle<span class="op">=</span><span class="st">"arc3,rad=0"</span>, </span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>                           arrowstyle<span class="op">=</span><span class="st">"simple"</span>, mutation_scale<span class="op">=</span><span class="dv">20</span>, </span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>                           linewidth<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(arrow)</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add label to arrow</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> label:</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>        mid_x <span class="op">=</span> (start[<span class="dv">0</span>] <span class="op">+</span> end[<span class="dv">0</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>        mid_y <span class="op">=</span> (start[<span class="dv">1</span>] <span class="op">+</span> end[<span class="dv">1</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Offset the label position slightly</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>        offset_x <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="cf">if</span> start[<span class="dv">0</span>] <span class="op">&lt;</span> end[<span class="dv">0</span>] <span class="cf">else</span> <span class="op">-</span><span class="fl">0.3</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>        offset_y <span class="op">=</span> <span class="fl">0.3</span> <span class="cf">if</span> start[<span class="dv">1</span>] <span class="op">&lt;</span> end[<span class="dv">1</span>] <span class="cf">else</span> <span class="op">-</span><span class="fl">0.3</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> ax.text(mid_x <span class="op">+</span> offset_x, mid_y <span class="op">+</span> offset_y, label, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>        text.set_path_effects([path_effects.withStroke(linewidth<span class="op">=</span><span class="dv">3</span>, foreground<span class="op">=</span><span class="st">'white'</span>)])</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Create nodes</span></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>input_node <span class="op">=</span> create_node(ax, <span class="dv">1</span>, <span class="dv">4</span>, <span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="st">"x = 2"</span>)</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>squared_node <span class="op">=</span> create_node(ax, <span class="dv">3</span>, <span class="dv">5</span>, <span class="fl">4.0</span>, <span class="fl">4.0</span>, <span class="st">"u = x²</span><span class="ch">\n</span><span class="st">u'/dx' = 2x"</span>)</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>sin_node <span class="op">=</span> create_node(ax, <span class="dv">3</span>, <span class="dv">3</span>, <span class="fl">0.9093</span>, <span class="op">-</span><span class="fl">0.4161</span>, <span class="st">"v = sin(x)</span><span class="ch">\n</span><span class="st">v'/dx' = cos(x)"</span>)</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>output_node <span class="op">=</span> create_node(ax, <span class="dv">6</span>, <span class="dv">4</span>, <span class="fl">3.6372</span>, <span class="fl">1.9728</span>, <span class="st">"f = u·v</span><span class="ch">\n</span><span class="st">df'/dx' = u'·v + u·v'"</span>)</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Create arrows</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>create_arrow(ax, input_node, squared_node)</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>create_arrow(ax, input_node, sin_node)</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>create_arrow(ax, squared_node, output_node)</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>create_arrow(ax, sin_node, output_node)</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Set limits and remove axis</span></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, <span class="dv">7</span>)</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">2</span>, <span class="fl">6.3</span>)</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>ax.axis(<span class="st">'off'</span>)</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and explanation</span></span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Forward Mode Automatic Differentiation"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">3</span>, <span class="dv">2</span>, <span class="st">"Blue values: function evaluation</span><span class="ch">\n</span><span class="st">Red values: derivative calculation"</span>, </span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, </span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>        bbox<span class="op">=</span><span class="bu">dict</span>(facecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, edgecolor<span class="op">=</span><span class="st">'gray'</span>, boxstyle<span class="op">=</span><span class="st">'round,pad=0.5'</span>))</span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-forward-ad" class="quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-forward-ad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="nmDerivatives_files/figure-html/fig-forward-ad-output-1.png" width="758" height="470" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-forward-ad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.5: Forward mode automatic differentiation for f(x) = x² · sin(x) at x = 2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<p>Let’s formalize the forward mode automatic differentiation process by creating a systematic approach. We’ll use the concept of a “dual number” that carries both a value and its derivative.</p>
+<p>We will represent each variable as a pair <span class="math inline">\(\begin{pmatrix} v \\ d \end{pmatrix}\)</span> where <span class="math inline">\(v\)</span> is the variable’s value and <span class="math inline">\(d\)</span> is its derivative with respect to the input we’re differentiating against.</p>
+<p>Consider these basic operations and their dual number representations:</p>
+<ol type="1">
+<li><p>Addition: <span class="math inline">\(\begin{pmatrix} a \\ a' \end{pmatrix} + \begin{pmatrix} b \\ b' \end{pmatrix} = \begin{pmatrix} a + b \\ a' + b' \end{pmatrix}\)</span></p></li>
+<li><p>Multiplication: <span class="math inline">\(\begin{pmatrix} a \\ a' \end{pmatrix} \cdot \begin{pmatrix} b \\ b' \end{pmatrix} = \begin{pmatrix} a \cdot b \\ a' \cdot b + a \cdot b' \end{pmatrix}\)</span></p></li>
+<li><p>Division: <span class="math inline">\(\begin{pmatrix} a \\ a' \end{pmatrix} / \begin{pmatrix} b \\ b' \end{pmatrix} = \begin{pmatrix} a/b \\ (a' \cdot b - a \cdot b')/b^2 \end{pmatrix}\)</span></p></li>
+<li><p>Power: <span class="math inline">\(\begin{pmatrix} a \\ a' \end{pmatrix}^n = \begin{pmatrix} a^n \\ n \cdot a^{n-1} \cdot a' \end{pmatrix}\)</span></p></li>
+<li><p>Sine: <span class="math inline">\(\sin\begin{pmatrix} a \\ a' \end{pmatrix} = \begin{pmatrix} \sin(a) \\ \cos(a) \cdot a' \end{pmatrix}\)</span></p></li>
+<li><p>Exponential: <span class="math inline">\(e^{\begin{pmatrix} a \\ a' \end{pmatrix}} = \begin{pmatrix} e^a \\ e^a \cdot a' \end{pmatrix}\)</span></p></li>
+</ol>
+<p>With this notation the calculations from <a href="#exm-3.32" class="quarto-xref">Example&nbsp;<span>5.2</span></a> can be written as:</p>
+<p><span class="math display">\[
+\begin{split}
+\begin{pmatrix} x \\ x' \end{pmatrix} &amp;= \begin{pmatrix} 2 \\ 1 \end{pmatrix} \\
+\begin{pmatrix} u \\ u' \end{pmatrix} &amp;= \begin{pmatrix} x \\ x' \end{pmatrix}^2 = \begin{pmatrix} x^2 \\ 2xx' \end{pmatrix} = \begin{pmatrix} 4 \\ 4 \end{pmatrix} \\
+\begin{pmatrix} v \\ v' \end{pmatrix} &amp;= \sin\begin{pmatrix} x \\ x' \end{pmatrix}=\begin{pmatrix} \sin(x) \\ \cos(x)x' \end{pmatrix} = \begin{pmatrix} 0.9093 \\ -0.4161 \end{pmatrix} \\
+\begin{pmatrix} f \\ f' \end{pmatrix} &amp;= \begin{pmatrix} u \\ u' \end{pmatrix} \cdot \begin{pmatrix} v \\ v' \end{pmatrix} = \begin{pmatrix} u \cdot v \\ u' \cdot v + u \cdot v' \end{pmatrix} = \begin{pmatrix} 3.6372 \\ 1.9728 \end{pmatrix}
+\end{split}
+\]</span></p>
+<hr>
+<div id="exr-3.33" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.25</strong></span> Compute the derivative of using the dual number approach:</p>
+<ol start="2" type="a">
+<li><span class="math inline">\(f(x) = \frac{x^2 + 1}{2x - 3}\)</span> at <span class="math inline">\(x = 2\)</span></li>
+</ol>
+<p>Verify your result by computing the derivative analytically and comparing.</p>
+</div>
+<hr>
+<p>Next let us teach Python how to do this.</p>
+<div id="040b4a6d" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic operations on dual numbers represented as tuples (value, derivative)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dual_add(a, b):</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Add two dual numbers: (a, a') + (b, b') = (a + b, a' + b')"""</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (a[<span class="dv">0</span>] <span class="op">+</span> b[<span class="dv">0</span>], a[<span class="dv">1</span>] <span class="op">+</span> b[<span class="dv">1</span>])</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dual_multiply(a, b): </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Multiply two dual numbers: (a, a') * (b, b') = (a*b, a'*b + a*b')"""</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (a[<span class="dv">0</span>] <span class="op">*</span> b[<span class="dv">0</span>], a[<span class="dv">1</span>] <span class="op">*</span> b[<span class="dv">0</span>] <span class="op">+</span> a[<span class="dv">0</span>] <span class="op">*</span> b[<span class="dv">1</span>])</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dual_divide(a, b):</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Divide two dual numbers: (a, a') / (b, b') = (a/b, (a'*b - a*b')/b^2)"""</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (a[<span class="dv">0</span>] <span class="op">/</span> b[<span class="dv">0</span>], (a[<span class="dv">1</span>] <span class="op">*</span> b[<span class="dv">0</span>] <span class="op">-</span> a[<span class="dv">0</span>] <span class="op">*</span> b[<span class="dv">1</span>]) <span class="op">/</span> (b[<span class="dv">0</span>] <span class="op">*</span> b[<span class="dv">0</span>]))</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dual_power(a, n):</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Raise dual number to integer power n: (a, a')^n = (a^n, n*a^(n-1)*a')"""</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (a[<span class="dv">0</span>]<span class="op">**</span>n, n <span class="op">*</span> a[<span class="dv">0</span>]<span class="op">**</span>(n<span class="op">-</span><span class="dv">1</span>) <span class="op">*</span> a[<span class="dv">1</span>])</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dual_sin(a):</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Sine of dual number: sin(a, a') = (sin(a), cos(a)*a')"""</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (np.sin(a[<span class="dv">0</span>]), np.cos(a[<span class="dv">0</span>]) <span class="op">*</span> a[<span class="dv">1</span>])</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dual_exp(a):</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Exponential of dual number: e^(a, a') = (e^a, e^a*a')"""</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    exp_a <span class="op">=</span> np.exp(a[<span class="dv">0</span>])</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (exp_a, exp_a <span class="op">*</span> a[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f3679d33" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> dual_power(x, <span class="dv">2</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> dual_sin(x)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> dual_multiply(u, v)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(3.637189707302727, 1.9726023611141572)</code></pre>
+</div>
+</div>
+<div id="473b7499" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> dual_multiply(dual_power(x, <span class="dv">2</span>), dual_sin(x))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(3.637189707302727, 1.9726023611141572)</code></pre>
+</div>
+</div>
+<p>For multivariate functions, we can compute one directional derivative at a time.</p>
+<p>For a function <span class="math inline">\(f(x, y)\)</span>, to compute <span class="math inline">\(\frac{\partial f}{\partial x}\)</span>, we initialize:</p>
+<ul>
+<li><span class="math inline">\(x = \begin{pmatrix} x \\ 1 \end{pmatrix}\)</span> (value and derivative of <span class="math inline">\(x\)</span> with respect to <span class="math inline">\(x\)</span>)</li>
+<li><span class="math inline">\(y = \begin{pmatrix} y \\ 0 \end{pmatrix}\)</span> (value and derivative of <span class="math inline">\(y\)</span> with respect to <span class="math inline">\(x\)</span>)</li>
+</ul>
+<p>And to compute <span class="math inline">\(\frac{\partial f}{\partial y}\)</span>, we initialize:</p>
+<ul>
+<li><span class="math inline">\(x = \begin{pmatrix} x \\ 0 \end{pmatrix}\)</span> (value and derivative of <span class="math inline">\(x\)</span> with respect to <span class="math inline">\(y\)</span>)</li>
+<li><span class="math inline">\(y = \begin{pmatrix} y \\ 1 \end{pmatrix}\)</span> (value and derivative of <span class="math inline">\(y\)</span> with respect to <span class="math inline">\(y\)</span>)</li>
+</ul>
+<hr>
+<div id="exr-3.34" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.26</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>For <span class="math inline">\(f(x, y) = x^2y + \sin(xy)\)</span>, compute both <span class="math inline">\(\frac{\partial f}{\partial x}\)</span> and <span class="math inline">\(\frac{\partial f}{\partial y}\)</span> at <span class="math inline">\((x, y) = (2, 1)\)</span> using forward mode AD with the dual number approach.</p></li>
+<li><p>For <span class="math inline">\(f(x, y, z) = x^2 y + y\sin(z) + z\cos(x)\)</span>, compute <span class="math inline">\(\frac{\partial f}{\partial x}\)</span>, <span class="math inline">\(\frac{\partial f}{\partial y}\)</span>, and <span class="math inline">\(\frac{\partial f}{\partial z}\)</span> at <span class="math inline">\((x, y, z) = (1, 1, 1)\)</span>.</p></li>
+<li><p>If a function has <span class="math inline">\(n\)</span> inputs and we want all partial derivatives, how many forward mode passes do we need? What implications does this have for functions with many inputs?</p></li>
+</ol>
+</div>
+<hr>
+</section>
+<section id="sec-reverse-ad" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="sec-reverse-ad"><span class="header-section-number">5.2.2</span> Reverse mode AD</h3>
+<p>Now let’s explore <strong>reverse mode</strong> automatic differentiation, which is more efficient for functions with many inputs and few outputs. Reverse mode AD first computes the function value and then propagates derivatives backward from the output to the inputs.</p>
+<p>For this exercise, we’ll introduce the concept of <strong>adjoints</strong> or <strong>accumulated gradients</strong>. The adjoint of a variable <span class="math inline">\(v\)</span> is denoted <span class="math inline">\(\overline{v}\)</span> and represents <span class="math inline">\(\frac{\partial f}{\partial v}\)</span> where <span class="math inline">\(f\)</span> is the final output.</p>
+<div id="exm-3.35" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.3</strong></span> Let’s trace through the reverse mode process for <span class="math inline">\(f(x, y) = x^2y + \sin(xy)\)</span> at <span class="math inline">\((x, y) = (2, 3)\)</span>:</p>
+<ol type="1">
+<li><p>Define intermediate variables in the computation graph as in <a href="#fig-computation-graph" class="quarto-xref">Figure&nbsp;<span>5.4</span></a>:</p>
+<ul>
+<li><span class="math inline">\(v_1 = x^2 = 4\)</span></li>
+<li><span class="math inline">\(v_2 = v_1 \cdot y = 4 \cdot 3 = 12\)</span></li>
+<li><span class="math inline">\(v_3 = x \cdot y = 2 \cdot 3 = 6\)</span></li>
+<li><span class="math inline">\(v_4 = \sin(v_3) = \sin(6) \approx -0.2794\)</span></li>
+<li><span class="math inline">\(f = v_2 + v_4 = 12 + (-0.2794) \approx 11.7206\)</span> (final output)</li>
+</ul></li>
+<li><p>Initialize the adjoint of the output: <span class="math inline">\(\overline{f} = 1\)</span></p></li>
+<li><p>Propagate adjoints backward using the chain rule:</p>
+<ul>
+<li><span class="math inline">\(\overline{v_4} = \overline{f} \cdot \frac{\partial f}{\partial v_4} = 1 \cdot 1 = 1\)</span></li>
+<li><span class="math inline">\(\overline{v_3} = \overline{v_4} \cdot \frac{\partial v_4}{\partial v_3} = 1 \cdot \cos(v_3) = \cos(6) \approx 0.9602\)</span></li>
+<li><span class="math inline">\(\overline{v_2} = \overline{v_5} \cdot \frac{\partial f}{\partial v_2} = 1 \cdot 1 = 1\)</span></li>
+<li><span class="math inline">\(\overline{v_1} = \overline{v_2} \cdot \frac{\partial v_2}{\partial v_1} = 1 \cdot y = 3\)</span></li>
+<li><span class="math inline">\(\overline{x} = \overline{v_1} \cdot \frac{\partial v_1}{\partial x} + \overline{v_3} \cdot \frac{\partial v_3}{\partial y} = 3 \cdot 2x + 0.9602 \cdot y = 3 \cdot 2 \cdot 2 + 0.9602 \cdot 3 \approx 14.8806\)</span></li>
+<li><span class="math inline">\(\overline{y} = \overline{v_2} \cdot \frac{\partial v_2}{\partial y} + \overline{v_3} \cdot \frac{\partial v_3}{\partial y} = 1 \cdot v_1 + 0.9602 \cdot x = 1 \cdot 4 + 0.9602 \cdot 2 \approx 5.9204\)</span></li>
+</ul></li>
+<li><p>The final results are <span class="math inline">\(\frac{\partial f}{\partial x} = \overline{x} \approx 14.8806\)</span> and <span class="math inline">\(\frac{\partial f}{\partial y} = \overline{y} \approx 5.9204\)</span></p></li>
+</ol>
+<p><a href="#fig-reverse-ad" class="quarto-xref">Figure&nbsp;<span>5.6</span></a> illustrates the reverse mode AD computation graph for this example.</p>
+<div id="cell-fig-reverse-ad" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Rectangle, FancyArrowPatch, Circle</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.patheffects <span class="im">as</span> path_effects</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create figure and axis</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create a node</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_node(ax, x, y, value, adjoint, label, r<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create circle</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    circle <span class="op">=</span> Circle((x, y), r, facecolor<span class="op">=</span><span class="st">'lightgreen'</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(circle)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add text for value and adjoint</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    ax.text(x, y<span class="op">+</span><span class="fl">0.1</span>, <span class="ss">f"</span><span class="sc">{</span>value<span class="sc">:.4f}</span><span class="ss">"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    ax.text(x, y<span class="op">-</span><span class="fl">0.2</span>, <span class="ss">f"</span><span class="sc">{</span>adjoint<span class="sc">:.4f}</span><span class="ss">"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add label</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> ax.text(x, y<span class="op">+</span>r<span class="op">+</span><span class="fl">0.2</span>, label, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    text.set_path_effects([path_effects.withStroke(linewidth<span class="op">=</span><span class="dv">3</span>, foreground<span class="op">=</span><span class="st">'white'</span>)])</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (x, y)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create an arrow for forward pass</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_forward_arrow(ax, start, end, label<span class="op">=</span><span class="st">""</span>):</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust start/end points to be at edges of nodes</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    start_x, start_y <span class="op">=</span> start</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    end_x, end_y <span class="op">=</span> end</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fl">0.5</span>  <span class="co"># Node radius</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate vector between centers</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> end_x <span class="op">-</span> start_x</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> end_y <span class="op">-</span> start_y</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    dist <span class="op">=</span> np.sqrt(dx<span class="op">*</span>dx <span class="op">+</span> dy<span class="op">*</span>dy)</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust start/end points to be at node edges</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> (start_x <span class="op">+</span> r<span class="op">*</span>dx<span class="op">/</span>dist, start_y <span class="op">+</span> r<span class="op">*</span>dy<span class="op">/</span>dist)</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> (end_x <span class="op">-</span> r<span class="op">*</span>dx<span class="op">/</span>dist, end_y <span class="op">-</span> r<span class="op">*</span>dy<span class="op">/</span>dist)</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    arrow <span class="op">=</span> FancyArrowPatch(start, end, connectionstyle<span class="op">=</span><span class="st">"arc3,rad=0.1"</span>, </span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>                            arrowstyle<span class="op">=</span><span class="st">"simple"</span>, mutation_scale<span class="op">=</span><span class="dv">20</span>, </span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>                            linewidth<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(arrow)</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add label to arrow</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> label:</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>        mid_x <span class="op">=</span> (start[<span class="dv">0</span>] <span class="op">+</span> end[<span class="dv">0</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>        mid_y <span class="op">=</span> (start[<span class="dv">1</span>] <span class="op">+</span> end[<span class="dv">1</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Offset the label position slightly</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>        offset_x <span class="op">=</span> <span class="fl">0.3</span> <span class="cf">if</span> start[<span class="dv">0</span>] <span class="op">&lt;</span> end[<span class="dv">0</span>] <span class="cf">else</span> <span class="op">-</span><span class="fl">0.3</span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>        offset_y <span class="op">=</span> <span class="fl">0.3</span> <span class="cf">if</span> start[<span class="dv">1</span>] <span class="op">&lt;</span> end[<span class="dv">1</span>] <span class="cf">else</span> <span class="op">-</span><span class="fl">0.3</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> ax.text(mid_x <span class="op">+</span> offset_x, mid_y <span class="op">+</span> offset_y, label, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>        text.set_path_effects([path_effects.withStroke(linewidth<span class="op">=</span><span class="dv">3</span>, foreground<span class="op">=</span><span class="st">'white'</span>)])</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create an arrow for backward pass</span></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_backward_arrow(ax, start, end, label<span class="op">=</span><span class="st">""</span>):</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust start/end points to be at edges of nodes</span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    start_x, start_y <span class="op">=</span> start</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    end_x, end_y <span class="op">=</span> end</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="fl">0.5</span>  <span class="co"># Node radius</span></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate vector between centers</span></span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> end_x <span class="op">-</span> start_x</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> end_y <span class="op">-</span> start_y</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>    dist <span class="op">=</span> np.sqrt(dx<span class="op">*</span>dx <span class="op">+</span> dy<span class="op">*</span>dy)</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust start/end points to be at node edges</span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> (start_x <span class="op">+</span> r<span class="op">*</span>dx<span class="op">/</span>dist, start_y <span class="op">+</span> r<span class="op">*</span>dy<span class="op">/</span>dist)</span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> (end_x <span class="op">-</span> r<span class="op">*</span>dx<span class="op">/</span>dist, end_y <span class="op">-</span> r<span class="op">*</span>dy<span class="op">/</span>dist)</span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>    arrow <span class="op">=</span> FancyArrowPatch(start, end, connectionstyle<span class="op">=</span><span class="st">"arc3,rad=0.1"</span>, </span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>                            arrowstyle<span class="op">=</span><span class="st">"simple"</span>, mutation_scale<span class="op">=</span><span class="dv">20</span>, </span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>                            linewidth<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>    ax.add_patch(arrow)</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add label to arrow</span></span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> label:</span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>        mid_x <span class="op">=</span> (start[<span class="dv">0</span>] <span class="op">+</span> end[<span class="dv">0</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>        mid_y <span class="op">=</span> (start[<span class="dv">1</span>] <span class="op">+</span> end[<span class="dv">1</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Offset the label position slightly</span></span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>        offset_x <span class="op">=</span> <span class="op">-</span><span class="dv">0</span> <span class="cf">if</span> end[<span class="dv">0</span>] <span class="op">&lt;</span> start[<span class="dv">0</span>] <span class="cf">else</span> <span class="op">-</span><span class="fl">0.3</span></span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>        offset_y <span class="op">=</span> <span class="fl">0.3</span> <span class="cf">if</span> end[<span class="dv">1</span>] <span class="op">&lt;</span> start[<span class="dv">1</span>] <span class="cf">else</span> <span class="fl">0.3</span></span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> ax.text(mid_x <span class="op">+</span> offset_x, mid_y <span class="op">+</span> offset_y, label, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>        text.set_path_effects([path_effects.withStroke(linewidth<span class="op">=</span><span class="dv">3</span>, foreground<span class="op">=</span><span class="st">'white'</span>)])</span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Create nodes</span></span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a>x_node <span class="op">=</span> create_node(ax, <span class="fl">0.5</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="fl">14.8806</span>, <span class="st">"x = 2"</span>)</span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a>y_node <span class="op">=</span> create_node(ax, <span class="fl">0.5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="fl">5.9204</span>, <span class="st">"y = 1"</span>)</span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a>x_squared_node <span class="op">=</span> create_node(ax, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="st">"v₁ = x²"</span>)</span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>xy_node <span class="op">=</span> create_node(ax, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="fl">0.9602</span>, <span class="st">"v₃ = xy"</span>)</span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a>x_squared_y_node <span class="op">=</span> create_node(ax, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">12</span>, <span class="dv">1</span>, <span class="st">"v₂ = v₁y"</span>)</span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a>sin_xy_node <span class="op">=</span> create_node(ax, <span class="dv">5</span>, <span class="dv">2</span>, <span class="op">-</span><span class="fl">0.2794</span>, <span class="dv">1</span>, <span class="st">"v₄ = sin(v₃)"</span>)</span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>output_node <span class="op">=</span> create_node(ax, <span class="dv">7</span>, <span class="dv">3</span>, <span class="fl">11.7206</span>, <span class="dv">1</span>, <span class="st">"f = v₂ + v₄"</span>)</span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Create forward pass arrows</span></span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a>create_forward_arrow(ax, x_node, x_squared_node)</span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>create_forward_arrow(ax, x_node, xy_node)</span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a>create_forward_arrow(ax, y_node, xy_node)</span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a>create_forward_arrow(ax, y_node, x_squared_y_node)</span>
+<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a>create_forward_arrow(ax, x_squared_node, x_squared_y_node)</span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a>create_forward_arrow(ax, xy_node, sin_xy_node)</span>
+<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a>create_forward_arrow(ax, x_squared_y_node, output_node)</span>
+<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a>create_forward_arrow(ax, sin_xy_node, output_node)</span>
+<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a><span class="co"># Create backward pass arrows</span></span>
+<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a>create_backward_arrow(ax, output_node, x_squared_y_node, <span class="st">"∂f/∂v₂ = 1"</span>)</span>
+<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a>create_backward_arrow(ax, output_node, sin_xy_node, <span class="st">"∂f/∂v₄ = 1"</span>)</span>
+<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a>create_backward_arrow(ax, sin_xy_node, xy_node, <span class="st">"∂v₄/∂v₃ = cos(v₃)"</span>)</span>
+<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a>create_backward_arrow(ax, x_squared_y_node, x_squared_node, <span class="st">"∂v₂/∂v₁ = y"</span>)</span>
+<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a>create_backward_arrow(ax, x_squared_y_node, y_node, <span class="st">"∂v₂/∂y = v₁"</span>)</span>
+<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a>create_backward_arrow(ax, xy_node, x_node, <span class="st">"∂v₃/∂x = y"</span>)</span>
+<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a>create_backward_arrow(ax, xy_node, y_node, <span class="st">"∂v₃/∂y = x"</span>)</span>
+<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a>create_backward_arrow(ax, x_squared_node, x_node, <span class="st">"∂v₁/∂x = 2x"</span>)</span>
+<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a><span class="co"># Set limits and remove axis</span></span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, <span class="dv">8</span>)</span>
+<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a>ax.axis(<span class="st">'off'</span>)</span>
+<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and explanation</span></span>
+<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Reverse Mode Automatic Differentiation"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="dv">4</span>, <span class="dv">1</span>, <span class="st">"Forward pass: compute function values (blue)</span><span class="ch">\n</span><span class="st">Backward pass: propagate adjoints/gradients (red)"</span>, </span>
+<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, </span>
+<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a>        bbox<span class="op">=</span><span class="bu">dict</span>(facecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, edgecolor<span class="op">=</span><span class="st">'gray'</span>, boxstyle<span class="op">=</span><span class="st">'round,pad=0.5'</span>))</span>
+<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-reverse-ad" class="quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reverse-ad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="nmDerivatives_files/figure-html/fig-reverse-ad-output-1.png" width="758" height="470" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reverse-ad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.6: Reverse mode automatic differentiation for f(x,y) = x²y + sin(xy) at (x,y) = (2,1)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div id="exr-3.35" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.27</strong></span> Trace through the reverse mode process for:</p>
+<ol type="a">
+<li><p><span class="math inline">\(f(x, y) = e^{xy}\)</span> at <span class="math inline">\((x, y) = (0, 1)\)</span>.</p></li>
+<li><p><span class="math inline">\(f(x, y, z) = x^2 + y^2 + z^2 + xy + yz + xz\)</span> at <span class="math inline">\((x, y, z) = (1, 1, 1)\)</span>.</p></li>
+</ol>
+</div>
+<hr>
+<p>Let’s now look at how to use JAX, a library that provides automatic differentiation in Python. JAX is designed to be simple to use while providing powerful capabilities. Unlike our finite-difference methods that had truncation errors, JAX computes the derivative exactly (to machine precision).</p>
+<div id="exm-3.37" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.4</strong></span> Here’s a simple example using JAX to compute derivatives:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> jax</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> jax.numpy <span class="im">as</span> jnp</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jnp.sin(x) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> x)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the derivative function</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> jax.grad(f)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate at x = 1</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"f(1) = </span><span class="sc">{</span>f(<span class="dv">1</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"f'(1) = </span><span class="sc">{</span>df(<span class="fl">1.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Two things to note:</p>
+<ul>
+<li>We had to use the jax versions of NumPy functions, like <code>jnp.sin</code> instead of <code>np.sin</code>.</li>
+<li>We had to pass a float to the <code>df</code> function, rather than an integer. So we had to write <code>df(1.0)</code> instead of <code>df(1)</code>.</li>
+</ul>
+</div>
+<div id="exr-3.37" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.28</strong></span> Use JAX to compute the derivatives of:</p>
+<ol type="a">
+<li><p><span class="math inline">\(f(x) = x^3 - 2x^2 + 4x - 7\)</span></p></li>
+<li><p><span class="math inline">\(f(x) = sin(x) * exp(x)\)</span></p></li>
+<li><p><span class="math inline">\(f(x) = (x^2 + 1) / (2x - 3)\)</span></p></li>
+</ol>
+<p>Check that you get the same results as in <a href="#exr-3.33" class="quarto-xref">Exercise&nbsp;<span>5.25</span></a>.</p>
+<pre><code>
+:::
+
+::: {#exm-3.37b}
+
+For multivariate functions, JAX allows us to compute partial derivatives:
+
+```python
+def g(x, y):
+    return x**2 * y + jnp.sin(x * y)
+
+# Compute partial with respect to first argument (x)
+dg_dx = jax.grad(g, argnums=0)
+
+# Compute partial with respect to second argument (y)
+dg_dy = jax.grad(g, argnums=1)
+
+# Evaluate at (2, 1)
+print(f"∂g/∂x at (2,1) = {dg_dx(2.0, 1.0)}")
+print(f"∂g/∂y at (2,1) = {dg_dy(2.0, 1.0)}")</code></pre>
+</div>
+<div id="exr-3.37b" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.29</strong></span> Use this approach to compute the partial derivatives of:</p>
+<ol type="a">
+<li><p><span class="math inline">\(f(x, y) = x*exp(y+x) + y*sin(x*y)\)</span></p></li>
+<li><p><span class="math inline">\(f(x, y, z) = x^2*y + y*sin(z) + z*cos(x)\)</span></p></li>
+</ol>
+</div>
+<p>JAX can also compute higher-order derivatives:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Second derivative</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>d2f <span class="op">=</span> jax.grad(jax.grad(f))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"f''(1) = </span><span class="sc">{</span>d2f(<span class="fl">1.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Or more concisely</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>d2f <span class="op">=</span> jax.hessian(f)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"f''(1) = </span><span class="sc">{</span>d2f(<span class="fl">1.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+<div id="exr-3.38" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.30</strong></span> Compare the accuracy and efficiency of the differentiation methods we’ve studied:</p>
+<ol type="1">
+<li><p>For the function <span class="math inline">\(f(x) = \sin(x)(1 - x)\)</span>, compute the derivative at <span class="math inline">\(x = 1\)</span> using:</p>
+<ol type="a">
+<li><p>Forward difference with step sizes <span class="math inline">\(h = 0.1, 0.01, 0.001\)</span></p></li>
+<li><p>Central difference with step sizes <span class="math inline">\(h = 0.1, 0.01, 0.001\)</span></p></li>
+<li><p>JAX automatic differentiation</p></li>
+</ol>
+<p>Create a table giving the value of the derivative and the absolute error for each of these 7 cases.</p></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="algorithm-summaries" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="algorithm-summaries"><span class="header-section-number">5.3</span> Algorithm Summaries</h2>
+<div id="exr-3.87" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.31</strong></span> Starting from Taylor series prove that <span class="math display">\[\begin{equation}
+f'(x) \approx \frac{f(x+h) - f(x)}{h}
+\end{equation}\]</span> is a first-order approximation of the first derivative of <span class="math inline">\(f(x)\)</span>. Clearly describe what “first-order approximation” means in this context.</p>
+</div>
+<hr>
+<div id="exr-3.88" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.32</strong></span> Starting from Taylor series prove that <span class="math display">\[\begin{equation}
+f'(x) \approx \frac{f(x+h) - f(x-h)}{2h}
+\end{equation}\]</span> is a second-order approximation of the first derivative of <span class="math inline">\(f(x)\)</span>. Clearly describe what “second-order approximation” means in this context.</p>
+</div>
+<hr>
+<div id="exr-3.89" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.33</strong></span> Starting from Taylor series prove that <span class="math display">\[\begin{equation}
+f''(x) \approx \frac{f(x+h) - 2f(x) + f(x-h)}{h^2}
+\end{equation}\]</span> is a second-order approximation of the second derivative of <span class="math inline">\(f(x)\)</span>. Clearly describe what “second-order approximation” means in this context.</p>
+</div>
+<hr>
+<div id="exr-3.90a" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.34</strong></span> Explain how to define arithmeticoperations on dual numbers and how to use them to compute the derivative of a function with forward mode automatic differentiation.</p>
+</div>
+<hr>
+<div id="exr-3.90b" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.35</strong></span> Given a computation graph of a function, explain how to accumulate the gradients in a backwards pass through the computation graph. What is the advantage of this method over forward mode automatic differentiation?</p>
+</div>
+<hr>
+</section>
+<section id="problems" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="problems"><span class="header-section-number">5.4</span> Problems</h2>
+<div id="exr-3.97" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.36</strong></span> For each of the following numerical differentiation formulas</p>
+<ol type="1">
+<li>prove that the formula is true and</li>
+<li>find the order of the method.</li>
+</ol>
+<p>To prove that each of the formulas is true you will need to write the Taylor series for all of the terms in the numerator on the right and then simplify to solve for the necessary derivative. The highest power of the remainder should reveal the order of the method.</p>
+<ol type="1">
+<li><p><span class="math inline">\(f'(x) \approx \frac{\frac{1}{12} f(x-2h) - \frac{2}{3} f(x-h) + \frac{2}{3} f(x+h) - \frac{1}{12} f(x+2h)}{h}\)</span></p></li>
+<li><p><span class="math inline">\(f'(x) \approx \frac{-\frac{3}{2} f(x) + 2 f(x+h) - \frac{1}{2} f(x+2h)}{h}\)</span></p></li>
+<li><p><span class="math inline">\(f''(x) \approx \frac{-\frac{1}{12} f(x-2h) + \frac{4}{3} f(x-h) - \frac{5}{2} f(x) + \frac{4}{3} f(x+h) - \frac{1}{12} f(x+2h)}{h^2}\)</span></p></li>
+<li><p><span class="math inline">\(f'''(x) \approx \frac{-\frac{1}{2} f(x-2h) + f(x-h) - f(x+h) + \frac{1}{2} f(x+2h)}{h^3}\)</span></p></li>
+</ol>
+</div>
+<hr>
+<div id="exr-3.98" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.37</strong></span> Write a function that accepts a list of <span class="math inline">\((x,y)\)</span> ordered pairs from a spreadsheet and returns a list of <span class="math inline">\((x,y)\)</span> ordered pairs for a first order approximation of the first derivative of the underlying function. Create a test spreadsheet file and a test script that have graphical output showing that your function is finding the correct derivative.</p>
+</div>
+<hr>
+<div id="exr-3.99" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.38</strong></span> Write a function that accepts a list of <span class="math inline">\((x,y)\)</span> ordered pairs from a spreadsheet or a <code>*.csv</code> file and returns a list of <span class="math inline">\((x,y)\)</span> ordered pairs for a second order approximation of the second derivative of the underlying function. Create a test spreadsheet file and a test script that have graphical output showing that your function is finding the correct derivative.</p>
+</div>
+<hr>
+<div id="exr-3.103" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.39</strong></span> Go to <a href="https://www.data.gov/">data.gov</a> or the <a href="http://apps.who.int/gho/data/?theme=home">World Health Organization Data Repository</a> and find a data set where the variables naturally lead to a meaningful derivative. Use appropriate code to evaluate and plot the derivative. If your data appears to be subject to significant noise then you may want to smooth the data first before doing the derivative. Write a few sentences explaining what the derivative means in the context of the data. Be very cautious of the units on the data sets and the units of your answer.</p>
+</div>
+<hr>
+<div id="exr-3.105" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.40</strong></span> A bicyclist completes a race course in 90 seconds. The speed of the biker at each 10-second interval is determined using a radar gun and is given in the table in feet per second. How long is the race course?</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Time (sec)</strong></th>
+<th><strong>0</strong></th>
+<th><strong>10</strong></th>
+<th><strong>20</strong></th>
+<th><strong>30</strong></th>
+<th><strong>40</strong></th>
+<th><strong>50</strong></th>
+<th><strong>60</strong></th>
+<th><strong>70</strong></th>
+<th><strong>80</strong></th>
+<th><strong>90</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Speed (ft/sec)</td>
+<td>34</td>
+<td>32</td>
+<td>29</td>
+<td>33</td>
+<td>37</td>
+<td>40</td>
+<td>41</td>
+<td>36</td>
+<td>38</td>
+<td>39</td>
+</tr>
+</tbody>
+</table>
+<p>You can download the data with the following code.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.array(pd.read_csv(<span class="st">'https://github.com/gustavdelius/NumericalAnalysis2025/raw/main/data/Calculus/bikespeed.csv'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./nmNonlinear.html" class="pagination-link" aria-label="Non-linear Equations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Non-linear Equations</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2025/edit/main/nmDerivatives.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

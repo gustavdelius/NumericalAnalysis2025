@@ -42,6 +42,7 @@ book:
     - nmNumbers.qmd
     - nmFunctions.qmd
     - nmNonlinear.qmd
+    - nmDerivatives.qmd
 
 bibliography: references.bib
 
