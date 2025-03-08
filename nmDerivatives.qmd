@@ -4,10 +4,11 @@
 > --[Hungarian-American Mathematician John von Neumann](https://en.wikipedia.org/wiki/John_von_Neumann)
 
 The primary goal of this chapter is to build a solid understanding of the basic techniques for numerical differentiation. This will be crucial in the later chapters of this book when we do optimisation and when we numerically integrate ordinary and partial differential equations.
+
 We use this chapter also to comment on the importance of writing vectorized code using NumPy.
 And this chapter will again let us investigate truncation errors that we first discussed in @sec-functions. This is because in this chapter too, we will make use of Taylor series that we need to truncate at some order to give us practical methods.
 
-## Differentiation with Finite Differences {#sec-differentiation}
+## Finite Differences {#sec-finite-differences}
 
 ### The First Derivative
 
@@ -75,7 +76,7 @@ This distance $\Delta x$ between neighbouring points in the partition is often r
 ------------------------------------------------------------------------
 
 ::: {#exr-3.8}
- In Python's `numpy` library there is a nice tool called `np.linspace()` that partitions an interval in exactly the way that we want. The command takes the form `np.linspace(a, b, n)` where the interval is $[a,b]$ and $n$ the number of points used to create the partition. For example, `np.linspace(0,1,5)` will produce the list of numbers `0, 0.25, 0.5, 0.75, 1`. Notice that there are 5 total points, the first point is $a$, the last point is $b$, and there are $4$ total sub intervals in the partition. Hence, if we want to partition the interval $[0,1]$ into 20 equal sub intervals then we would use the command `np.linspace(0,1,21)` which would result in a list of numbers starting with `0, 0.05, 0.1, 0.15,` etc. What command would you use to partition the interval $[5,10]$ into $100$ equal sub intervals?
+ 🎓 In Python's `numpy` library there is a nice tool called `np.linspace()` that partitions an interval in exactly the way that we want. The command takes the form `np.linspace(a, b, n)` where the interval is $[a,b]$ and $n$ the number of points used to create the partition. For example, `np.linspace(0,1,5)` will produce the list of numbers `0, 0.25, 0.5, 0.75, 1`. Notice that there are 5 total points, the first point is $a$, the last point is $b$, and there are $4$ total sub intervals in the partition. Hence, if we want to partition the interval $[0,1]$ into 20 equal sub intervals then we would use the command `np.linspace(0,1,21)` which would result in a list of numbers starting with `0, 0.05, 0.1, 0.15,` etc. What command would you use to partition the interval $[5,10]$ into $100$ equal sub intervals?
 
 :::
 
@@ -139,7 +140,7 @@ f'(x) = \frac{f(x+h) - ???}{??} + \underline{\hspace{2in}}
 ------------------------------------------------------------------------
 
 ::: {#exr-3.12}
- In the formula that you developed in @exr-3.11, if we were to truncate after the first fraction and drop everything else (called the *remainder*), we know that we would be introducing a truncation error into our derivative computation. If $h$ is taken to be very small then the first term in the remainder is the largest and everything else in the remainder can be ignored (since all subsequent terms should be extremely small ... pause and ponder this fact). Therefore, the amount of error we make in the derivative computation by dropping the remainder depends on the power of $h$ in that first term in the remainder.
+ 🎓 In the formula that you developed in @exr-3.11, if we were to truncate after the first fraction and drop everything else (called the *remainder*), we know that we would be introducing a truncation error into our derivative computation. If $h$ is taken to be very small then the first term in the remainder is the largest and everything else in the remainder can be ignored (since all subsequent terms should be extremely small ... pause and ponder this fact). Therefore, the amount of error we make in the derivative computation by dropping the remainder depends on the power of $h$ in that first term in the remainder.
 
 What is the power of $h$ in the first term of the remainder from @exr-3.11?
 :::
@@ -224,7 +225,7 @@ f.  What does your answer to part (e) have to do with the approximation order of
 ------------------------------------------------------------------------
 
 ::: {#exr-3.14}
- The following incomplete block of Python code will help to streamline the previous exercise so that you do not need to do the computation with a spreadsheet.
+🎓 The following incomplete block of Python code will help to streamline the previous exercise so that you do not need to do the computation with a spreadsheet.
 
 a.  Comment every existing line with a thorough description.
 
@@ -237,20 +238,29 @@ d.  Run the code for several different choices of the function $f$ and several d
 ``` python    
 import numpy as np
 import matplotlib.pyplot as plt
+
 f = lambda x: np.sin(x) * (1-x) # what does this line do?
 exact = -np.sin(1) # what does this line do?
+
 H = 2.0**(-np.arange(1,10)) # what does this line do?
 AbsError = [] # start off with a blank list of errors
+
+# Create columns with column headers
+print(f"{'h':<12} {'Absolute Error':<22} {'Reduction factor':<20}")
+print("------------------------------------------------------")
+
+# Fill the rows of the table
 for h in H:
     approx = # FINISH THIS LINE OF CODE
-    AbsError.append(np.abs((approx - exact)/exact))
+    AbsError.append(abs((approx - exact)/exact))
     if h==H[0]:
-      print("h=",h,"\t\t Absolute Pct Error=", AbsError[-1])
+      reduction_factor = ''
     else:
-      err_reduction_factor = AbsError[-2]/AbsError[-1]
-      print("h=",h,"\t Absolute Error=", AbsError[-1],
-              "with error reduction",err_reduction_factor)
-plt.loglog(H,AbsError,'b-*') # Why are we building a loglog plot?
+      reduction_factor = AbsError[-2]/AbsError[-1]
+    print(f"{h:<12} {AbsError[-1]:<22} {reduction_factor:<20}")
+
+# Make a plot
+plt.loglog(H, AbsError, 'b-*') # Why are we making a loglog plot?
 plt.grid()
 plt.show()
 ```
@@ -374,7 +384,7 @@ def ForwardDiff(f,a,b,N):
 :::
 
 ::: {#exr-3.19}
- Write code that finds a first order approximation for the first derivative of $f(x) = \sin(x) - x\sin(x)$ on the interval $x \in (0,15)$. Your script should output two plots (side-by-side).
+🎓 Write code that finds a first order approximation for the first derivative of $f(x) = \sin(x) - x\sin(x)$ on the interval $x \in (0,15)$. Your script should output two plots (side-by-side).
 
 a.  The left-hand plot should show the function in blue and the approximate first derivative as a red dashed curve. Sample code for this exercise is given below.
 
@@ -460,7 +470,7 @@ f'(x) = \underline{\hspace{2in}} + \mathcal{O}(h^2).
 ------------------------------------------------------------------------
 
 ::: {#exr-3.21}
- Let us return to the function $f(x) = \sin(x)(1- x)$ but this time we will approximate the first derivative at $x=1$ using the formula 
+🎓 Let us return to the function $f(x) = \sin(x)(1- x)$ but this time we will approximate the first derivative at $x=1$ using the formula 
 \begin{equation}
 f'(1) \approx \frac{f(1+h) - f(1-h)}{2h}=:\delta f(1).
 \end{equation}
@@ -607,9 +617,9 @@ f''(x) = \frac{?? - 2 \cdot ?? + ??}{h^2} + \underline{\hspace{1in}}.
 ------------------------------------------------------------------------
 
 ::: {#exr-3.27}
- Again consider the function $f(x) = \sin(x)(1 - x)$.
+🎓 Again consider the function $f(x) = \sin(x)(1 - x)$.
 
-1.  Calculate the derivative of this function and calculate the exact value of $f''(1)$.
+1.  Calculate the second derivative of this function analytically and evaluate it at $x=1$.
 
 2.  If we calculate the second derivative with the central difference scheme that you built in the previous exercise using $h = 0.5$ then we get an absolute error of about 0.044466. Stop now and verify this error calculation.
 
@@ -660,11 +670,11 @@ The table below summarizes the formulas that we have for derivatives thus far. T
 ::: {#exr-3.30}
  Let $f(x)$ be a twice differentiable function. We are interested in the first and second derivative of the function $f$ at the point $x = 1.74$. Use what you have learned in this section to answer the following questions. (For clarity, you can think of "$f$" as a different function in each of the following questions ...it does not really matter exactly what function $f$ is.)
 
-1.  Johnny used a numerical first derivative scheme with $h = 0.1$ to approximate $f'(1.74)$ and found an absolute error of 3.28. He then used $h=0.01$ and found an absolute error of 0.328. What was the order of the error in his first derivative scheme? How can you tell?
+1.  🎓 Johnny used a numerical first derivative scheme with $h = 0.1$ to approximate $f'(1.74)$ and found an absolute error of 3.28. He then used $h=0.01$ and found an absolute error of 0.328. What was the order of the error in his first derivative scheme? How can you tell?
 
-2.  Betty used a numerical first derivative scheme with $h = 0.2$ to approximate $f'(1.74)$ and found an absolute error of 4.32. She then used $h=0.1$ and found an absolute   error of 1.08. What numerical first derivative scheme did she likely use?
+2.  🎓 Betty used a numerical first derivative scheme with $h = 0.2$ to approximate $f'(1.74)$ and found an absolute error of 4.32. She then used $h=0.1$ and found an absolute   error of 1.08. What numerical first derivative scheme did she likely use?
 
-4.  Harry wants to compute $f''(1.74)$ to within 1% using a central difference scheme. He tries $h=0.25$ and gets an absolute percentage  error of 3.71%. What $h$ should he try next so that his absolute percentage  error is close to 1%?
+3.  🎓 Harry wants to compute $f''(1.74)$ to within 1% using a central difference scheme. He tries $h=0.25$ and gets an absolute percentage  error of 3.71%. What $h$ should he try next so that his absolute percentage  error is close to 1%?
 
 :::
 

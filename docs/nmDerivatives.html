@@ -229,7 +229,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-differentiation" id="toc-sec-differentiation" class="nav-link active" data-scroll-target="#sec-differentiation"><span class="header-section-number">5.1</span> Differentiation with Finite Differences</a>
+  <li><a href="#sec-finite-differences" id="toc-sec-finite-differences" class="nav-link active" data-scroll-target="#sec-finite-differences"><span class="header-section-number">5.1</span> Finite Differences</a>
   <ul>
   <li><a href="#the-first-derivative" id="toc-the-first-derivative" class="nav-link" data-scroll-target="#the-first-derivative"><span class="header-section-number">5.1.1</span> The First Derivative</a></li>
   <li><a href="#truncation-error" id="toc-truncation-error" class="nav-link" data-scroll-target="#truncation-error"><span class="header-section-number">5.1.2</span> Truncation error</a></li>
@@ -273,9 +273,10 @@ window.Quarto = {
 <p><em>The calculus was the first achievement of modern mathematics and it is difficult to overestimate its importance.</em><br>
 –<a href="https://en.wikipedia.org/wiki/John_von_Neumann">Hungarian-American Mathematician John von Neumann</a></p>
 </blockquote>
-<p>The primary goal of this chapter is to build a solid understanding of the basic techniques for numerical differentiation. This will be crucial in the later chapters of this book when we do optimisation and when we numerically integrate ordinary and partial differential equations. We use this chapter also to comment on the importance of writing vectorized code using NumPy. And this chapter will again let us investigate truncation errors that we first discussed in <a href="nmFunctions.html" class="quarto-xref"><span>Chapter 3</span></a>. This is because in this chapter too, we will make use of Taylor series that we need to truncate at some order to give us practical methods.</p>
-<section id="sec-differentiation" class="level2 page-columns page-full" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="sec-differentiation"><span class="header-section-number">5.1</span> Differentiation with Finite Differences</h2>
+<p>The primary goal of this chapter is to build a solid understanding of the basic techniques for numerical differentiation. This will be crucial in the later chapters of this book when we do optimisation and when we numerically integrate ordinary and partial differential equations.</p>
+<p>We use this chapter also to comment on the importance of writing vectorized code using NumPy. And this chapter will again let us investigate truncation errors that we first discussed in <a href="nmFunctions.html" class="quarto-xref"><span>Chapter 3</span></a>. This is because in this chapter too, we will make use of Taylor series that we need to truncate at some order to give us practical methods.</p>
+<section id="sec-finite-differences" class="level2 page-columns page-full" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-finite-differences"><span class="header-section-number">5.1</span> Finite Differences</h2>
 <section id="the-first-derivative" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="the-first-derivative"><span class="header-section-number">5.1.1</span> The First Derivative</h3>
 <div id="exr-3.6" class="theorem exercise">
@@ -331,7 +332,7 @@ h = \frac{\underline{\hspace{0.25in}} - \underline{\hspace{0.25in}}}{\underline{
 </div>
 <hr>
 <div id="exr-3.8" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.3</strong></span> In Python’s <code>numpy</code> library there is a nice tool called <code>np.linspace()</code> that partitions an interval in exactly the way that we want. The command takes the form <code>np.linspace(a, b, n)</code> where the interval is <span class="math inline">\([a,b]\)</span> and <span class="math inline">\(n\)</span> the number of points used to create the partition. For example, <code>np.linspace(0,1,5)</code> will produce the list of numbers <code>0, 0.25, 0.5, 0.75, 1</code>. Notice that there are 5 total points, the first point is <span class="math inline">\(a\)</span>, the last point is <span class="math inline">\(b\)</span>, and there are <span class="math inline">\(4\)</span> total sub intervals in the partition. Hence, if we want to partition the interval <span class="math inline">\([0,1]\)</span> into 20 equal sub intervals then we would use the command <code>np.linspace(0,1,21)</code> which would result in a list of numbers starting with <code>0, 0.05, 0.1, 0.15,</code> etc. What command would you use to partition the interval <span class="math inline">\([5,10]\)</span> into <span class="math inline">\(100\)</span> equal sub intervals?</p>
+<p><span class="theorem-title"><strong>Exercise 5.3</strong></span> 🎓 In Python’s <code>numpy</code> library there is a nice tool called <code>np.linspace()</code> that partitions an interval in exactly the way that we want. The command takes the form <code>np.linspace(a, b, n)</code> where the interval is <span class="math inline">\([a,b]\)</span> and <span class="math inline">\(n\)</span> the number of points used to create the partition. For example, <code>np.linspace(0,1,5)</code> will produce the list of numbers <code>0, 0.25, 0.5, 0.75, 1</code>. Notice that there are 5 total points, the first point is <span class="math inline">\(a\)</span>, the last point is <span class="math inline">\(b\)</span>, and there are <span class="math inline">\(4\)</span> total sub intervals in the partition. Hence, if we want to partition the interval <span class="math inline">\([0,1]\)</span> into 20 equal sub intervals then we would use the command <code>np.linspace(0,1,21)</code> which would result in a list of numbers starting with <code>0, 0.05, 0.1, 0.15,</code> etc. What command would you use to partition the interval <span class="math inline">\([5,10]\)</span> into <span class="math inline">\(100\)</span> equal sub intervals?</p>
 </div>
 <hr>
 <div id="exr-3.9" class="theorem exercise">
@@ -379,7 +380,7 @@ f'(x) = \frac{f(x+h) - ???}{??} + \underline{\hspace{2in}}
 </div>
 <hr>
 <div id="exr-3.12" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.7</strong></span> In the formula that you developed in <a href="#exr-3.11" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>, if we were to truncate after the first fraction and drop everything else (called the <em>remainder</em>), we know that we would be introducing a truncation error into our derivative computation. If <span class="math inline">\(h\)</span> is taken to be very small then the first term in the remainder is the largest and everything else in the remainder can be ignored (since all subsequent terms should be extremely small … pause and ponder this fact). Therefore, the amount of error we make in the derivative computation by dropping the remainder depends on the power of <span class="math inline">\(h\)</span> in that first term in the remainder.</p>
+<p><span class="theorem-title"><strong>Exercise 5.7</strong></span> 🎓 In the formula that you developed in <a href="#exr-3.11" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>, if we were to truncate after the first fraction and drop everything else (called the <em>remainder</em>), we know that we would be introducing a truncation error into our derivative computation. If <span class="math inline">\(h\)</span> is taken to be very small then the first term in the remainder is the largest and everything else in the remainder can be ignored (since all subsequent terms should be extremely small … pause and ponder this fact). Therefore, the amount of error we make in the derivative computation by dropping the remainder depends on the power of <span class="math inline">\(h\)</span> in that first term in the remainder.</p>
 <p>What is the power of <span class="math inline">\(h\)</span> in the first term of the remainder from <a href="#exr-3.11" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>?</p>
 </div>
 <hr>
@@ -486,7 +487,7 @@ f'(1) \approx \frac{f(1+h) - f(1)}{h}=:\Delta f(1).
 </div>
 <hr>
 <div id="exr-3.14" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.9</strong></span> The following incomplete block of Python code will help to streamline the previous exercise so that you do not need to do the computation with a spreadsheet.</p>
+<p><span class="theorem-title"><strong>Exercise 5.9</strong></span> 🎓 The following incomplete block of Python code will help to streamline the previous exercise so that you do not need to do the computation with a spreadsheet.</p>
 <ol type="a">
 <li><p>Comment every existing line with a thorough description.</p></li>
 <li><p>Fill in the blanks in the code to perform the spreadsheet computations from the previous exercise.</p></li>
@@ -495,22 +496,31 @@ f'(1) \approx \frac{f(1+h) - f(1)}{h}=:\Delta f(1).
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x) <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>x) <span class="co"># what does this line do?</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>exact <span class="op">=</span> <span class="op">-</span>np.sin(<span class="dv">1</span>) <span class="co"># what does this line do?</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> <span class="fl">2.0</span><span class="op">**</span>(<span class="op">-</span>np.arange(<span class="dv">1</span>,<span class="dv">10</span>)) <span class="co"># what does this line do?</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>AbsError <span class="op">=</span> [] <span class="co"># start off with a blank list of errors</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> h <span class="kw">in</span> H:</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    approx <span class="op">=</span> <span class="co"># FINISH THIS LINE OF CODE</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    AbsError.append(np.<span class="bu">abs</span>((approx <span class="op">-</span> exact)<span class="op">/</span>exact))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> h<span class="op">==</span>H[<span class="dv">0</span>]:</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="st">"h="</span>,h,<span class="st">"</span><span class="ch">\t\t</span><span class="st"> Absolute Pct Error="</span>, AbsError[<span class="op">-</span><span class="dv">1</span>])</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      err_reduction_factor <span class="op">=</span> AbsError[<span class="op">-</span><span class="dv">2</span>]<span class="op">/</span>AbsError[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="st">"h="</span>,h,<span class="st">"</span><span class="ch">\t</span><span class="st"> Absolute Error="</span>, AbsError[<span class="op">-</span><span class="dv">1</span>],</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>              <span class="st">"with error reduction"</span>,err_reduction_factor)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.loglog(H,AbsError,<span class="st">'b-*'</span>) <span class="co"># Why are we building a loglog plot?</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> x: np.sin(x) <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>x) <span class="co"># what does this line do?</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>exact <span class="op">=</span> <span class="op">-</span>np.sin(<span class="dv">1</span>) <span class="co"># what does this line do?</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> <span class="fl">2.0</span><span class="op">**</span>(<span class="op">-</span>np.arange(<span class="dv">1</span>,<span class="dv">10</span>)) <span class="co"># what does this line do?</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>AbsError <span class="op">=</span> [] <span class="co"># start off with a blank list of errors</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create columns with column headers</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'h'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Absolute Error'</span><span class="sc">:&lt;22}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Reduction factor'</span><span class="sc">:&lt;20}</span><span class="ss">"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"------------------------------------------------------"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill the rows of the table</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> h <span class="kw">in</span> H:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    approx <span class="op">=</span> <span class="co"># FINISH THIS LINE OF CODE</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    AbsError.append(<span class="bu">abs</span>((approx <span class="op">-</span> exact)<span class="op">/</span>exact))</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> h<span class="op">==</span>H[<span class="dv">0</span>]:</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      reduction_factor <span class="op">=</span> <span class="st">''</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      reduction_factor <span class="op">=</span> AbsError[<span class="op">-</span><span class="dv">2</span>]<span class="op">/</span>AbsError[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>h<span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span>AbsError[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:&lt;22}</span><span class="ss"> </span><span class="sc">{</span>reduction_factor<span class="sc">:&lt;20}</span><span class="ss">"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a plot</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>plt.loglog(H, AbsError, <span class="st">'b-*'</span>) <span class="co"># Why are we making a loglog plot?</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 <div id="exr-3.16" class="theorem exercise">
@@ -607,7 +617,7 @@ f'(1) \approx \frac{f(1+h) - f(1)}{h}=:\Delta f(1).
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="exr-3.19" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.13</strong></span> Write code that finds a first order approximation for the first derivative of <span class="math inline">\(f(x) = \sin(x) - x\sin(x)\)</span> on the interval <span class="math inline">\(x \in (0,15)\)</span>. Your script should output two plots (side-by-side).</p>
+<p><span class="theorem-title"><strong>Exercise 5.13</strong></span> 🎓 Write code that finds a first order approximation for the first derivative of <span class="math inline">\(f(x) = \sin(x) - x\sin(x)\)</span> on the interval <span class="math inline">\(x \in (0,15)\)</span>. Your script should output two plots (side-by-side).</p>
 <ol type="a">
 <li>The left-hand plot should show the function in blue and the approximate first derivative as a red dashed curve. Sample code for this exercise is given below.</li>
 </ol>
@@ -667,7 +677,7 @@ f'(x) = \underline{\hspace{2in}} + \mathcal{O}(h^2).
 </div>
 <hr>
 <div id="exr-3.21" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.15</strong></span> Let us return to the function <span class="math inline">\(f(x) = \sin(x)(1- x)\)</span> but this time we will approximate the first derivative at <span class="math inline">\(x=1\)</span> using the formula <span class="math display">\[\begin{equation}
+<p><span class="theorem-title"><strong>Exercise 5.15</strong></span> 🎓 Let us return to the function <span class="math inline">\(f(x) = \sin(x)(1- x)\)</span> but this time we will approximate the first derivative at <span class="math inline">\(x=1\)</span> using the formula <span class="math display">\[\begin{equation}
 f'(1) \approx \frac{f(1+h) - f(1-h)}{2h}=:\delta f(1).
 \end{equation}\]</span> You should already have the first derivative and the exact answer from <a href="#exr-3.13" class="quarto-xref">Exercise&nbsp;<span>5.8</span></a> (if not, then go get them by hand again).</p>
 <ol type="a">
@@ -845,9 +855,9 @@ f''(x) = \frac{?? - 2 \cdot ?? + ??}{h^2} + \underline{\hspace{1in}}.
 </div>
 <hr>
 <div id="exr-3.27" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.19</strong></span> Again consider the function <span class="math inline">\(f(x) = \sin(x)(1 - x)\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 5.19</strong></span> 🎓 Again consider the function <span class="math inline">\(f(x) = \sin(x)(1 - x)\)</span>.</p>
 <ol type="1">
-<li><p>Calculate the derivative of this function and calculate the exact value of <span class="math inline">\(f''(1)\)</span>.</p></li>
+<li><p>Calculate the second derivative of this function analytically and evaluate it at <span class="math inline">\(x=1\)</span>.</p></li>
 <li><p>If we calculate the second derivative with the central difference scheme that you built in the previous exercise using <span class="math inline">\(h = 0.5\)</span> then we get an absolute error of about 0.044466. Stop now and verify this error calculation.</p></li>
 <li><p>Based on our previous work with the order of the error in a numerical differentiation scheme, what do you predict the error will be if we calculate <span class="math inline">\(f''(1)\)</span> with <span class="math inline">\(h = 0.25\)</span>? With <span class="math inline">\(h = 0.05\)</span>? With <span class="math inline">\(h = 0.005\)</span>? Defend your answers.</p></li>
 </ol>
@@ -916,9 +926,9 @@ f''(x) = \frac{?? - 2 \cdot ?? + ??}{h^2} + \underline{\hspace{1in}}.
 <div id="exr-3.30" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 5.22</strong></span> Let <span class="math inline">\(f(x)\)</span> be a twice differentiable function. We are interested in the first and second derivative of the function <span class="math inline">\(f\)</span> at the point <span class="math inline">\(x = 1.74\)</span>. Use what you have learned in this section to answer the following questions. (For clarity, you can think of “<span class="math inline">\(f\)</span>” as a different function in each of the following questions …it does not really matter exactly what function <span class="math inline">\(f\)</span> is.)</p>
 <ol type="1">
-<li><p>Johnny used a numerical first derivative scheme with <span class="math inline">\(h = 0.1\)</span> to approximate <span class="math inline">\(f'(1.74)\)</span> and found an absolute error of 3.28. He then used <span class="math inline">\(h=0.01\)</span> and found an absolute error of 0.328. What was the order of the error in his first derivative scheme? How can you tell?</p></li>
-<li><p>Betty used a numerical first derivative scheme with <span class="math inline">\(h = 0.2\)</span> to approximate <span class="math inline">\(f'(1.74)\)</span> and found an absolute error of 4.32. She then used <span class="math inline">\(h=0.1\)</span> and found an absolute error of 1.08. What numerical first derivative scheme did she likely use?</p></li>
-<li><p>Harry wants to compute <span class="math inline">\(f''(1.74)\)</span> to within 1% using a central difference scheme. He tries <span class="math inline">\(h=0.25\)</span> and gets an absolute percentage error of 3.71%. What <span class="math inline">\(h\)</span> should he try next so that his absolute percentage error is close to 1%?</p></li>
+<li><p>🎓 Johnny used a numerical first derivative scheme with <span class="math inline">\(h = 0.1\)</span> to approximate <span class="math inline">\(f'(1.74)\)</span> and found an absolute error of 3.28. He then used <span class="math inline">\(h=0.01\)</span> and found an absolute error of 0.328. What was the order of the error in his first derivative scheme? How can you tell?</p></li>
+<li><p>🎓 Betty used a numerical first derivative scheme with <span class="math inline">\(h = 0.2\)</span> to approximate <span class="math inline">\(f'(1.74)\)</span> and found an absolute error of 4.32. She then used <span class="math inline">\(h=0.1\)</span> and found an absolute error of 1.08. What numerical first derivative scheme did she likely use?</p></li>
+<li><p>🎓 Harry wants to compute <span class="math inline">\(f''(1.74)\)</span> to within 1% using a central difference scheme. He tries <span class="math inline">\(h=0.25\)</span> and gets an absolute percentage error of 3.71%. What <span class="math inline">\(h\)</span> should he try next so that his absolute percentage error is close to 1%?</p></li>
 </ol>
 </div>
 <div id="exr-3.30n" class="theorem exercise">
