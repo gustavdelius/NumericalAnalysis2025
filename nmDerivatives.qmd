@@ -712,6 +712,7 @@ Consider the function $f(x, y) = x^2y + \sin(xy)$. We can break this down into e
 #| label: fig-computation-graph
 #| fig-cap: "Computation graph for f(x,y) = x²y + sin(xy) at (x,y) = (2,1)"
 #| echo: false
+#| column: body-outset-right
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -719,7 +720,7 @@ from matplotlib.patches import Rectangle, FancyArrowPatch, Circle
 import matplotlib.patheffects as path_effects
 
 # Create figure and axis
-fig, ax = plt.subplots(figsize=(8, 4))
+fig, ax = plt.subplots(figsize=(7, 4))
 
 # Function to create a node
 def create_node(ax, x, y, value, label, r=0.5):
@@ -871,6 +872,7 @@ The figure below illustrates the computational graph for $f(x) = x^2 \cdot \sin(
 #| label: fig-forward-ad
 #| fig-cap: "Forward mode automatic differentiation for f(x) = x² · sin(x) at x = 2"
 #| code-fold: true
+#| column: body-outset-right
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -878,7 +880,7 @@ from matplotlib.patches import Rectangle, FancyArrowPatch, Circle
 import matplotlib.patheffects as path_effects
 
 # Create figure and axis
-fig, ax = plt.subplots(figsize=(8, 5))
+fig, ax = plt.subplots(figsize=(7, 5))
 
 # Function to create a node
 def create_node(ax, x, y, value, deriv, label, r=0.5):
@@ -1004,6 +1006,7 @@ Verify your result by computing the derivative analytically and comparing.
 Next let us teach Python how to do this.
 
 ```{python}
+#| column: body-outset-right
 import numpy as np
 # Basic operations on dual numbers represented as tuples (value, derivative)
 def dual_add(a, b):
@@ -1111,6 +1114,7 @@ Let's trace through the reverse mode process for $f(x, y) = x^2y + \sin(xy)$ at 
 #| label: fig-reverse-ad
 #| fig-cap: "Reverse mode automatic differentiation for f(x,y) = x²y + sin(xy) at (x,y) = (2,1)"
 #| code-fold: true
+#| column: body-outset-right
 
 import matplotlib.pyplot as plt
 import numpy as np
