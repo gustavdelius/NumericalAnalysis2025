@@ -43,6 +43,10 @@ book:
     - nmFunctions.qmd
     - nmNonlinear.qmd
     - nmDerivatives.qmd
+    - nmIntegrals.qmd
+    - nmExtrema.qmd
+    - nmODEs.qmd
+    - nmPDEs.qmd
 
 bibliography: references.bib
 

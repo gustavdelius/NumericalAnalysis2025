@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./nmIntegrals.html" rel="next">
 <link href="./nmNonlinear.html" rel="prev">
 <link href="./faviconNA.webp" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -217,6 +218,30 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./nmDerivatives.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Derivatives</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmIntegrals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Integrals</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmExtrema.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Extrema</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmODEs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ODEs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nmPDEs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">PDEs</span></span></a>
   </div>
 </li>
     </ul>
@@ -879,7 +904,7 @@ f''(x) = \frac{?? - 2 \cdot ?? + ??}{h^2} + \underline{\hspace{1in}}.
 </ol>
 </div>
 <hr>
-<p>The table below summarizes the formulas that we have for derivatives thus far. The exercises at the end of this chapter contain several more derivative approximations. We will return to this idea when we study numerical differential equations in <span class="quarto-unresolved-ref">?sec-ode</span>.</p>
+<p>The table below summarizes the formulas that we have for derivatives thus far. The exercises at the end of this chapter contain several more derivative approximations. We will return to this idea when we study numerical differential equations in <a href="nmODEs.html" class="quarto-xref">Chapter&nbsp;<span>8</span></a>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 13%">
@@ -1113,7 +1138,7 @@ Figure&nbsp;5.5: Forward mode automatic differentiation for f(x) = x² · sin(x)
 <hr>
 <div id="exr-3.33b" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 5.26</strong></span> Compute the derivative of <span class="math inline">\(f(x) = \frac{x^2 + 1}{2x - 3}\)</span> at <span class="math inline">\(x = 2\)</span> using your Python implementation of the dual number approach. You will need to define the operation for division using the quotient rule.</p>
-<p>Verify that you get the same result as in <a href="#exr-3.33" class="quarto-xref">Exercise&nbsp;<span>5.25</span></a>.</p>
+<p>Verify that you get the same result as in <a href="nmIntegrals.html#exr-3.33" class="quarto-xref">Exercise&nbsp;<span>6.3</span></a>.</p>
 </div>
 <hr>
 <div id="exr-3.33c" class="theorem exercise">
@@ -1225,7 +1250,7 @@ f'(1) = -0.8414709568023682</code></pre>
 <p><span class="theorem-title"><strong>Exercise 5.30</strong></span> Use JAX to compute the derivatives of:</p>
 <ol type="a">
 <li><p><span class="math inline">\(f(x) = x^3 - 2x^2 + 4x - 7\)</span> at <span class="math inline">\(x = 1\)</span>;</p></li>
-<li><p><span class="math inline">\(f(x) = (x^2 + 1) / (2x - 3)\)</span> at <span class="math inline">\(x = 2\)</span>. Check that you get the same results as in <a href="#exr-3.33" class="quarto-xref">Exercise&nbsp;<span>5.25</span></a>.</p></li>
+<li><p><span class="math inline">\(f(x) = (x^2 + 1) / (2x - 3)\)</span> at <span class="math inline">\(x = 2\)</span>. Check that you get the same results as in <a href="nmIntegrals.html#exr-3.33" class="quarto-xref">Exercise&nbsp;<span>6.3</span></a>.</p></li>
 </ol>
 </div>
 <hr>
@@ -1835,6 +1860,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./nmIntegrals.html" class="pagination-link" aria-label="Integrals">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Integrals</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

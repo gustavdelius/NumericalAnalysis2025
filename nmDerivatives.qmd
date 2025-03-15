@@ -655,7 +655,7 @@ f''(x) = \frac{?? - 2 \cdot ?? + ??}{h^2} + \underline{\hspace{1in}}.
 
 ------------------------------------------------------------------------
 
-The table below summarizes the formulas that we have for derivatives thus far. The exercises at the end of this chapter contain several more derivative approximations. We will return to this idea when we study numerical differential equations in [Chapter -@sec-ode].
+The table below summarizes the formulas that we have for derivatives thus far. The exercises at the end of this chapter contain several more derivative approximations. We will return to this idea when we study numerical differential equations in [Chapter -@sec-odes].
 
 | **Derivative** | **Formula**                                            | **Error**            | **Name**            |
 |----------------|--------------------------------------------------------|----------------------|---------------------|

@@ -1,11 +1,11 @@
 # Integrals {#sec-integrals}
 
-Now we begin our work on the second principal computation of Calculus: evaluating a definite integral. Remember that a single-variable definite integral can be interpreted as the signed area between the curve and the $x$ axis. In this section we will study three different techniques for approximating the value of a definite integral.
+Now that we understand how to calculate derivatives, we begin our work on the second principal computation of calculus: evaluating a definite integral. You will be able to transfer much of what you did in the previous chapter, where you investigated the errors in numerical differentiation, to the investigation of the errors in numerical integration.
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.31}
- Consider the shaded area of the region under the function plotted in @fig-3.4 between $x=0$ and $x=2$.
+Remember that a single-variable definite integral can be interpreted as the signed area between the curve and the $x$ axis. Consider the shaded area of the region under the function plotted in @fig-3.4 between $x=0$ and $x=2$.
 
 1.  What rectangle with area 6 gives an upper bound for the area under the curve? Can you give a better upper bound?
 
@@ -20,6 +20,8 @@ Now we begin our work on the second principal computation of Calculus: evaluatin
 :::
 
 ------------------------------------------------------------------------
+
+In this chapter we will study three different techniques for approximating the value of a definite integral.
 
 ## Riemann Sums
 
@@ -42,24 +44,26 @@ Clearly, the more rectangles we choose the closer the sum of the areas of the re
 ------------------------------------------------------------------------
 
 ::: {#exr-3.32}
- Write code to approximate an integral with Riemann sums. You should ALWAYS start by writing pseudo-code as comments in your function. Your Python function should accept a Python Function, a lower bound, an upper bound, the number of subintervals, and an optional input that allows the user to designate whether they want 'left', 'right', or 'midpoint' rectangles. Test your code on several functions for which you know the integral. You should write your code without any loops.
+Write a Python function `RiemannSum(f, a, b, N, method='left')` that approximates an integral with a Riemann sum. 
+Your Python function should accept a Python Function `f`, a lower bound `a`, an upper bound `b`, the number of subintervals `N`, and an optional input `method` that allows the user to designate whether they want 'left', 'right', or 'midpoint' rectangles. Test your code on several functions for which you know the integral. You should write your code without any loops.
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.33}
- Consider the function $f(x) = \sin(x)$. We know the antiderivative for this function, $F(x) = -\cos(x) + C$, but in this question we are going to get a sense of the order of the error when doing Riemann Sum integration.
+ Consider the function $f(x) = \sin(x)$. We know the antiderivative for this function, $F(x) = -\cos(x) + C$. In this question we are going to get a sense of the order of the error when doing Riemann Sum integration.
 
 1.  Find the exact value of 
 \begin{equation}
-\int_0^{1} f(x) dx.
+I=\int_0^{1} f(x) dx.
 \end{equation}
 
 
-2.  Now build a Riemann Sum approximation (using your code) with various values of $\Delta x$. For all of your approximation use left-justified rectangles. Fill in the table with your results. If you want to save yourself tedious work, you will let Python create the table. You may need to recall @sec-pandas on Pandas.
+2.  Now calculate left Riemann Sum approximation 
+(using your `RiemannSum()` function from @exr-3.32) with various values of $\Delta x$. Fill in the table with your results. Note the similarity between this exercise and @exr-3.13 where you created a similar table for approximating a derivative. If you want to save yourself tedious work, you may want to adapt the code from @exr-3.14 to this exercise.
 
-| $\Delta x$      | **Approx. Integral** | **Absolute Error** |
+| $\Delta x$      | Approx. Integral | Absolute Error | 
 |-------------------|----------------------|--------------------|
 | $2^{-1} = 0.5$  |                      |                    |
 | $2^{-2} = 0.25$ |                      |                    |
@@ -72,21 +76,21 @@ Clearly, the more rectangles we choose the closer the sum of the areas of the re
 
 3.  There was nothing really special about powers of 2 in part (2) of this exercise. Examine other sequences of $\Delta x$ with a goal toward answering the question:
 
-> If we find an approximation of the integral with a fixed $\Delta x$ and find an absolute   error, then what would happen to the absolute   error if we divide $\Delta x$ by some positive constant $M$?
+> If we find an approximation of the integral with a fixed $\Delta x$ and find an absolute   error, then what would happen to the absolute error if we divide $\Delta x$ by some positive constant $M$?
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.34}
- Repeat the previous exercise using right-justified rectangles.
+ Repeat the previous exercise using the midpoint Riemann sum. Again answer the question what happens to the absolute error if we divide $\Delta x$ by some positive constant $M$.
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.36}
- Create a plot with the width of the subintervals on the horizontal axis and the absolute error between your Riemann sum calculations (left, right, and midpoint) and the exact integral for a known definite integral of your choice. Your plot should be on a log-log scale. Based on your plot, what is the approximate order of the error in the Riemann sum approximation?
+ Create a plot with the width of the subintervals on the horizontal axis and the absolute error between your Riemann sum calculations (left, right, and midpoint) and the exact integral for a known definite integral of your choice. Your plot should be on a log-log scale. Based on your plot, what is the approximate order of the error in the Riemann sum approximation? Again notice the similarity between this exercise and @exr-3.25 where you created a similar plot for approximating a derivative. And don't be worried if you plot three lines but can only see two of them. The third line is likely very close to one of the other two.
 
 :::
 
@@ -110,94 +114,58 @@ A = \frac{1}{2}\left( b_1 + b_2 \right) h,
 \int_1^4 \left( \frac{1}{5} x^2 (5-x) \right) dx.
 \end{equation}
 
-
-Now use the same idea with $h = \Delta x = 1$ from @fig-3.6 to approximate the area under the function $f(x) = \frac{1}{5}x^2(5-x)$ between $x=1$ and $x=4$ using three trapezoids.
-
 ![A single trapezoid to approximate area under a curve.](figures/Calculus/Trapezoidal2.png){#fig-3.7 alt="A single trapezoid to approximate area under a curve."}
-:::
 
-------------------------------------------------------------------------
-
-::: {#exr-3.38}
- Again consider the function $f(x) = \frac{1}{5}x^2(5-x)$ on the interval $[1,4]$. We want to evaluate the integral 
-\begin{equation}
-\int_1^4 f(x) dx
-\end{equation}
- using trapezoids to approximate the area.
-
-1.  Work out the exact value of the definite integral by hand.
-
-2.  Summarize your answers to the previous exercises in the following table then extend the data that you have for smaller and smaller values of $\Delta x$.
-
-| $\Delta x$ | **Approx. Integral** | **Exact Integral** | **Abs.   Error** |
-|--------------|----------------------|--------------------|------------------|
-| $3$        |                      |                    |                  |
-| $1$        |                      |                    |                  |
-| $1/3$      |                      |                    |                  |
-| $1/9$      |                      |                    |                  |
-| $\vdots$   | $\vdots$           | $\vdots$         | $\vdots$       |
-
-3.  From the table that you built in part (2), what do you conjecture is the order of the approximation error for the trapezoidal method?
+Now use the same idea with $h = \Delta x = 1$  to approximate the area under the function using three trapezoids, as illustrated in the last panel of @fig-3.6.
 
 :::
 
 ------------------------------------------------------------------------
 
-::: {#def-3.3}
-
-#### The Trapezoidal Rule
-We want to approximate $\displaystyle \int_a^b f(x) dx$. One of the simplest ways is to approximate the area under the function with a trapezoid. Recall from basic geometry that area of a trapezoid is $A = \frac{1}{2} (b_1 + b_2) h$. In terms of the integration problem we can do the following:
-
-1.  First partition $[a,b]$ into the set $\{x_0=a, x_1, x_2, \ldots, x_{n-1},x_n=b\}$.
-
-2.  On each part of the partition approximate the area with a trapezoid: 
+::: {#exr-3.37b}
+#### Trapezoidal Rule
+Now generalise the idea from @exr-3.37 to divide the interval $[a,b]$ into $N$ subintervals with boundaries $\{x_0=a, x_1, x_2, \ldots, x_{N-1},x_N=b\}$. Fill in the missing bits in the equations below. The area of the trapezoid on the subinterval from $x_{j-1}$ to $x_j$ is
 \begin{equation}
-A_j = \frac{1}{2} \left[ f(x_j) + f(x_{j-1}) \right]\left(x_j - x_{j-1} \right).
+A_j = \frac{1}{2} \left[ f(???) + f(???) \right]\left(??? - ??? \right).
 \end{equation}
-
-
-3.  Approximate the integral as 
+Then the approximation of the integral is
 \begin{equation}
-\int_a^b f(x) dx = \sum_{j=1}^n A_j.
+\int_a^b f(x) dx \approx \sum_{???}^{???} A_j.
 \end{equation}
-
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.39}
- Write code to give the trapezoidal rule approximation for the definite integral $\int_a^b f(x) dx$. Test your code on functions where you know the definite area. Then test your code on functions where you have approximated the area by examining a plot (i.e. you have a visual estimate of the area).
+Write a Python function `Trapezoidal(f, a, b, N)` that approximates an integral with the trapezoidal method you derived in the previous exercise. 
+Your Python function should accept a Python Function `f`, a lower bound `a`, an upper bound `b` and the number of subintervals `N`. You should write your code without any loops. Test your code on several functions for which you know the integral. 
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.40}
- Use the code that you wrote in the previous exercise to test your conjecture about the order of the approximation error for the trapezoidal rule. Integrate the function $f(x) = \sin(x)$ from $x=0$ to $x=1$ with more and more trapezoids. In each case compare to the exact answer and find the absolute  error. The goal is to answer the question:
+You have by now developed and repeatedly used ways to investigate how the errors for numerical integration and differentiation schemes depend on the stepsize. It is now up to you to do the same for the trapezoidal rule. Remember that the goal is to answer the question:
 
-> If we calculate the definite integral with a fixed $\Delta x$ and get an absolute   error, $P$, then what absolute   error will we get if we use a width of $\Delta x / M$ for some positive number $M$?
+> If I approximate the integral with a fixed $\Delta x$ and find an absolute error of $P$, then what will the absolute   error be using a width of $\Delta x / M$?
 
+You can either do this with a table or with a graph. What is the order of the error for the trapezoidal rule?
 :::
 
 ------------------------------------------------------------------------
 
 ## Simpsons Rule
 
-The trapezoidal rule does a decent job approximating integrals, but ultimately you are using linear functions to approximate $f(x)$ and the accuracy may suffer if the step size is too large or the function too non-linear. You likely notice that the trapezoidal rule will give an exact answer if you were to integrate a linear or constant function. A potentially better approach would be to get an integral that evaluates quadratic functions exactly. In order to do this we need to evaluate the function at three points (not two like the trapezoidal rule). Let us integrate a function $f(x)$ on the interval $[a,b]$ by using the three points $(a,f(a))$, $(m,f(m))$, and $(b,f(b))$ where $m=\frac{a+b}{2}$ is the midpoint of the two boundary points.
+The trapezoidal rule does a decent job approximating integrals, but ultimately you are using linear functions to approximate $f(x)$ and the accuracy may suffer if the step size is too large or the function too non-linear. You likely notice that the trapezoidal rule will give an exact answer if you were to integrate a linear or constant function. A potentially better approach would be to get an integral that evaluates quadratic functions exactly. We call this method Simpson's Rule after [Thomas Simpson (1710-1761)](https://en.wikipedia.org/wiki/Thomas_Simpson) who, by the way, was a basket weaver in his day job so he could pay the bills and keep doing math.
 
-We want to find constants $A_1$, $A_2$, and $A_3$ such that the integral $\int_a^b f(x) dx$ can be written as a linear combination of $f(a)$, $f(m)$, and $f(b)$. Specifically, we want to find constants $A_1$, $A_2$, and $A_3$ in terms of $a$, $b$, $f(a)$, $f(b)$, and $f(m)$ such that 
+Three points are needed to uniquely determine a quadratic function, where two points were enough to uniquely determine a linear function. So for Simpson's method we need to evaluate the function at three points (not two as for the trapezoidal rule). To approximate the integral a function $f(x)$ on the interval $[a,b]$ we will use the three points $(a,f(a))$, $(m,f(m))$, and $(b,f(b))$ where $m=\frac{a+b}{2}$ is the midpoint of the two boundary points.
+
+We want to find constants $A_1$, $A_2$, and $A_3$ in terms of $a$, $b$, $f(a)$, $f(b)$, and $f(m)$ such that 
 \begin{equation}
 \int_a^b f(x) dx = A_1 f(a) + A_2 f(m) + A_3 f(b)
 \end{equation}
  is exact for all constant, linear, and quadratic functions. This would guarantee that we have an exact integration method for all polynomials of order 2 or less but should serve as a decent approximation if the function is not quadratic.
-
-------------------------------------------------------------------------
-
-::: {#exr-3.41}
- Draw a picture showing what the previous two paragraphs discussed.
-
-:::
 
 ------------------------------------------------------------------------
 
@@ -239,23 +207,13 @@ A_1 = \frac{b-a}{6}, \quad A_2 = \frac{4(b-a)}{6}, \quad \text{and} \quad A_3 = 
 \end{equation}
  and the technique will give an exact answer for any polynomial of order 2 or below.
 
-Verify the previous sentence by integrating $f(x) = 1$, $f(x) = x$ and $f(x) = x^2$ by hand on the interval $[0,1]$ and using the approximation formula 
-\begin{equation}
-\int_a^b f(x) dx \approx \left( \frac{b-a}{6} \right) \left( f(a) + 4f\left( \frac{a+b}{2} \right) + f(b) \right).
-\end{equation}
-
-
-1.  Use the method described above to approximate the area under the curve $f(x) = (1/5) x^2 (5-x)$ on the interval $[1,4]$. To be clear, you will be using the points $a=1, m=2.5$, and $b=4$ in the above derivation.
-
-2.  Next find the exact area under the curve $f(x) = (1/5) x^2 (5-x)$ on the interval $[1,4]$.
-
-3.  What do you notice about the two areas? What does this sample exercise tell you about the formula that we derived above?
+Verify the previous sentence by integrating $f(x) = 1$, $f(x) = x$ and $f(x) = x^2$ by hand on the interval $[0,1]$ and using the approximation formula.
 
 :::
 
 ------------------------------------------------------------------------
 
-To make the punchline of the previous exercises a bit more clear, using the formula 
+To make the punchline of the previous exercises a bit more clear: Using the formula 
 \begin{equation}
 \int_a^b f(x) dx \approx \left( \frac{b-a}{6} \right) \left( f(a) + 4 f(m) + f(b) \right)
 \end{equation}
@@ -271,47 +229,44 @@ To improve upon this idea we now examine the problem of partitioning the interva
 
 ------------------------------------------------------------------------
 
-::: {#def-3.4}
+::: {#exr-3.43b}
 #### Simpson's Rule
-Now we put the process explained above into a form that can be coded to approximate integrals. We call this method Simpson's Rule after [Thomas Simpson (1710-1761)](https://en.wikipedia.org/wiki/Thomas_Simpson) who, by the way, was a basket weaver in his day job so he could pay the bills and keep doing math.
-
-1.  First partition $[a,b]$ into the set $\{x_0=a, x_1, x_2, \ldots, x_{n-1}, x_n=b\}$.
-
-2.  On each part of the partition approximate the area with a parabola: 
+We divide the interval $[a,b]$ into $N$ subintervals with boundaries $\{x_0=a, x_1, x_2, \ldots, x_{N-1},x_N=b\}$. Fill in the missing bits in the equations below. We approximate the integral on the subinterval from $x_{j-1}$ to $x_j$ by
 \begin{equation}
-A_j = \frac{1}{6} \left[ f(x_j) + 4 f\left( \frac{x_j+x_{j-1}}{2} \right) + f(x_{j-1}) \right]\left( x_j - x_{j-1} \right).
+A_j = \frac{1}{???} \left[ f(???) + ??? f(???)+f(???) \right]\left(??? - ??? \right).
 \end{equation}
-
-
-3.  Approximate the integral as 
+Then the approximation of the integral is
 \begin{equation}
-\int_a^b f(x) dx = \sum_{j=1}^n A_j.
+\int_a^b f(x) dx \approx \sum_{???}^{???} A_j.
 \end{equation}
-
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.45}
- Write a Python function that implements Simpson's Rule. You should ALWAYS start by writing pseudo-code as comments in your file. You should not need a loop in your function.
-
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-3.46}
- Test your function on known integrals and approximate the order of the error based on the mesh size.
+Write a Python function `Simpsons(f, a, b, N)` that approximates an integral with Simpson's rule that you derived in the previous exercise. 
+Your Python function should accept a Python Function `f`, a lower bound `a`, an upper bound `b` and the number of subintervals `N`. You should write your code without any loops. Test your code on several functions for which you know the integral. 
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.44}
- We have spent a lot of time over the past many pages building approximations of the order of the error for numerical integration and differentiation schemes. It is now up to you.
-Build a numerical experiment that allows you to conjecture the order of the approximation error for Simpson's rule. Remember that the goal is to answer the question:
+As in @exr-3.40, use your favourite method to determine how the absolute 
+error in Simpson's rule depends on the step size and hence determine the order of the error for Simpson's rule?
 
-> If I approximate the integral with a fixed $\Delta x$ and find an absolute   error of $P$, then what will the absolute   error be using a width of $\Delta x / M$?
+:::
+
+------------------------------------------------------------------------
+
+
+::: {#exr-3.47}
+ Use the integration problem and exact answer 
+\begin{equation}
+\int_0^{\pi/4} e^{3x} \sin(2x) dx = \frac{3}{13} e^{3\pi/4} + \frac{2}{13}
+\end{equation}
+ and produce a log-log error plot with $\Delta x$ on the horizontal axis and the absolute error on the vertical axis. Include one graph for each of our integration methods. Fully explain how the error rates show themselves in your plot.
 
 :::
 
@@ -319,125 +274,47 @@ Build a numerical experiment that allows you to conjecture the order of the appr
 
 Thus far we have three numerical approximations for definite integrals: Riemann sums (with rectangles), the trapezoidal rule, and Simpsons's rule. There are MANY other approximations for integrals and we leave the further research to the curious reader.
 
-------------------------------------------------------------------------
-
-::: {#thm-3.3}
-### Numerical Integration Schemes
-Let $f(x)$ be a continuous function on the interval $[a,b]$. The integral $\int_a^b f(x) dx$ can be approximated with any of the following. 
-\begin{equation}
-\begin{aligned} &\text{Riemann Sum: } \int_a^b f(x) dx \approx \sum_{j=1}^N f(x_j) \Delta x \\ & \qquad \text{Error for Left and Right Riemann Sums: } \mathcal{O}(\Delta x) \\ & \qquad \text{Error for Midpoint Riemann Sums: } \mathcal{O}(\Delta x^2) \\ &\text{Trapezoidal Rule: } \int_a^b f(x) dx \approx \frac{1}{2} \sum_{j=1}^N \left( f(x_j) + f(x_{j-1}) \right) \Delta x \\ & \qquad \text{Error for Trapezoidal Rule: } \mathcal{O}(\Delta x^2) \\ &\text{Simpson's Rule: } \int_a^b f(x) dx \approx \frac{1}{6} \sum_{j=1}^N \left( f(x_j) + 4 f\left( \frac{x_j + x_{j-1}}{2} \right) + f(x_{j-1}) \right) \Delta x \\ & \qquad \text{Error for Simpson's Rule: } \mathcal{O}(\Delta x^4) \\ \end{aligned}
-\end{equation}
- where $\Delta x = x_j - x_{j-1}$ and $N$ is the number of subintervals.
-
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-3.47}
- @thm-3.3 simply states the error rates for our three primary integration schemes. For this exercise you need to empirically verify these error rates. Use the integration problem and exact answer 
-\begin{equation}
-\int_0^{\pi/4} e^{3x} \sin(2x) dx = \frac{3}{13} e^{3\pi/4} + \frac{2}{13}
-\end{equation}
- and write code that produces a log-log error plot with $\Delta x$ on the horizontal axis and the absolute error on the vertical axis. Fully explain how the error rates show themselves in your plot.
-
-:::
-
-------------------------------------------------------------------------
-
-## Integration with `numpy` and `scipy`
-
-In `numpy` there is a nice tool called `np.trapz()` that implements the trapezoidal rule. In the following exercise you will find several examples of the `np.trapz()` command. Use these examples to determine how the command works to integrate functions.
-
-------------------------------------------------------------------------
-
-::: {#exr-3.73}
- First we will approximate the integral $\int_{-2}^2 x^2 dx$. The exact answer is 
-\begin{equation}
- \int_{-2}^2 x^2 dx = \frac{x^3}{3} \Big|_{-2}^2 = \frac{16}{3} = 5.3333\dots.
-\end{equation}
-
-
-``` python         
-import numpy as np
-x = np.linspace(-2,2,100)
-dx = x[1]-x[0]
-y = x**2
-print("Approximate integral is ",np.trapz(y)*dx)
-```
-
-Next we will approximate $\int_0^{2\pi} \sin(x) dx$. We know that the exact value is 0.
-
-``` python         
-import numpy as np
-x = np.linspace(0,2*np.pi,100)
-dx = x[1]-x[0]
-y = np.sin(x)
-print("Approximate integral is ",np.trapz(y)*dx)
-```
-
-Pick a function and an interval for which you know the exact definite integral. Demonstrate how to use `np.trapz()` on your definite integral.
-
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-3.74}
- Notice in the last examples that we multiplied the result of the `np.trapz()` command by `dx`. Why did we do this? What is the `np.trapz()` command doing without the `dx`?
-
-:::
-
-------------------------------------------------------------------------
-
-In the `scipy` library there is a more general tool called `scipy.integrate.quad()`. The term "quad" is short for "quadrature." In numerical analysis literature rules like Simpson's rule are called quadrature rules for integration. The function `scipy.integrate.quad()` accepts a Python function (or a lambda function) and the bounds of the definite integral. It outputs an approximation of the integral along with an approximation of the error in the integral calculation. See the Python code below.
-
-``` python         
-import numpy as np
-import scipy.integrate
-f = lambda x: x**2
-I = scipy.integrate.quad(f,-2,2)
-print(I)
-```
-
-------------------------------------------------------------------------
-
-::: {#exr-3.75}
- What are the advantages and disadvantages to using the `scipy.integrate.quad()` command as compared to the `np.trapz()` command.
-
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-3.76}
- If you have data for the hourly rate at which water is being drained from a dam and you want to find the total amount of water drained over the course of the time in the dataset, then which of the tools that we know would you use? Why?
-
-:::
+Further reading: Sections 4.3 to 4.9 of [@Burden_Faires].
 
 ------------------------------------------------------------------------
 
 
 ## Algorithm Summaries
 ::: {#exr-3.90}
- Explain how to approximate the value of a definite integral with Riemann sums. When will the Riemann sum approximation be exact? The Riemann sum approximation is first order. Explain what "first order" means for calculating a definite integral.
+ Explain how to approximate the value of a definite integral with Riemann sums. When will the Riemann sum approximation be exact? Distinguish between left, right and midpoint Riemann sums. State how the error of these approximations depends on the step size, i.e., give the order of the error for each of the three Riemann sums.
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.91}
- Explain how to approximate the value of a definite integral with the trapezoidal rule. When will the trapezoidal rule approximation be exact? The Trapezoidal rule approximation is second order. Explain what "second order" means for calculating a definite integral.
+ Explain how to approximate the value of a definite integral with the trapezoidal rule. When will the trapezoidal rule approximation be exact? What is the order of the Trapezoidal rule? 
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.92}
- Explain how to approximate the value of a definite integral with Simpson's rule. Give the full mathematical details for where Simpson's rule comes from. When will the Simpson's rule approximation be exact? The Simpson's rule approximation is fourth order. Explain what "fourth order" means for calculating a definite integral.
+ Explain how to approximate the value of a definite integral with Simpson's rule. Give the full mathematical details for where Simpson's rule comes from. When will the Simpson's rule approximation be exact? What is the order of Simpson's rule?
 
 :::
 
 ------------------------------------------------------------------------
 
 ## Problems
+
+::: {#exr-3.104}
+ Numerically integrate each of the functions over the interval $[-1,2]$ with an appropriate technique and verify mathematically that your numerical integral is correct to 10 decimal places. Then provide a plot of the function along with its numerical first derivative.
+
+1.  $f(x) = \frac{x}{1+x^4}$
+
+2.  $g(x) = (x-1)^3 (x-2)^2$
+
+3.  $h(x) = \sin\left(x^2\right)$
+
+:::
+
+------------------------------------------------------------------------
 
 ::: {#exr-3.100}
  Write a function that implements the trapezoidal rule on a list of $(x,y)$ order pairs representing the integrand function. The list of ordered pairs should be read from a spreadsheet file. Create a test spreadsheet file and a test script showing that your function is finding the correct integral.
@@ -484,18 +361,6 @@ f(t) = \frac{22.8 }{3.5 + 7(t-1.25)^4} ,
 
 ------------------------------------------------------------------------
 
-::: {#exr-3.104}
- Numerically integrate each of the functions over the interval $[-1,2]$ with an appropriate technique and verify mathematically that your numerical integral is correct to 10 decimal places. Then provide a plot of the function along with its numerical first derivative.
-
-1.  $f(x) = \frac{x}{1+x^4}$
-
-2.  $g(x) = (x-1)^3 (x-2)^2$
-
-3.  $h(x) = \sin\left(x^2\right)$
-
-:::
-
-------------------------------------------------------------------------
 
 ## Projects
 
