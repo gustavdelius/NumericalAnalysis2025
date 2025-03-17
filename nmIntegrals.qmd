@@ -44,7 +44,7 @@ Clearly, the more rectangles we choose the closer the sum of the areas of the re
 ------------------------------------------------------------------------
 
 ::: {#exr-3.32}
-Write a Python function `RiemannSum(f, a, b, N, method='left')` that approximates an integral with a Riemann sum. 
+🎓 Write a Python function `RiemannSum(f, a, b, N, method='left')` that approximates an integral with a Riemann sum. 
 Your Python function should accept a Python Function `f`, a lower bound `a`, an upper bound `b`, the number of subintervals `N`, and an optional input `method` that allows the user to designate whether they want 'left', 'right', or 'midpoint' rectangles. Test your code on several functions for which you know the integral. You should write your code without any loops.
 
 :::
@@ -138,7 +138,7 @@ Then the approximation of the integral is
 ------------------------------------------------------------------------
 
 ::: {#exr-3.39}
-Write a Python function `Trapezoidal(f, a, b, N)` that approximates an integral with the trapezoidal method you derived in the previous exercise. 
+🎓 Write a Python function `Trapezoidal(f, a, b, N)` that approximates an integral with the trapezoidal method you derived in the previous exercise. 
 Your Python function should accept a Python Function `f`, a lower bound `a`, an upper bound `b` and the number of subintervals `N`. You should write your code without any loops. Test your code on several functions for which you know the integral. 
 
 :::
@@ -245,7 +245,7 @@ Then the approximation of the integral is
 ------------------------------------------------------------------------
 
 ::: {#exr-3.45}
-Write a Python function `Simpsons(f, a, b, N)` that approximates an integral with Simpson's rule that you derived in the previous exercise. 
+🎓 Write a Python function `Simpsons(f, a, b, N)` that approximates an integral with Simpson's rule that you derived in the previous exercise. 
 Your Python function should accept a Python Function `f`, a lower bound `a`, an upper bound `b` and the number of subintervals `N`. You should write your code without any loops. Test your code on several functions for which you know the integral. 
 
 :::
@@ -253,7 +253,7 @@ Your Python function should accept a Python Function `f`, a lower bound `a`, an 
 ------------------------------------------------------------------------
 
 ::: {#exr-3.44}
-As in @exr-3.40, use your favourite method to determine how the absolute 
+🎓 As in @exr-3.40, use your favourite method to determine how the absolute 
 error in Simpson's rule depends on the step size and hence determine the order of the error for Simpson's rule?
 
 :::
