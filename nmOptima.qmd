@@ -116,7 +116,7 @@ Unfortunately by just looking at the function values at two points there is no w
 -------------------------------------------------------------------
 
 ::: {#exr-3.51a}
-Make a sketch of a function and choose three points on the function such that the middle point is lower than the two outer points. Use this to illustrate that there must be a minimum between the two outer points.
+Make a sketch of a function and choose three points on the function such that the middle point is lower than the two outer points. Use this to illustrate that there must be at least a local minimum between the two outer points.
 :::
 
 -------------------------------------------------------------------
