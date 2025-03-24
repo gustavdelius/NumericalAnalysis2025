@@ -1,3 +1,0 @@
-# ODEs {#sec-odes}
-
-Coming in week 7

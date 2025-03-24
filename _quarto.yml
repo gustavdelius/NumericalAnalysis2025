@@ -45,9 +45,8 @@ book:
     - nmDerivatives.qmd
     - nmIntegrals.qmd
     - nmOptima.qmd
-    - nmEstimates.qmd
-    - nmODEs.qmd
-    - nmPDEs.qmd
+    - nmODE.qmd
+    - nmPDE.qmd
 
 bibliography: references.bib
 

@@ -1,3 +1,0 @@
-# PDEs {#sec-pdes}
-
-Coming in week 9
