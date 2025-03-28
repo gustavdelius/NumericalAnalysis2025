@@ -312,9 +312,9 @@ def ForwardDiff(f,a,b,N):
         # (f(x+h) - f(x)) / h.
         # Obviously "x+h" is just the next item in the list of 
         # x values so when we do f(x+h) mathematically we should 
-        # write f( x[j+1] ) in Python (explain this).  
+        # write f(x[j+1]) in Python (explain this).  
         # Fill in the question marks below
-        df.append( (f( ??? ) - f( ??? )) / h )
+        df.append((f(???) - f(???)) / h )
     return df
 ```
 

@@ -213,7 +213,7 @@ We want to write a Python function for the Bisection Method. Instead of jumping 
 Don't write the code yet, just complete the comments. I recommend switching off the AI for this exercise because otherwise the AI will keep already suggesting the code while you write the comments.
 
 ``` python         
-def Bisection(f , a , b , tol=1e-5):
+def Bisection(f, a, b, tol=1e-5):
     """
     Find a root of f(x) in the interval [a, b] using the bisection method
     with a given tolerance tol.
