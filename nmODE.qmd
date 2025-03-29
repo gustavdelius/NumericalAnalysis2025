@@ -967,7 +967,7 @@ The order of the error in the RK4 method is $\mathcal{O}(\Delta t^4)$.
 
 ::: {#exr-5.37}
 
-Of course there is a price to pay for the improvement provided by the RK4 method over our earlier methods. How many evaluations of the function $f(t,x)$ do we need to make at every time step of the RK4 method? Compare this Euler's method and the midpoint method. 
+🎓 Of course there is a price to pay for the improvement provided by the RK4 method over our earlier methods. How many evaluations of the function $f(t,x)$ do we need to make at every time step of the RK4 method? Compare this Euler's method and the midpoint method. 
 
 :::
 
@@ -998,14 +998,14 @@ It would be nice, but completely impractical, to have a numerical method compute
 --->
 
 ::: {#exr-5.40}
-Let us step back for a second and just see what the RK4 method does from a nuts-and-bolts point of view. Consider the differential equation $x' = x$ with initial condition $x(0) = 1$. The solution to this differential equation is clearly $x(t) = e^t$. For the sake of simplicity, take $\Delta t = 1$ and perform 1 step of the RK4 method BY HAND to approximate the value $x(1)$.
+🎓 Let us step back for a second and just see what the RK4 method does from a nuts-and-bolts point of view. Consider the differential equation $x' = x$ with initial condition $x(0) = 1$. The solution to this differential equation is clearly $x(t) = e^t$. For the sake of simplicity, take $\Delta t = 1$ and perform 1 step of the RK4 method BY HAND to approximate the value $x(1)$.
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-5.41}
-Write a Python function that implements the Runge-Kutta 4 method in one dimension. 
+🎓 Write a Python function that implements the Runge-Kutta 4 method in one dimension. 
 
 ``` python         
 import numpy as np
@@ -1034,7 +1034,7 @@ Make a log-log plot of the error in the RK4 method for a differential equation w
 
 ::: {#exr-rk4h}       
 #### RK4 in Several Dimensions
-Modify your Runge-Kutta 4 code to work for any number of dimensions.  You may want to start from your `euler()` and `midpoint()` functions that already do this.  you will only need to make minor modifications from there.  Then test your new generalized RK4 method on all of the same problems which you used to test your `euler()` and `midpoint()` functions.
+🎓 Modify your Runge-Kutta 4 code to work for any number of dimensions.  You may want to start from your `euler()` and `midpoint()` functions that already do this.  you will only need to make minor modifications from there.  Then test your new generalized RK4 method on all of the same problems which you used to test your `euler()` and `midpoint()` functions.
 :::
 
 ------------------------------------------------------------------------
@@ -1097,7 +1097,7 @@ x_{n+1} = x_n - \frac{1}{2} x_{n+1}.
 ------------------------------------------------------------------------
 
 ::: {#exr-5.48b}
-By hand, apply the backwards Euler method with stepsize $h=1/2$ to the differential equation $x'=xt$ with initial condition $x(0)=1$ to obtain an approximation for $x(1/2)$. Do your calculations in terms of fractions.
+🎓 By hand, apply the backwards Euler method with stepsize $h=1/2$ to the differential equation $x'=xt$ with initial condition $x(0)=1$ to obtain an approximation for $x(1/2)$. Do your calculations in terms of fractions.
 
 :::
 
@@ -1150,7 +1150,7 @@ x
 ------------------------------------------------------------------------
 
 ::: {#exr-5.50}
-Consider the function `backwardEuler1d()` below. How do you define the function `G` inside the `for` loop and what starting value do you use for the `fsolve()` command?
+🎓 Complete the function `backwardEuler1d()` below. How do you define the function `G` inside the `for` loop and what starting value do you use for the `fsolve()` command?
 
 ``` python         
 import numpy as np
@@ -1173,7 +1173,7 @@ Test your `backwardEuler1d()` function on several differential equations where y
 ------------------------------------------------------------------------
 
 ::: {#exr-5.52}
-Write a script that outputs a log-log plot with the step size on the horizontal axis and the error in the numerical method on the vertical axis. Plot the errors for Euler, Midpoint, Runge Kutta, and Backward Euler measured against a differential equation with a known analytic solution. Use this plot to conjecture the convergence rates of the four methods. You can use the differential equation $x' = -\frac{1}{3} x + \sin(t)$ with $x(0) = 1$ like we have for many of our past algorithm since we know that the solution is 
+🎓 Write a script that outputs a log-log plot with the step size on the horizontal axis and the error in the numerical method on the vertical axis. Plot the errors for Euler, Midpoint, Runge Kutta, and Backward Euler measured against a differential equation with a known analytic solution. Use this plot to conjecture the convergence rates of the four methods. You can use the differential equation $x' = -\frac{1}{3} x + \sin(t)$ with $x(0) = 1$ like we have for many of our past algorithm since we know that the solution is 
 \begin{equation}
  x(t) = \frac{1}{10}\left( 19e^{-t/3} + 3\sin(t) - 9\cos(t) \right).
 \end{equation}
@@ -1193,7 +1193,7 @@ It may not be obvious at the outset, but the Backward Euler method will actually
 ------------------------------------------------------------------------
 
 ::: {#exr-5.54b}
-Consider the linear differential equation $x' = -cx$ with $c>0$ a constant. If you solve this with the forward Euler's method with a step size $h$, then each step can be written in the form
+🎓 Consider the linear differential equation $x' = -cx$ with $c>0$ a constant. If you solve this with the forward Euler's method with a step size $h$, then each step can be written in the form
 $$
 x_{n+1} =\  ??? \ \cdot x_n.
 $$
