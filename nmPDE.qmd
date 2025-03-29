@@ -72,7 +72,11 @@ For the sake of simplicity we will start by considering the heat equation in 1 s
 $$
  \frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial x^2}. 
 $$
-
+We will also use the alternative notation
+$$
+ u_t = D u_{xx},
+$$
+where the subscripts denote partial derivatives. 
 
 ::: {#exr-6.29}
 
@@ -112,13 +116,13 @@ $$
  \text{Numerical Error} = \mathcal{O}(\Delta t^{???}) + \mathcal{O}(\Delta x^{???}). 
 $$
 
-(f)  Explain what the result from part e means in plain English?
+(f)  Explain what the result from part (e) means in plain English?
 
 :::
 
 ------------------------------------------------------------------------
 
-There are many different finite difference schemes due to the fact that there are many different ways to approximate derivatives (See [Chapter -@sec-calculus]). One convenient way to keep track of which information you are using and what you are calculating in a finite difference scheme is to use a **finite difference stencil image**. @fig-6.8 shows the finite difference stencil for the approximation to the heat equation that you built in the previous exercise. In this figure we are showing that the function values $U_{i-1}^n$, $U_i^n$, and $U_{i+1}^n$ at the points $x_{i-1}$, $x_i$, and $x_{i+1}$ are being used at time step $t_n$ to calculate $U_i^{n+1}$. We will build similar stencil diagrams for other finite difference schemes throughout this chapter.
+There are many different finite difference schemes due to the fact that there are many different ways to approximate derivatives (See [Chapter -@sec-derivatives]). One convenient way to keep track of which information you are using and what you are calculating in a finite difference scheme is to use a **finite difference stencil image**. @fig-6.8 shows the finite difference stencil for the approximation to the heat equation that you built in the previous exercise. In this figure we are showing that the function values $U_{i-1}^n$, $U_i^n$, and $U_{i+1}^n$ at the points $x_{i-1}$, $x_i$, and $x_{i+1}$ at time step $t_n$ are used to calculate $U_i^{n+1}$. We will build similar stencil diagrams for other finite difference schemes throughout this chapter.
 
 ![The finite difference stencil for the 1D heat equation.](figures/PDE/HeatStencil.png){#fig-6.8 alt="The finite difference stencil for the 1D heat equation."}
 
@@ -306,7 +310,7 @@ Let us build a numerical solution to the 2D heat equation. We need to make a min
 $$
  u_t(t_{n}, x_i, y_j) \approx \frac{U_{i,j}^{n+1} - U_{i,j}^n}{\Delta t}. 
 $$
- The new challenge now is that we have two spatial partial derivatives: one in $x$ and one in $y$. Use what you learned in [Chapter -@sec-calculus] to write the approximations of $u_{xx}$ and $u_{yy}$. 
+ The new challenge now is that we have two spatial partial derivatives: one in $x$ and one in $y$. Use what you learned in [Chapter -@sec-derivatives] to write the approximations of $u_{xx}$ and $u_{yy}$. 
 $$
  u_{xx}(t_n,x_i,y_j) \approx \frac{??? - ??? + ???}{\Delta x^2} 
 $$
