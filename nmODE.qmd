@@ -723,9 +723,11 @@ plt.show()
 
 ------------------------------------------------------------------------
 
-## The Runge-Kutta 4 Method
+## Searching for a better Method
 
-OK. Ready for some experimentation? We are going to build a few experiments that eventually lead us to a very powerful method for finding numerical solutions to first order differential equations.
+OK. Ready for some experimentation? We are going to build a few experiments that eventually lead us to a very powerful method for finding numerical solutions to first order differential equations than the midpoint method. 
+
+This section is optional. If you feel pressed for time, then you can skip forward to @sec-rk4.
 
 ::: {#exr-5.31}
 Let us talk about the Midpoint Method for a moment. The geometric idea of the midpoint method is outlined in the bullets below. Draw a picture along with the bullets.
@@ -933,32 +935,39 @@ In the previous exercise you should have found at least one of the many methods 
 
 :::
 
-------------------------------------------------------------------------
-
-::: {#thm-5.3}
-#### The Runge-Kutta 4 Method
-The Runge-Kutta 4 (RK4) method for approximating the solution to the differential equation $x' = f(t,x)$ approximates the slope at the point $t_n$ by using the following weighted sum: 
+You probably discovered that the best method approximates the slope at the point $t_n$ by using the weighted sum
 \begin{equation}
  \text{estimated slope } = \frac{m_n + 2 m_{n+1/2} + 2 m_{n+1/2}^* + m_{n+1}^*}{6}. 
 \end{equation}
- The order of the error in the RK4 method is $\mathcal{O}(\Delta t^4)$.
+If you have not already done so, you should try this method out in the code from @exr-5.34 and see how it compares to the other methods that you have tried. You should find that the slope in the log-log error plot for this method is $4$, which means this is a fourth-order method. That is a huge improvement over the midpoint method. This method is called the Runge-Kutta 4 method and is one of the most commonly used method for solving ordinary differential equations. We
+present this method in different notation in @def-5.3. Please make sure you see why that theorem defines the same method that you have just discovered.
 
+------------------------------------------------------------------------
+
+## Runge-Kutta Method {#sec-rk4}
+
+::: {#def-5.3}
+#### The Runge-Kutta 4 Method
+The Runge-Kutta 4 (RK4) method for approximating the solution to the differential equation $x' = f(t,x)$ approximates the slope $m$ at the point $t_n$ by using the following calculations:
+\begin{equation}
+\begin{aligned} k_1 &= f(t_n, x_n) \\ 
+k_2 &= f(t_n + \frac{h}{2}, x_n + \frac{h}{2} k_1) \\ 
+k_3 &= f(t_n + \frac{h}{2}, x_n + \frac{h}{2} k_2) \\ 
+k_4 &= f(t_n + h, x_n + h k_3) \\ 
+m &= \frac{1}{6} \left( k_1 + 2 k_2 + 2 k_3 + k_4 \right) \end{aligned}
+\end{equation}
+It then uses that slope to advance by one time step:
+\begin{equation}
+x_{n+1} = x_n + h m = x_n + \frac{h}{6} \left( k_1 + 2 k_2 + 2 k_3 + k_4 \right).
+\end{equation}
+The order of the error in the RK4 method is $\mathcal{O}(\Delta t^4)$.
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-5.37}
-In @thm-5.3 we state the Runge-Kutta 4 method in terms of the estimates of the slope built up previously in this section. The notation that is commonly used in most numerical analysis sources is slightly different. Typically, the RK4 method is presented as follows: 
-\begin{equation}
-\begin{aligned} k_1 &= f(t_n, x_n) \\ k_2 &= f(t_n + \frac{h}{2}, x_n + \frac{h}{2} k_1) \\ k_3 &= f(t_n + \frac{h}{2}, x_n + \frac{h}{2} k_2) \\ k_4 &= f(t_n + h, x_n + h k_3) \\ x_{n+1} &= x_n + \frac{h}{6} \left( k_1 + 2 k_2 + 2 k_3 + k_4 \right) \end{aligned}
-\end{equation}
 
-
-1.  Show that indeed we have derived the same exact algorithm.
-
-2.  What is the advantage to posing the RK4 method in this way?
-
-3.  How many evaluations of the function $f(t,x)$ do we need to make at every time step of the RK4 method? Compare this Euler's method and the midpoint method. Why is this important?
+Of course there is a price to pay for the improvement provided by the RK4 method over our earlier methods. How many evaluations of the function $f(t,x)$ do we need to make at every time step of the RK4 method? Compare this Euler's method and the midpoint method. 
 
 :::
 
@@ -1002,8 +1011,8 @@ Write a Python function that implements the Runge-Kutta 4 method in one dimensio
 import numpy as np
 import matplotlib.pyplot as plt
 
-def rk41d(f,x0,t0,tmax,dt):
-    t = np.arange(t0,tmax+dt,dt)
+def rk41d(f, x0, t0, tmax, dt):
+    t = np.arange(t0, tmax+dt, dt)
     x = np.zeros(len(t))
     x[0] = x0
     for n in range(len(t)-1):
@@ -1011,17 +1020,14 @@ def rk41d(f,x0,t0,tmax,dt):
     return t, x
 ```
 Test the problem on several differential equations where you know the solution.
-``` python
-f = lambda t, x: -(1/3.0)*x + np.sin(t)
-x0 = # initial condition
-t0 = 0
-tmax = # your choice
-dt = # pick something reasonable
-t, x = rk41d(f,x0,t0,tmax,dt)
-plt.plot(t,x,'b.-')
-plt.grid()
-plt.show()
-```
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-rk4error}       
+#### RK4 Error plot
+Make a log-log plot of the error in the RK4 method for a differential equation whose solution you know exactly (you could use $x' = -\frac{1}{3}x + \sin(t)$ with $x(0) = 1$ on the domain $t \in [0,10]$, similar to what you did for the Euler method and the midpoint method earlier). Check that the error plot shows that the error is $\mathcal{O}(\Delta t^4)$.
 :::
 
 ------------------------------------------------------------------------
@@ -1058,7 +1064,7 @@ x_{n+1} = x_n + h f(t_{n+1},x_{n+1}).
 
 -   We will always know the value of $t_{n+1}$ and we will always know the value of $x_n$, but we do not know the value of $x_{n+1}$. In fact, that is exactly what we want. The major trouble is that $x_{n+1}$ shows up on both sides of the equation. Can you think of a way to solve for it? ...you have code that does this step!!!
 
--   This method is called the **Backward Euler** method and is known as an **implicit method** since you do not explicitly calculate $x_{n+1}$ but instead there is some intermediate calculation that needs to happen to solve for $x_{n+1}$. The (usual) advantage to an implicit method such as Backward Euler is that you can take far fewer steps with reasonably little loss of accuracy. We will see that in the coming exercises.
+-   This method is called the **Backward Euler** method and is known as an **implicit method** since it does not explicitly give an expression for $x_{n+1}$ but instead it gives an equation that still needs to be solved for $x_{n+1}$. We will see the main advantage of implicit methods in @sec-instability.
 
 :::
 
@@ -1090,6 +1096,13 @@ x_{n+1} = x_n - \frac{1}{2} x_{n+1}.
 
 ------------------------------------------------------------------------
 
+::: {#exr-5.48b}
+By hand, apply the backwards Euler method with stepsize $h=1/2$ to the differential equation $x'=xt$ with initial condition $x(0)=1$ to obtain an approximation for $x(1/2)$. Do your calculations in terms of fractions.
+
+:::
+
+------------------------------------------------------------------------
+
 ::: {#exr-5.49}
 The previous problem could potentially lead you to believe that the backward Euler method will always result in some other nice difference equation after some algebraic rearranging. That is not true! Let us consider a slightly more complicated differential equation and see what happens 
 \begin{equation}
@@ -1104,11 +1117,12 @@ x_{n+1} = x_n + h f(t_{n+1},x_{n+1}).
  Let us take $h=1$ for simplicity (we will make it smaller later). What is the backward Euler formula for this particular differential equation?
 
 2.  You should notice that your backward Euler formula is now a quadratic function in $x_{n+1}$. That is to say, if you are given a value of $x_n$ then you need to solve a quadratic polynomial equation to get $x_{n+1}$. Let us be more explicit:\
-    We know that $x(0) = 6$ so in our numerical solutions, $x_0 = 6$. In order to get $x_1$ we consider the equation $x_1 = x_0 - \frac{1}{2} x_1^2$. Rearranging we see that we need to solve $\frac{1}{2}x_1^2 + x_1 - 6 = 0$ in order to get $x_1$. Doing so gives us $x_1 = \sqrt{13} - 1 \approx 2.606$.
+    We know that $x(0) = 6$ so in our numerical solutions, $x_0 = 6$. In order to get $x_1$ we consider the equation 
+    $$x_1 = x_0 - \frac{1}{2} x_1^2.$$ Rearranging we see that we need to solve $$\frac{1}{2}x_1^2 + x_1 - 6 = 0$$ in order to get $x_1$. Doing so gives us $x_1 = \sqrt{13} - 1 \approx 2.606$.
 
 3.  Go two steps further with the backward Euler method on this problem. Then take the same number of steps with regular (forward) Euler's method.
 
-4.  Work out the analytic solution for this differential equation (using separation of variables perhaps). Then compare the values that you found in parts (b) and (c) of this problem to values of the analytic solution and values that you would find from the regular (forward) Euler approximation. What do you notice?
+4.  Work out the analytic solution for this differential equation (using separation of variables perhaps). Then compare the values that you found in parts (2) and (3) of this problem to values of the analytic solution and values that you would find from the regular (forward) Euler approximation. What do you notice?
 
 :::
 
@@ -1120,14 +1134,23 @@ x_{n+1} = x_n + h f(t_{n+1},x_{n+1}).
 \end{equation}
  Notice that this is the same as solving the equation 
 \begin{equation}
-x_{n+1} - hf(t_{n+1},x_{n+1}) - x_n = 0.
+G(x_{n+1}):=x_{n+1} - hf(t_{n+1},x_{n+1}) - x_n = 0.
 \end{equation}
- You know the values of $h=\Delta t$, $t_{n+1}$ and $x_n$, and you know the function $f$, so, in a practical sense, you should use some sort of Newton's method iteration to solve that equation -- at each time step. More simply, we could call upon `scipy.optimize.fsolve()` to quickly implement a built in Python numerical root finding technique for us.
+ You know the values of $h=\Delta t$, $t_{n+1}$ and $x_n$, and you know the function $f$, so, in a practical sense, you should use some sort of Newton's method iteration to solve that equation -- at each time step. More simply, we could call upon `scipy.optimize.fsolve()` to quickly implement a built in Python numerical root finding technique for us. For
+ example, to find the root of the function $G(x) = x^2/2 + x - 6$ we could use the following code
+```{python}
+import numpy as np
+from scipy import optimize
+G = lambda x: x**2/2 + x - 6
+x0 = 6 # initial guess
+x = optimize.fsolve(G, x0)[0]
+x
+```
 
 ------------------------------------------------------------------------
 
 ::: {#exr-5.50}
-Consider the function `backwardEuler1d()` below. How do you define the function `G` inside the `for` loop and what seed do you use to start the `fsolve()` command?
+Consider the function `backwardEuler1d()` below. How do you define the function `G` inside the `for` loop and what starting value do you use for the `fsolve()` command?
 
 ``` python         
 import numpy as np
@@ -1138,7 +1161,7 @@ def backwardEuler1d(f, x0, t0, tmax,dt):
     x[0] = x0
     for n in range(len(t)-1):
         G = lambda X: ??? # define this function
-        # give the correct seed for the solver below
+        # give an appropriate starting value for fsolve
         x[n+1] = optimize.fsolve(G, ???)[0] 
     return t, x
 ```
@@ -1155,21 +1178,39 @@ Write a script that outputs a log-log plot with the step size on the horizontal 
  x(t) = \frac{1}{10}\left( 19e^{-t/3} + 3\sin(t) - 9\cos(t) \right).
 \end{equation}
 
+From the plot, what is the order of the error on the Backward Euler method?
 
 :::
 
 ------------------------------------------------------------------------
 
-::: {#exr-5.53}
-What is the order of the error on the Backward Euler method? Given this answer, what are the pros and cons of the Backward Euler method over the regular Euler method? What about compared to the Midpoint or Runge Kutta methods?
-
-:::
-
-------------------------------------------------------------------------
+## Numerical Instabilities {#sec-instability}
 
 ::: {#exr-5.54}
-It may not be obvious at the outset, but the Backward Euler method will actually behave better than our regular Euler's method in some sense. Let us take a look. Consider, for example, the really simply differential equation $x' = -10x$ with $x(0) = 1$ on the interval $t \in [0,2]$. The analytic solution is $x(t) = e^{-10t}$. Write Python code that plots the analytic solution, the Euler approximation, and the Backward Euler approximation on top of each other. Use a time step that is larger than you normally would (such as $\Delta t = 0.25$ or $\Delta t = 0.5$ or larger).  What do you notice? Why do you think this is happening?
+It may not be obvious at the outset, but the Backward Euler method will actually behave better than our regular Euler's method in some sense. Let us take a look. Consider, for example, the really simple linear differential equation $x' = -10x$ with $x(0) = 1$ on the interval $t \in [0,2]$. The analytic solution is $x(t) = e^{-10t}$. Write Python code that plots the analytic solution, the Euler approximation, and the Backward Euler approximation on top of each other. Use a time step that is larger than you normally would (such as $\Delta t = 0.25$ or $\Delta t = 0.5$ or larger).  What do you notice? Why do you think this is happening?
 :::
+
+------------------------------------------------------------------------
+
+::: {#exr-5.54b}
+Consider the linear differential equation $x' = -cx$ with $c>0$ a constant. If you solve this with the forward Euler's method with a step size $h$, then each step can be written in the form
+$$
+x_{n+1} =\  ??? \ \cdot x_n.
+$$
+Because the exact solution to this differential equation $x(t) = e^{-ct}$ goes towards $0$ as $t$ goes to infinity, Euler's method should also go towards $0$ as $n$ goes to infinity. What is the condition on the $???$ in the equation above that ensures that in Euler's method $x_n$ will go towards $0$ as $n$ goes to infinity? What condition does this impose on the step size $h$?
+
+If you now solve this same ODE with the same step size with the backward Euler method, you can solve the equation for $x_{n+1}$ exactly to find that
+$$
+x_{n+1} =\  ??? \ \cdot x_n.
+$$
+Again you would like this to go towards $0$ as $n$ goes to infinity.  What condition does this impose on the step size $h$ now? 
+:::
+
+In preparation
+
+## Stiff Equations {#sec-stiff}
+
+In preparation
 
 ## Algorithm Summaries
 
