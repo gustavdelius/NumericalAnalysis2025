@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,13 +103,44 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="9&nbsp; Partial Differential Equations – Numerical Analysis 2025">
 <meta property="og:description" content="">
+<meta property="og:image" content="figures/PDE/HeatStencil.png">
 <meta property="og:site_name" content="Numerical Analysis 2025">
 <meta name="twitter:title" content="9&nbsp; Partial Differential Equations – Numerical Analysis 2025">
 <meta name="twitter:description" content="">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="figures/PDE/HeatStencil.png">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating">
@@ -183,15 +248,27 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#intro-to-pdes" id="toc-intro-to-pdes" class="nav-link active" data-scroll-target="#intro-to-pdes"><span class="header-section-number">9.1</span> Intro to PDEs</a></li>
+  <li><a href="#the-heat-equation" id="toc-the-heat-equation" class="nav-link" data-scroll-target="#the-heat-equation"><span class="header-section-number">9.2</span> The Heat Equation</a>
+  <ul>
+  <li><a href="#sec-heat1d" id="toc-sec-heat1d" class="nav-link" data-scroll-target="#sec-heat1d"><span class="header-section-number">9.2.1</span> In One Spatial Dimensions</a></li>
+  <li><a href="#sec-neumann" id="toc-sec-neumann" class="nav-link" data-scroll-target="#sec-neumann"><span class="header-section-number">9.2.2</span> Different Boundary Conditions</a></li>
+  <li><a href="#sec-heat2d" id="toc-sec-heat2d" class="nav-link" data-scroll-target="#sec-heat2d"><span class="header-section-number">9.2.3</span> In Two Spatial Dimensions</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2025/edit/main/nmPDE.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-pdes" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Partial Differential Equations</span></span></h1>
+<h1 class="title"><span id="sec-pde" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Partial Differential Equations</span></span></h1>
 </div>
 
 
@@ -208,9 +285,1455 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Coming in week 9</p>
+<blockquote class="blockquote">
+<p><em>When you open the toolkit of differential equations you see the hammers and saws of engineering and physics for the past two centuries and for the foreseeable future.</em><br>
+–<a href="https://en.wikipedia.org/wiki/Benoit_Mandelbrot">Benoit Mandelbrot</a></p>
+</blockquote>
+<section id="intro-to-pdes" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="intro-to-pdes"><span class="header-section-number">9.1</span> Intro to PDEs</h2>
+<p>Partial differential equations (PDEs) are differential equations involving the partial derivatives of an unknown multivariable function. In most of this chapter we will examine two classical problems from physics: heat transport phenomena and wave phenomena. Do not think, however, that just because we are focusing on these two primary examples that this is the extent of the utility of PDEs. Basically, every scientific field has been impacted by (or has directly impacted) the study of PDEs. Any phenomenon that can be modelled via the change in multiple continuous variables (not restricted to space and time) is likely governed by a PDE model. Some common phenomena that are modelled by PDEs are:</p>
+<ul>
+<li><p>heat transport</p>
+<ul>
+<li>The heat equation models heat energy (temperature) diffusing through a metal rod or a solid body</li>
+</ul></li>
+<li><p>diffusion of a concentrated substance</p>
+<ul>
+<li>The diffusion equation is a PDE model for the diffusion of smells, contaminants, or the motion of a solute</li>
+</ul></li>
+<li><p>wave propagation</p>
+<ul>
+<li>The wave equation is a PDE that can be used to model the standing waves on a guitar string, the waves on lake, or sound waves traveling through the air</li>
+</ul></li>
+<li><p>travelling waves</p>
+<ul>
+<li>The traveling wave equation is a PDE that can be used to model pulses of light propagating through a fiber optic cable or regions of high density traffic moving along a highway.</li>
+</ul></li>
+<li><p>quantum mechanics</p>
+<ul>
+<li>The wave functions of quantum mechanics are described by a PDE called the Schrodinger Equation.</li>
+</ul></li>
+<li><p>electro-magnetism</p>
+<ul>
+<li>Maxwell’s Equations are a system of PDEs describing the relationships between electricity and magnetism.</li>
+</ul></li>
+<li><p>fluid flow</p>
+<ul>
+<li><p>The Navier-Stokes equations are a system of PDEs that model fluids in three dimensions – including turbulent flow.</p></li>
+<li><p>Darcy’s Law and Richard’s equation are PDE models for the motion of fluids moving through saturated and unsaturated soils.</p></li>
+</ul></li>
+<li><p>stress and strain in structures</p>
+<ul>
+<li>The Linear Elasticity equation is a PDE that models the stresses in a solid body (like a bridge or a building) under load.</li>
+</ul></li>
+<li><p>spatial patterns</p>
+<ul>
+<li>Solutions to the Helmholtz equation are known for exhibiting <em>Turing patterns</em> which are patterns like leopard spots or zebra stripes.</li>
+</ul></li>
+<li><p>… and many more …</p></li>
+</ul>
+<p>In many cases we are interested in solving PDEs in terms of our usual three spatial dimensions along with an extra dimension for time. Often we do not have to work with all three spatial dimensions (like if the domain is much larger in one or two directions versus the others) or in some cases (like in linear elasticity) we do not need to worry about time.</p>
+<p>There is a wealth of wonderful theory for finding analytic solutions to many special classes of PDEs. However, most PDEs simply do not lend themselves to analytic solutions that we can write down in terms of the regular mathematical operations of sums, products, powers, roots, trigonometric functions, logarithms, etc. For these PDEs we must turn to numerical methods to approximate the solution.</p>
+<p>Recall that numerical solutions to ODEs were approximations of the value of the unknown function at a discrete set of times. Similarly, numerical solutions to PDEs are going to be approximations of the value of the unknown function at a discrete set of points in time AND space.</p>
+<p>What we will cover in this chapter will include one primary and powerful technique for approximating solutions to PDEs: <strong>the finite difference method</strong>. There are many other techniques for approximating solutions to PDEs, and the field of numerical PDEs is still an active area of mathematical and scientific research.</p>
+</section>
+<section id="the-heat-equation" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="the-heat-equation"><span class="header-section-number">9.2</span> The Heat Equation</h2>
+<p>You have probably met the heat equation, also known as the diffusion equation, in a previous module. The heat equation is a partial differential equation that describes how heat diffuses through a material. The heat equation is a parabolic PDE and is given by <span class="math display">\[
+\frac{\partial u}{\partial t} = D \nabla^2 u
+\]</span> where <span class="math inline">\(u(t,x)\)</span> is the temperature of the material at time <span class="math inline">\(t\)</span> and position <span class="math inline">\(x\)</span> and <span class="math inline">\(D\)</span> is the diffusion coefficient. The heat equation is a simple model for heat diffusion but also describes diffusion in general, like the diffusion of a solute in a solvent or of plants in a field or, …. well, you get the idea.</p>
+<p>In the remainder of this section we will use a technique called <strong>the finite difference method</strong> to build numerical approximations to solutions of the heat equation in 1D, 2D, and 3D. You of course know that the heat equation is easy to solve analytically, given that it is a linear homogeneous PDE with constant coefficients. However, the finite difference method is a powerful tool for solving similar PDEs that do not have simple analytic solutions. The advantage of using the heat equation as a test case for the finite difference method is that we can easily verify the accuracy of our numerical solutions by comparing them to the known analytic solutions.</p>
+<section id="sec-heat1d" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="sec-heat1d"><span class="header-section-number">9.2.1</span> In One Spatial Dimensions</h3>
+<p>For the sake of simplicity we will start by considering the heat equation in 1 spatial dimension: <span class="math display">\[
+\frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial x^2}.
+\]</span> We will also use the alternative notation <span id="eq-heat1d"><span class="math display">\[
+u_t = D u_{xx},
+\tag{9.1}\]</span></span> where the subscripts denote partial derivatives.</p>
+<div id="exr-6.29" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.1</strong></span> Just as we did in <a href="nmODE.html" class="quarto-xref">Chapter&nbsp;<span>8</span></a> to approximate solutions to ODEs, we will start by partitioning the spatial domain into finitely many pieces and we will partition time into finitely many pieces. We do this by introducing a grid of points <span class="math inline">\((t_n,x_i)\)</span> where <span class="math inline">\(t_n = t_0 + n\,\Delta t\)</span> and <span class="math inline">\(x_i = x_0 + i\,\Delta x\)</span>. Then we want to build a numerical approximation to the function <span class="math inline">\(u(t,x)\)</span> at these grid points.</p>
+<p>First we need to introduce some notation for the numerical solution. As you will see in a moment, there is a lot to keep track of in numerical PDEs so careful indexing and well-chosen notation is essential. Let <span class="math inline">\(U_i^n\)</span> be the approximation of the solution to <span class="math inline">\(u(t,x)\)</span> at the point <span class="math inline">\(t=t_n=t_0+n\,\Delta t\)</span> and <span class="math inline">\(x=x_i=x_0+i\,\Delta x\)</span> (since we have two variables we need two indices). For example, <span class="math inline">\(U_4^1\)</span> is the value of the approximation at time <span class="math inline">\(t_1\)</span> and at the spatial point <span class="math inline">\(x_4\)</span>.</p>
+<p>Next we need to approximate both derivatives <span class="math inline">\(u_t\)</span> and <span class="math inline">\(u_{xx}\)</span> in the PDE using methods that we have used before. Now would be a good time to go back to <a href="nmDerivatives.html" class="quarto-xref">Chapter&nbsp;<span>5</span></a> and refresh your memory for how we build approximations of derivatives.</p>
+<ol type="a">
+<li><p>Use the forward-difference formula to approximate the time derivative <span class="math inline">\(u_t\)</span> at the point <span class="math inline">\(t=t_n\)</span> and <span class="math inline">\(x=x_i\)</span>. <span class="math display">\[
+u_t(t_n,x_i) \approx \frac{??? - ???}{???}.
+\]</span></p></li>
+<li><p>Use the centred-difference formula to approximate the second spatial derivative <span class="math inline">\(u_{xx}\)</span> at the point <span class="math inline">\(t=t_n\)</span> and <span class="math inline">\(x=x_i\)</span>. <span class="math display">\[
+u_{xx}(t_n,x_i) \approx \frac{??? - ??? + ???}{???}.
+\]</span></p></li>
+<li><p>Put your answers from parts (a) and (b) together using the 1D heat equation (<a href="#eq-heat1d" class="quarto-xref">Eq.&nbsp;<span>9.1</span></a>) <span class="math display">\[
+\frac{??? - ???}{\Delta t} = D \left( \frac{??? - ??? + ???}{\Delta x^2} \right).
+\]</span> Be sure that your indexing is correct: the superscript <span class="math inline">\(n\)</span> is the index for time and the subscript <span class="math inline">\(i\)</span> is the index for space.</p></li>
+<li><p>Rearrange your result from part (c) to solve for <span class="math inline">\(U_i^{n+1}\)</span>: <span class="math display">\[
+\begin{aligned} U_i^{n+1} = ??? + \frac{D \Delta t}{\Delta x^2} \left( ??? - ??? + ??? \right). \end{aligned}
+\]</span> The iterative scheme which you just derived is called a <strong>finite difference scheme</strong> for the heat equation. Notice that the term on the left is the only term at the next time step <span class="math inline">\(n+1\)</span>. So, for every spatial point <span class="math inline">\(x_i\)</span> we can build <span class="math inline">\(U_i^{n+1}\)</span> by evaluating the right-hand side of the finite difference scheme.</p></li>
+<li><p>The numerical errors made by using the finite difference scheme we just built come from two sources: from the approximation of the time derivative and from the approximation of the second spatial derivative. Fill in the question marks in the powers of the following expression: <span class="math display">\[
+\text{Numerical Error} = \mathcal{O}(\Delta t^{???}) + \mathcal{O}(\Delta x^{???}).
+\]</span></p></li>
+<li><p>Explain what the result from part (e) means in plain English?</p></li>
+</ol>
+</div>
+<hr>
+<p>There are many different finite difference schemes due to the fact that there are many different ways to approximate derivatives (See <a href="nmDerivatives.html" class="quarto-xref">Chapter&nbsp;<span>5</span></a>). One convenient way to keep track of which information you are using and what you are calculating in a finite difference scheme is to use a <strong>finite difference stencil image</strong>. <a href="#fig-6.8" class="quarto-xref">Figure&nbsp;<span>9.1</span></a> shows the finite difference stencil for the approximation to the heat equation that you built in the previous exercise. In this figure we are showing that the function values <span class="math inline">\(U_{i-1}^n\)</span>, <span class="math inline">\(U_i^n\)</span>, and <span class="math inline">\(U_{i+1}^n\)</span> at the points <span class="math inline">\(x_{i-1}\)</span>, <span class="math inline">\(x_i\)</span>, and <span class="math inline">\(x_{i+1}\)</span> at time step <span class="math inline">\(t_n\)</span> are used to calculate <span class="math inline">\(U_i^{n+1}\)</span>. We will build similar stencil diagrams for other finite difference schemes throughout this chapter.</p>
+<div id="fig-6.8" class="quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6.8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/PDE/HeatStencil.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6.8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: The finite difference stencil for the 1D heat equation.
+</figcaption>
+</figure>
+</div>
+<hr>
+<div id="exr-6.30" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.2</strong></span> Now we want to implement your answer to part (d) of the previous exercise to approximate the solution to the following problem: Solve <span class="math display">\[
+u_t = 0.1u_{xx}
+\]</span> on the domain <span class="math inline">\(0 &lt; x &lt; 1\)</span> and <span class="math inline">\(0 &lt; t &lt; 1\)</span> with the initial condition with <span class="math display">\[
+u(0,x) = \sin(2 \pi x)
+\]</span> and boundary conditions <span class="math display">\[
+u(t,0) = 0, \, \text{and} \, u(t,1) = 0.
+\]</span> For this purpose divide the <span class="math inline">\(x\)</span> domain into 20 equal pieces and the <span class="math inline">\(t\)</span> domain into 100 equal pieces.</p>
+<p>Some partial code is given below to get you started.</p>
+<ul>
+<li>First we import the proper libraries, set up the time domain, and set up the spatial domain.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interactive</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Write code to give a vector of times starting at t=0 and ending </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># at t=1 that divides the interval into 100 equal pieces.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the step size `dt`.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Write code to give a vector of x values starting at x=0 and </span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ending exactly at x=1 that divides the interval into 20 equal pieces.</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the step size `dx`.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the diffusion coefficient</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># The coefficient "a" appears in the finite difference scheme.</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> D<span class="op">*</span>dt <span class="op">/</span> dx<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dt="</span>, dt, <span class="st">", dx="</span>, dx, <span class="st">" and D dt/dx^2="</span>, a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Next we build the array <span class="math inline">\(U\)</span> so we can store all of the approximations at all times and at all spatial points. The array will have the dimensions <code>len(t)</code> by <code>len(x)</code>. We then need to enforce the boundary conditions so for all times we fill the proper portions of the array with the proper boundary conditions. Lastly, we will build the initial condition for all spatial steps in the first time step.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> np.zeros((<span class="bu">len</span>(t),<span class="bu">len</span>(x)))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>U[:,<span class="dv">0</span>] <span class="op">=</span> <span class="co"># left boundary condition</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>U[:,<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="co"># right boundary condition</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>U[<span class="dv">0</span>,:] <span class="op">=</span> <span class="co"># the function for the init. condition (should depend on x)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Now we step through a loop that fills the <span class="math inline">\(U\)</span> array one row at a time. Keep in mind that we want to leave the boundary conditions fixed so we will only fill indices <code>1</code> through <code>-2</code> (stop and explain this). Be careful to get the indexing correct. For example, if we want <span class="math inline">\(U_i^n\)</span> we use <code>U[n,1:-1]</code>, if we want <span class="math inline">\(U_{i+1}^n\)</span> we use <code>U[n,2:]</code>, if we want <span class="math inline">\(U_i^{n+1}\)</span> we use <code>U[n+1,1:-1]</code>, etc.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(t)<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    U[n<span class="op">+</span><span class="dv">1</span>,<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> U[n,?:?] <span class="op">+</span> a<span class="op">*</span>( U[n,?:] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>U[n,?:?] <span class="op">+</span> U[n,:?])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>It remains to visualise the solutions. You can either make a plot or an animation to illustrate the time evolution of <span class="math inline">\(u\)</span>. For each of these there a various Python packages you could use. Below is a function <code>plot_solution_1d()</code> using plotly to make a plot and a function <code>animate_solution_1d()</code> using matplotlib to make an animated 2D plot. You can use either of these or you can use your own plotting code.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_solution_1d(t, x, U):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Plots the numerical approximation to a function u(t,x).</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">        t: A vector of time values.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">        x: A vector of spatial values.</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">        U: A 2D array approximating the solution u(x,t) at each grid point.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> go.Figure(data<span class="op">=</span>[go.Surface(z<span class="op">=</span>U, x<span class="op">=</span>x, y<span class="op">=</span>t)])</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    fig.update_layout(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        scene<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            yaxis_title<span class="op">=</span><span class="st">'t'</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            zaxis_title<span class="op">=</span><span class="st">'u'</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> animation, rc</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> animate_solution_1d(t, x, U):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Animates the numerical approximation to a function u(t,x).</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">        t: A vector of time values.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">        x: A vector of spatial values.</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">        U: A 2D array approximating the solution u(x,t) at each grid point.</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    plt.close()</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"x"</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"u"</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim((np.<span class="bu">min</span>(t), np.<span class="bu">max</span>(t)))</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim((np.<span class="bu">min</span>(U), np.<span class="bu">max</span>(U)))</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    frame, <span class="op">=</span> ax.plot([], [], linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> animator(n):</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f"t = </span><span class="sc">{</span>t[n]<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        frame.set_data(x, U[n,:])</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (frame, )</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    ani <span class="op">=</span> animation.FuncAnimation(fig,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                                  animator,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                                  frames<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>,<span class="bu">len</span>(t),<span class="dv">1</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                                  interval<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    rc(<span class="st">'animation'</span>, html<span class="op">=</span><span class="st">'jshtml'</span>) <span class="co"># embed in the HTML for Google Colab</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ani</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div id="exr-heat1d" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.3</strong></span> 🎓 Now wrap up your code for solving the one-dimensional heat equation as a function so that you can easily call it with different parameters.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> heat1d(u_0, D<span class="op">=</span><span class="fl">0.1</span>, t_0<span class="op">=</span><span class="dv">0</span>, t_max<span class="op">=</span><span class="dv">1</span>, N_t<span class="op">=</span><span class="dv">100</span>, x_left<span class="op">=</span><span class="dv">0</span>, x_right<span class="op">=</span><span class="dv">1</span>, N_x<span class="op">=</span><span class="dv">20</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Solves the 1D heat equation using the finite difference method.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    This function solves the 1D heat equation with given initial and </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    boundary conditions. It also prints a diagnostic message stating</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    the step sizes `dt` and `dx` used and the value of `a = D*dt/dx**2`.</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">        u_0: A function giving the initial condition u(0,x).</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">        D: The diffusion coefficient. Defaults to 1.</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">        t_0: The initial time. Defaults to 0.</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">        t_max: The maximum time. Defaults to 1.</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">        N_t: The number of time steps. Defaults to 100.</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">        x_left: The left boundary of the spatial domain. Defaults to 0.</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">        x_right: The right boundary of the spatial domain. Defaults to 1.</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">        N_x: The number of spatial steps. Defaults to 20.</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">        A tuple containing the following:</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">            t: A vector of time values.</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">            x: A vector of spatial values.</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">            U: A 2D array approximating the solution u(t,x) at each grid point.</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Your code goes here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use your function to solve the heat equation with diffusion coefficient <span class="math inline">\(D=0.1\)</span> and the following initial and boundary conditions: <span class="math display">\[
+u(0,x) = \sin(2 \pi x), \, u(t,0) = 0, \, \text{and} \, u(t,1)
+\]</span> Use stepsizes <span class="math inline">\(\Delta t=0.01\)</span> and <span class="math inline">\(\Delta x=0.01\)</span> to determine an approximate value for <span class="math inline">\(u(0.2,0.25)\)</span>.</p>
+</div>
+<hr>
+<div id="exr-6.31a" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.4</strong></span> Now run the solution method from the previous exercise with the same diffusion coefficient <span class="math inline">\(D=0.1\)</span>, the same step sizes <span class="math inline">\(\Delta t=0.01\)</span> and <span class="math inline">\(\Delta x=0.01\)</span>, and the same initial and boundary conditions but run it for a longer time <span class="math inline">\(t=0.5\)</span> and plot the solution on the domain <span class="math inline">\(t\in[0,0.5]\)</span> and <span class="math inline">\(x\in[0,1]\)</span>. Do you believe what you see? What is happening to the solution?</p>
+</div>
+<hr>
+<div id="exr-6.31" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.5</strong></span> 🎓 You will have found that you did not get a sensible solution from your method for the previous problem. The point of this exercise is to show that value of <span class="math inline">\(a = D\frac{\Delta t}{\Delta x^2}\)</span> controls the stability of the finite difference solution to the heat equation, and furthermore that there is a cutoff for <span class="math inline">\(a\)</span> above which the finite difference scheme will be unstable. Experiment with values of <span class="math inline">\(\Delta t\)</span> and <span class="math inline">\(\Delta x\)</span> and conjecture the values of <span class="math inline">\(a = D \frac{\Delta t}{\Delta x^2}\)</span> that give a stable result. Your conjecture should take the form:</p>
+<p><em>If</em> <span class="math inline">\(a = D\frac{\Delta t}{\Delta x^2} &lt; \underline{\hspace{0.5in}}\)</span> then the finite difference solution for the 1D heat equation is stable. Otherwise it is unstable.</p>
+</div>
+<hr>
+<div id="exr-6.32" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.6</strong></span> Consider the one dimensional heat equation with diffusion coefficient <span class="math inline">\(D=1\)</span>: <span class="math display">\[
+u_t = u_{xx}.
+\]</span> We want to solve this equation on the domain <span class="math inline">\(x \in [0,1]\)</span> and <span class="math inline">\(t\in [0,0.1]\)</span> subject to the initial condition <span class="math inline">\(u(0,x) = \sin(\pi x)\)</span> and the boundary conditions <span class="math inline">\(u(t,0)=u(t,1) = 0\)</span>.</p>
+<ol type="a">
+<li><p>Show that the function <span class="math inline">\(u(t,x) = e^{-\pi^2 t} \sin(\pi x)\)</span> is a solution to this heat equation, satisfies the initial condition, and satisfies the boundary conditions.</p></li>
+<li><p>Pick values of <span class="math inline">\(\Delta t\)</span> and <span class="math inline">\(\Delta x\)</span> so that you can get a stable finite difference solution to this heat equation. Then make a plot of your numerical solution.</p></li>
+<li><p>Compare your plot to the plot of the exact solution that you can get with</p></li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>X, T <span class="op">=</span> np.meshgrid(x, t)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>u_exact <span class="op">=</span> np.exp(<span class="op">-</span>np.pi<span class="op">**</span><span class="dv">2</span><span class="op">*</span>T)<span class="op">*</span>np.sin(np.pi<span class="op">*</span>X)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plot_solution_1d(t, x, u_exact)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div id="exr-6.32b" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.7</strong></span> 🎓 Now let us change the initial condition to <span class="math inline">\(u(0,x)=\sin(\pi x) + \sin(3 \pi x)\)</span>. We will keep the same boundary conditions as before: <span class="math inline">\(u(t,0)=u(t,1)=0\)</span>.</p>
+<ol type="a">
+<li><p>Show that the function <span class="math inline">\(u(t,x) = e^{-\pi^2 t} \sin(\pi x) +  e^{-9\pi^2t}\sin(3\pi x)\)</span> is a solution to this heat equation, matches this new initial condition, and matches the boundary conditions.</p></li>
+<li><p>Pick values of <span class="math inline">\(\Delta t\)</span> and <span class="math inline">\(\Delta x\)</span> so that you can get a stable finite difference solution to this heat equation. Make a 3d plot of your numerical solution.</p></li>
+<li><p>Compare your plot to the plot of the exact solution.</p></li>
+</ol>
+</div>
+<hr>
+</section>
+<section id="sec-neumann" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="sec-neumann"><span class="header-section-number">9.2.2</span> Different Boundary Conditions</h3>
+<p>In any initial and boundary value problem such as the heat equation, the boundary are often of Dirichlet or Neumann type. In Dirichlet boundary conditions the values of the solution at the boundary are specified. In contrast, Neumann boundary conditions specify the flux at the boundary instead of the value of the solution.</p>
+<div id="exr-6.34" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.8 (Time-dependent Dirichlet Boundary Condition)</strong></span> Modify your 1D heat equation code to plot an approximate solution of the diffusion equation <span class="math inline">\(u_t = 0.5 u_{xx}\)</span> with <span class="math inline">\(x \in (0,1)\)</span>, <span class="math inline">\(u(0,x) = \sin(2\pi x)\)</span>, <span class="math inline">\(u(t,0) = 0\)</span> and <span class="math inline">\(u(t,1) = \sin(5\pi t)\)</span>.</p>
+</div>
+<hr>
+<div id="exr-6.33" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.9 (Neumann Boundary Condition)</strong></span> 🎓 Consider the 1D heat equation <span class="math inline">\(u_t = u_{xx}\)</span> with boundary conditions <span class="math inline">\(u_x(t,0)=0\)</span> and <span class="math inline">\(u(t,1)=0\)</span> with initial condition <span class="math inline">\(u(0,x) = \cos(\pi x/2)\)</span>. Notice that the initial condition satisfies both boundary conditions: <span class="math inline">\(\frac{d}{dx}(\cos(\pi \cdot x/2))\Big|_{x=0} = 0\)</span> and <span class="math inline">\(\cos(\pi \cdot 1/2)=0\)</span>. As the heat profile evolves in time the Neumann boundary condition <span class="math inline">\(u_x(t,0)=0\)</span> says that the slope of the solution needs to be fixed at 0 at the left-hand boundary.</p>
+<ol type="a">
+<li><p>Draw several images of what the solution to the PDE should look like as time evolves. Be sure that all boundary conditions are satisfied and that your solution appears to solve the heat equation.</p></li>
+<li><p>The Neumann boundary condition <span class="math inline">\(u_x(t,0) = 0\)</span> can be approximated with the first order approximation <span class="math display">\[
+u_x(t_n,0) \approx \frac{U_1^n - U_0^n}{\Delta x} \text{ for all } n.
+\]</span> If we set this approximation to 0 (since <span class="math inline">\(u_x(t,0)=0\)</span>) and solve for <span class="math inline">\(U_0^n\)</span> we get an additional constraint at every time step of the numerical solution to the heat equation: <span class="math display">\[ U_0^n = ??? \text{ for all } n.\]</span></p></li>
+<li><p>Modify your 1D heat equation code to implement this Neumann boundary condition, plot the numerical solution and verify visually that the Neumann boundary is satisfied.</p></li>
+</ol>
+</div>
+</section>
+<section id="sec-heat2d" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="sec-heat2d"><span class="header-section-number">9.2.3</span> In Two Spatial Dimensions</h3>
+<p>Now we transition to the two dimensional heat equation. Instead of thinking of this as heating a long metal rod we can think of heating a thin plate of metal (like a flat cookie sheet). The heat equation models the propagation of the heat energy throughout the 2D surface. In two spatial dimensions the heat equation is <span class="math display">\[
+\frac{\partial u}{\partial t} = D \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} \right),
+\]</span> or, using subscript notation for the partial derivatives, <span class="math display">\[
+u_t = D\left( u_{xx} + u_{yy} \right).
+\]</span></p>
+<hr>
+<div id="exr-6.35" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.10</strong></span> Let us build a numerical solution to the 2D heat equation. We need to make a minor modification to our notation since there is now one more spatial dimension to keep track of. Let <span class="math inline">\(U_{i,j}^n\)</span> be the approximation to <span class="math inline">\(u\)</span> at the point <span class="math inline">\((t_n, x_i, y_j)\)</span>. For example, <span class="math inline">\(U_{2,3}^4\)</span> will be the approximation to the solution at the point <span class="math inline">\((t_4,x_2,y_3)\)</span>.</p>
+<ol type="a">
+<li><p>We already know how to approximate the time derivative in the heat equation: <span class="math display">\[
+u_t(t_{n}, x_i, y_j) \approx \frac{U_{i,j}^{n+1} - U_{i,j}^n}{\Delta t}.
+\]</span> The new challenge now is that we have two spatial partial derivatives: one in <span class="math inline">\(x\)</span> and one in <span class="math inline">\(y\)</span>. Use what you learned in <a href="nmDerivatives.html" class="quarto-xref">Chapter&nbsp;<span>5</span></a> to write the approximations of <span class="math inline">\(u_{xx}\)</span> and <span class="math inline">\(u_{yy}\)</span>. <span class="math display">\[
+u_{xx}(t_n,x_i,y_j) \approx \frac{??? - ??? + ???}{\Delta x^2}
+\]</span> <span class="math display">\[
+u_{yy}(t_n,x_i,y_j) \approx \frac{??? - ??? + ???}{\Delta y^2}
+\]</span> Take careful note that the index <span class="math inline">\(i\)</span> is the only one that changes for the <span class="math inline">\(x\)</span> derivative. Similarly, the index <span class="math inline">\(j\)</span> is the only one that changes for the <span class="math inline">\(y\)</span> derivative.</p></li>
+<li><p>Put your answers to part (a) together with the 2D heat equation <span class="math display">\[
+\frac{U_{i,j}^{n+1} - U_{i,j}^n}{\Delta t} = D \left( \frac{??? - ??? + ???}{\Delta x^2} + \frac{??? - ??? + ???}{\Delta y^2} \right).
+\]</span></p></li>
+<li><p>Let us make one simplifying assumption. Choose the partition of the domain so that <span class="math inline">\(\Delta x = \Delta y\)</span>. Note that we can usually do this in square domains. In more complicated domains we will need to be more careful. Simplify the right-hand side of your answer to part (b) under this assumption. <span class="math display">\[
+\frac{U_{i,j}^{n+1} - U_{i,j}^n}{\Delta t} = D \left( \frac{??? + ??? - ??? + ??? + ???}{???} \right).
+\]</span></p></li>
+<li><p>Now solve your result from part (c) for <span class="math inline">\(U_{i,j}^{n+1}\)</span>. Your answer is the explicit finite difference scheme for the 2D heat equation. <span class="math display">\[
+U_{i,j}^{n+1} = U_{???,???}^{???} + \frac{D \cdot ???}{???} \left( ??? + ??? - ??? + ??? + ??? \right)
+\]</span></p></li>
+</ol>
+</div>
+<hr>
+<p>The finite difference stencil for the 2D heat equation is a bit more complicated since we now have three indices to track. Hence, the stencil is naturally three dimensional. <a href="#fig-6.9" class="quarto-xref">Figure&nbsp;<span>9.2</span></a> shows the stencil for the finite difference scheme that we built in the previous exercise. The left-hand subplot in the figure shows the five points used in time step <span class="math inline">\(t_n\)</span>, and the right-hand subplot shows the one point that is calculated at time step <span class="math inline">\(t_{n+1}\)</span>.</p>
+<div id="fig-6.9" class="quarto-float quarto-figure quarto-figure-left anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-6.9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/PDE/HeatStencil2D.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-6.9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.2: The finite difference stencil for the 2D heat equation.
+</figcaption>
+</figure>
+</div>
+<hr>
+<div id="exr-6.36" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.11</strong></span> Now we need to implement the finite difference scheme that you developed in the previous problem. As a model problem, consider the 2D heat equation <span class="math inline">\(u_t = D(u_{xx} + u_{yy})\)</span> on the domain <span class="math inline">\((x,y) \in [0,1] \times [0,1]\)</span> with the initial condition <span class="math inline">\(u(0,x,y) = \sin(\pi x)\sin(\pi y)\)</span>, Dirichlet boundary conditions <span class="math inline">\(u(t,x,0) = u(t,x,1)=u(t,0,y)=u(t,1,y)=0\)</span>, and <span class="math inline">\(D=1\)</span>. Fill in the holes in the following code chunks.</p>
+<ul>
+<li>First we import the proper libraries and set up the domains for <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(t\)</span>.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> cm <span class="co"># this allows for color maps </span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interactive</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Write code to build a linearly spaced array of x values </span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># starting at 0 and ending at exactly 1</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="co"># your code here</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x <span class="co"># this could be generalised later</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># The consequence of the previous line is that dy = dx.</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="co"># Extract dx from your array of x values.</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Now write code to build a linearly spaced array of time values </span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># starting at 0 and ending at 0.1.</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># You will want to use many more values for time than for space </span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># (think about the stability conditions from the 1D heat equation).</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="co"># your code here</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="co"># Extract dt from your array of t values</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Next we will use the np.meshgrid() command to turn the arrays of </span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># x and y values into 2D grids of x and y values.  </span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># If you match the corresponding entries of X and Y then you get </span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># every ordered pair in the domain.</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x,y)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Next we set up a 3 dimensional array of zeros to store all of </span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># the time steps of the solutions.</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> np.zeros((<span class="bu">len</span>(t), <span class="bu">len</span>(x), <span class="bu">len</span>(y)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Next we have to set up the boundary and initial conditions for the given problem.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>U[<span class="dv">0</span>,:,:] <span class="op">=</span> <span class="co"># initial condition depending on X and Y</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>U[:,<span class="dv">0</span>,:] <span class="op">=</span> <span class="co"># boundary condition for x=0</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>U[:,<span class="op">-</span><span class="dv">1</span>,:] <span class="op">=</span> <span class="co"># boundary condition for x=1</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>U[:,:,<span class="dv">0</span>] <span class="op">=</span> <span class="co"># boundary condition for y=0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>U[:,:,<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="co"># boundary condition for y=1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>We know that the value of <span class="math inline">\(D \Delta t / \Delta x^2\)</span> controls the stability of finite element methods. Therefore, the next step in our code is to calculate this value and print it.</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> D<span class="op">*</span>dt<span class="op">/</span>dx<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Next for the part of the code that actually calculates all of the time steps. Be sure to keep the indexing straight. Also be sure that we are calculating all of the spatial indices <em>inside</em> the domain since the boundary conditions dictate what happens on the boundary.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(t)<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  U[n<span class="op">+</span><span class="dv">1</span>,<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> U[n,<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    a<span class="op">*</span>(U[n, ?:? , ?:?] <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>       U[n, ?:?, ?:?] <span class="op">-</span> <span class="op">\</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="dv">4</span><span class="op">*</span>U[n, ?:?, ?:?] <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>       U[n, ?:?, ?:?] <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>       U[n, ?:?, ?:?])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Finally, we just need to visualize the solution. We can no longer make a plot of <span class="math inline">\(u\)</span> against <span class="math inline">\(t, x\)</span> and <span class="math inline">\(y\)</span> because that would require four dimensions. So we will animate the solution. You can use the following function:</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> animation</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> animate_solution_2d(t, x, y, U):</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    X, Y <span class="op">=</span> np.meshgrid(x,y)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set up the figure and axis</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plt.figure()</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize the surface plot</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    surface <span class="op">=</span> [ax.plot_surface(X, Y, U[<span class="dv">0</span>, :, :], cmap<span class="op">=</span><span class="st">'viridis'</span>)]</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Don't display every time</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    step <span class="op">=</span> <span class="bu">int</span>(<span class="bu">len</span>(t)<span class="op">/</span><span class="dv">30</span>)<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    frames <span class="op">=</span> <span class="bu">int</span>(<span class="bu">len</span>(t)<span class="op">/</span>step)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> animate(i):</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> i<span class="op">*</span>step</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Update the data of the surface plot for each frame</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        ax.clear()  <span class="co"># Clear the previous frame</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        surface[<span class="dv">0</span>] <span class="op">=</span> ax.plot_surface(X, Y, U[n, :, :], cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        ax.set_zlim(np.<span class="bu">min</span>(U), np.<span class="bu">max</span>(U))</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f"Time: </span><span class="sc">{</span>t[n]<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create animation</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    ani <span class="op">=</span> animation.FuncAnimation(fig, animate, frames<span class="op">=</span>frames, repeat<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    plt.close()</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display the animation</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> HTML(ani.to_jshtml())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div id="exr-6.37" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.12</strong></span> 🎓 Time to do some experimentation with your new 2D heat equation code! Numerically solve the 2D heat equation with different boundary conditions (both Dirichlet and Neumann). Be prepared to present your solutions.</p>
+</div>
+<hr>
+<div id="exr-6.2db" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.13</strong></span> In order for the finite difference solution to the 2D heat equation on a square domain to be stable then we need <span class="math inline">\(D \Delta t / \Delta x^2 &lt; \underline{\hspace{0.5in}}\)</span>.</p>
+<p>Experiment with several parameters to empirically determine the bound.</p>
+</div>
+<hr>
+<div id="exr-6.38" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.14</strong></span> Now solve the 2D heat equation on a rectangular domain. You will need to make some modifications to your code since it is unlikely that assuming that <span class="math inline">\(\Delta x = \Delta y\)</span> is a good assumption any longer. Again, be prepared to present your solutions.</p>
+</div>
+<!---
+------------------------------------------------------------------------
+
+### Variations on the Heat Equation {#sec-heatvar}
+The heat equation is a parabolic PDE and the finite-difference method that we have developed
+can be adapted to work for other parabolic PDEs. 
+
+#### Reaction-Diffusion Equations {#sec-rde}
+
+For example, the heat equation can be modified to include a reaction term. The reaction-diffusion equation is a PDE that models the diffusion of a substance in space and time with a reaction term that describes the rate of change of the substance due to some reaction. While it has its origin in chemistry, it shows up in many other fields as well, for example in ecology and epidemiology.
+
+::: {#exr-6.34}
+Modify your 1D heat equation code to plot an approximate solution of the Fisher-KPP equation $u_t = u_{xx} +u(1-u)$ with $t\in[0,10]$, $x \in (0,50)$, $u(0,x) = (1+\tanh((x-40)/2))/2$, $u(t,0) = 0$ and $u(t,50) = 1$.
+
+:::
+
+#### Advective-Diffusion Equations {#sec-advect}
+
+### Stability and Implicit Methods {#sec-heat_stability}
+
+::: {#exr-6.39}
+#### Sawtooth Errors
+We have already seen that the 1D heat equation is stable if $D \Delta t / \Delta x^2 < 0.5$. The goal of this problem is to show what, exactly, occurs when we choose parameters in the unstable region. We will solve the PDE $u_t = u_{xx}$ on the domain $x \in [0,1]$ with initial conditions $u(0,x) = \sin(\pi x)$ and boundary conditions $u(t,0)=u(t,1)=0$ for all $t\in[0,0.25]$. The analytic solution is $u(t,x) = e^{-\pi^2 t}\sin(\pi x)$. To build the spatial and temporal grid we will use `x = np.linspace(0,1,21)` and `t = np.linspace(0,0.25,101)`. This means that $\Delta x = 0.05$ and $\Delta t = 0.0025$ so the ratio $D \Delta t / \Delta x^2 = 1 > 0.5$ (certainly in the unstable region). Solve the heat equation with finite differences using these parameters. Make plots of the approximate solution on top of the exact solution at time steps 0, 10, 20, 30, 31, 32, 33, 34, etc. Describe what you observe.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.40}
+Solve the 2D heat equation on the unit square with homogeneous Dirichlet boundary conditions with the following parameters:
+
+-   A diffusion coefficient of $D=1$;
+
+-   A partition of 21 points in both the $x$ and $y$ direction;
+
+-   301 points between 0 and 0.25 for time;
+
+-   An initial condition of $u(0,x,y) = \sin(\pi x) \sin(\pi y)$.
+
+What happens near time step number 70?
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.41}
+What you saw in the previous two exercises is an example of a **sawtooth error** that occurs when a numerical solution technique for a PDE is unstable. Propose a conjecture for why this type of error occurs.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.5}
+Let us summarize the stability criteria for the finite difference solutions to the heat equation.
+
+-   In the 1D heat equation the finite difference solution is stable if $D \Delta t / \Delta x^2 < \underline{\hspace{0.5in}}$.
+
+-   In the 2D heat equation the finite difference solution is stable if $D \Delta t / \Delta x^2 < \underline{\hspace{0.5in}}$ (assuming a square domain where $\Delta x = \Delta y$)
+
+-   Conjecture a stability criterion for the 3D heat equation.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.42}
+Rewrite your finite difference code so that it produces an error message when the parameters will result in an unstable finite difference solution. Do the same for your 2D heat equation code.
+
+:::
+
+------------------------------------------------------------------------
+
+It is actually possible to beat the stability criteria given in the previous exercises! What follows are two implicit methods that use a forward-looking scheme to help completely avoid unstable solutions. The primary advantage to these schemes is that we will not need to pay as close attention to the ratio of the time step to the square of the spatial step. Instead, we can take time and spatial steps that are appropriate for the application we have in mind.
+
+------------------------------------------------------------------------
+
+::: {#exr-6.43}
+#### Implicit Finite Difference Scheme
+For the 1D heat equation $u_t = D u_{xx}$ we have been finding the numerical solution using the explicit finite difference scheme 
+$$
+\frac{U_i^{n+1} - U_i^n}{\Delta t} = D \frac{U_{i+1}^{n} - 2U_i^{n} + U_{i-1}^{n}}{\Delta x^2}
+$$
+ where we approximate the time derivative with the usual forward difference and we approximate the spatial derivative with the usual centred difference. If, however, we use the spatial derivative at time step $n+1$ instead of time step $n$ we get the finite difference scheme 
+$$
+\frac{U_i^{n+1} - U_i^n}{\Delta t} = D \frac{U_{i+1}^{n+1} - 2U_i^{n+1} + U_{i-1}^{n+1}}{\Delta x^2}.
+$$
+ This may seem completely ridiculous since we do not yet know the information at time step $n+1$ but some algebraic rearrangement shows that we can treat this as a system of linear equations which can be solved (using something like `np.linalg.solve()`) for the $(n+1)^{st}$ time step.
+
+Before we start let us define the coefficient $a = D \Delta t / \Delta x^2.$ This will save a little bit of writing in the coming steps.
+
+1.  Rearrange the new finite difference scheme so that all of the terms at the $(n+1)^{st}$ time step are on the left-hand side and all of the term at the $n^{th}$ time step are on the right-hand side. 
+$$
+(\underline{\hspace{0.25in}}) U_{i-1}^{n+1} + (\underline{\hspace{0.5in}}) U_{i}^{n+1} + (\underline{\hspace{0.25in}}) U_{i+1}^{n+1} = \underline{\hspace{0.25in}} U_i^n
+$$
 
 
+2.  Now we are going to build a very small example with only 6 spatial points so that you can clearly see the structure of the resulting linear system.
+
+    1.  If we have 6 total points in the spatial grid ($x_0, x_1, \ldots, x_5$) then we have the following equations (fill in the blanks): 
+$$
+\begin{aligned} (\text{for $x_1$: }) \quad \underline{\hspace{0.25in}} U_0^{n+1} + \underline{\hspace{0.5in}} U_1^{n+1} + \underline{\hspace{0.25in}} U_2^{n+1} &= \underline{\hspace{0.25in}} U_1^{n} \\ (\text{for $x_2$: }) \quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} + \underline{\hspace{0.25in}} U_3^{n+1} &= \underline{\hspace{0.25in}} U_2^{n} \\ (\text{for $x_3$: }) \quad \underline{\hspace{0.25in}} U_2^{n+1} + \underline{\hspace{0.5in}} U_3^{n+1} + \underline{\hspace{0.25in}} U_4^{n+1} &= \underline{\hspace{0.25in}} U_3^{n} \\ (\text{for $x_4$: }) \quad \underline{\hspace{0.25in}} U_3^{n+1} + \underline{\hspace{0.5in}} U_4^{n+1} + \underline{\hspace{0.25in}} U_5^{n+1} &= \underline{\hspace{0.25in}} U_4^{n} \\ \end{aligned}
+$$
+
+
+    2.  Notice that we aready know $U_0^{n+1}$ and $U_5^{n+1}$ since these are dictated by the boundary conditions (assuming Dirichlet boundary conditions). Hence we can move these known quantities to the right-hand side of the equations and hence rewrite the system of equations as: 
+$$
+\begin{aligned} 
+(\text{for $x_1$: }) &\quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} = \underline{\hspace{0.25in}} U_1^{n} + \underline{\hspace{0.25in}} U_0^{n+1}\\ 
+(\text{for $x_2$: }) &\quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} + \underline{\hspace{0.25in}} U_3^{n+1} = \underline{\hspace{0.25in}} U_2^{n} \\ (\text{for $x_3$: }) &\quad \underline{\hspace{0.25in}} U_2^{n+1} + \underline{\hspace{0.5in}} U_3^{n+1} + \underline{\hspace{0.25in}} U_4^{n+1} = \underline{\hspace{0.25in}} U_3^{n} \\ (\text{for $x_4$: }) &\quad \underline{\hspace{0.25in}} U_3^{n+1} + \underline{\hspace{0.5in}} U_4^{n+1} = \underline{\hspace{0.25in}} U_4^{n} + \underline{\hspace{0.25in}} U_5^{n+1} \\ \end{aligned}
+$$
+
+
+    3.  Now we can leverage linear algebra and write this as a matrix equation. 
+$$
+\begin{pmatrix} \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & 0 & 0 \\ \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & 0 \\ 0 & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} \\ 0 & 0 & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} \end{pmatrix}\begin{pmatrix} U_1^{n+1} \\ U_2^{n+1} \\ U_3^{n+1} \\ U_4^{n+1} \end{pmatrix} = \begin{pmatrix} U_1^{n} \\ U_2^{n} \\ U_3^{n} \\ U_4^{n} \end{pmatrix} + \begin{pmatrix} \underline{\hspace{0.25in}} U_0^{n+1} \\ 0 \\ 0 \\ \underline{\hspace{0.25in}} U_5^{n+1} \end{pmatrix}
+$$
+
+
+3.  At this point the structure of the coefficient matrix on the left and the vector sum on the right should be clear (even for more spatial points). It is time for us to start writing some code. we will start with the basic setup of the problem.
+
+``` python         
+import numpy as np
+import matplotlib.pyplot as plt
+
+D = 1
+x = # set up a linearly spaced spatial domain 
+t = # set up a linearly spaced temporal domain
+dx = x[1]-x[0]
+dt = t[1]-t[0]
+a = D*dt/dx**2
+IC = lambda x: # write a function for the initial condition
+BCleft = lambda t: 0*t # left boundary condition 
+# (we have used 0*t here for a homog. bc)
+BCright = lambda t: 0*t # right boundary condition 
+# (we have used 0*t here for a homog. bc)
+
+U = np.zeros((len(t), len(x))) # set up a blank array for U
+U[0,:] = IC(x) # set up the initial condition
+U[:,0] = BCleft(t) # set up the left boundary condition
+U[:,-1] = BCright(t) # set up the right boundary condition
+```
+
+4.  Next we write a function that takes in the number of spatial points and returns the coefficient matrix for the linear system. Take note that the first and last rows take a little more care than the rest.
+
+``` python         
+def coeffMatrix(M,a): # we are using M=len(x) as the first input
+  A = np.zeros((M-2, M-2))
+  # why are we using M-2 X M-2 for the size?
+  A[0,0] = # top left entry
+  A[0,1] = # entry in the first row second column
+  A[-1,-1] = # bottom right entry
+  A[-1,-2] = # entry in the last row second to last column
+  for i in range(1,M-3): # now loop through all of the other rows
+    A[i,i] = # entry on the main diagonal
+    A[i,i-1] = # entry on the lower diagonal
+    A[i,i+1] = # entry on the upper diagonal
+  return A
+
+A = coeffMatrix(len(x),a)
+print(A)
+plt.spy(A) 
+# spy is a handy plotting tool that shows the structure 
+# of a matrix (optional)
+plt.show()
+```
+
+5.  Next we write a loop that iteratively solves the system of equations for each new time step.
+
+``` python         
+for n in range(len(t)-1):
+  b1 = U[n,???] 
+  # b1 is a vector of U at step n for the inner spatial nodes
+  b2 = np.zeros(length(b1)) # set up the second right-hand vector
+  b2[0] = ???*BCleft(t[n+1]) # fill in the correct first entry
+  b2[-1] = ???*BCright(t[n+1]) # fill in the correct last entry
+  b = b1 + b2 # The vector "b" is the right side of the equation
+  # 
+  # finally use a linear algebra solver to fill in the 
+  # inner spatial nodes at step n+1
+  U[n+1,???] = ???
+```
+
+6.  All of the hard work is now done. It remains to plot the solution. Try this method on several sets of initial and boundary conditions for the 1D heat equation. Be sure to demonstrate that the method is stable no matter the values of $\Delta t$ and $\Delta x$.
+
+7.  What are the primary advantages and disadvantages to the implicit method described in this problem?
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.44}
+#### The Crank-Nicolson Method
+We conclude this section with one more implicit scheme: the **Crank-Nicolson Method**. In this method we approximate the temporal derivative with a forward difference just like always, but we approximate the spatial derivative as the average of the central difference at the current time step and the central difference at the new time step. That is: 
+$$
+\frac{U_i^{n+1} - U_i^n}{\Delta t} = \frac{1}{2} \left[D \left( \frac{U_{i-1}^n - 2U_i^n + U_{i+1}^n}{\Delta x^2}\right) +D \left(\frac{U_{i-1}^{n+1} - 2U_i^{n+1} + U_{i+1}^{n+1}}{\Delta x^2} \right) \right].
+$$
+ Letting $r = D \Delta t / (2\Delta x^2)$ we can rearrange to get 
+$$
+\underline{\hspace{0.25in}} U_{i-1}^{n+1} + \underline{\hspace{0.25in}} U_{i}^{n+1} + \underline{\hspace{0.25in}} U_{i+1}^{n+1} = \underline{\hspace{0.25in}} U_{i-1}^{n} + \underline{\hspace{0.25in}} U_{i}^{n} + \underline{\hspace{0.25in}} U_{i+1}^{n}.
+$$
+ This can now be viewed as a system of equations. Let us build this system carefully and then write code to solve the heat equation from the previous problems with the Crank-Nicolson method. For this problem we will assume fixed Dirichlet boundary conditions on both the left- and right-hand sides of the domain.
+
+1.  First let us write the equations for several values of $i$. 
+$$
+\begin{aligned} (\text{$x_1$ }): \quad \underline{\hspace{0.15in}} U_0^{n+1} + \underline{\hspace{0.15in}} U^{n+1}_1 + \underline{\hspace{0.15in}} U^{n+1}_2 &= \underline{\hspace{0.15in}}U^n_0 + \underline{\hspace{0.15in}} U^n_1 + \underline{\hspace{0.15in}}U^n_2 \\ (\text{$x_2$ }): \quad \underline{\hspace{0.15in}} U_1^{n+1} + \underline{\hspace{0.15in}} U^{n+1}_2 + \underline{\hspace{0.15in}}U^{n+1}_3 &= \underline{\hspace{0.15in}}U^n_1 + \underline{\hspace{0.15in}} U^n_2 + \underline{\hspace{0.15in}}U^n_3 \\ (\text{$x_3$ }): \quad \underline{\hspace{0.15in}} U_2^{n+1} + \underline{\hspace{0.15in}} U^{n+1}_3 + \underline{\hspace{0.15in}}U^{n+1}_4 &= \underline{\hspace{0.15in}}U^n_2 + \underline{\hspace{0.15in}} U^n_3 + \underline{\hspace{0.15in}}U^n_4 \\ \qquad \vdots & \qquad \vdots \\ (\text{$x_{M-2}$ }): \quad \underline{\hspace{0.1in}} U_{M-3}^{n+1} + \underline{\hspace{0.1in}} U^{n+1}_{M-2} + \underline{\hspace{0.1in}}U^{n+1}_{M-1} &= \underline{\hspace{0.1in}}U^n_{M-3} + \underline{\hspace{0.1in}} U^n_{M-2} + \underline{\hspace{0.1in}}U^n_{M-1} \end{aligned}
+$$
+ where $M$ is the number of spatial points (enumerated $x_0, x_1, x_2, \ldots, x_{M-1}$).
+
+2.  The first and last equations can be simplified since we are assuming that we have Dirichlet boundary conditions. Therefore for $x_1$ we can rearrange to move the $U_0^{n+1}$ term to the right-hand side since it is given for all time. Similarly for $x_{M-2}$ we can move the $U_{M-1}^{n+1}$ term to the right-hand side since it is fixed for all time. Rewrite these two equations.
+
+3.  Verify that the left-hand side of the equations that we have built in parts (1) and (2) can be written as the following matrix-vector product: 
+$$
+\begin{aligned} \begin{pmatrix} (1+2r) & -r & 0 & 0 & \cdots & 0 \\ -r & (1+2r) & -r & 0 & \cdots & 0 \\ 0 & -r & (1+2r) & -r & \cdots & 0 \\ \vdots & & & & & 0 \\ 0 & \cdots & & 0 & -r & (1+2r) \end{pmatrix} \begin{pmatrix} U^{n+1}_1 \\ U^{n+1}_2 \\ U^{n+1}_3 \\ \vdots \\U^{n+1}_{M-2} \end{pmatrix} \end{aligned}
+$$
+
+
+4.  Verify that the right-hand side of the equations that we built in parts (1) and (2) can be written as
+$$
+\begin{pmatrix} (1-2r) & r & 0 & 0 & \cdots & 0 \\ r & (1-2r) & r & 0 & \cdots & 0 \\ 0 & r & (1-2r) & r & & 0 \\ \vdots & & & & & \\ & & & & r & (1-2r) \end{pmatrix} \begin{pmatrix} U^{n}_1 \\ U^{n}_2 \\ U_3^n \\ \vdots \\U^{n}_{M-2} \end{pmatrix}\\ + \begin{pmatrix} r(U_0^{n+1}+U_0^{n}) \\ 0 \\ \vdots \\ 0 \\ r(U_{M-1}^{n}+U_{M-1}^{n+1}) \end{pmatrix}
+$$
+
+
+5.  Now for the wonderful part! The entire system of equations from part (a) can be written as 
+$$
+A \mathcal{U}^{n+1} = B \mathcal{U}^n + D.
+$$
+ What are the matrices $A$ and $B$ and what are the vectors $\mathcal{U}^{n+1}$, $\mathcal{U}^n$, and $D$?
+
+6.  To solve for $\mathcal{U}^{n+1}$ at each time step we simply need to do a linear solve: 
+$$
+\mathcal{U}^{n+1} = A^{-1} \left( B \mathcal{U}^n + D \right).
+$$
+ Of course, we will never do a matrix inverse on a computer. Instead we can lean on tools such as `np.linalg.solve()` to do the linear solve for us.
+
+7.  Finally. Write code to solve the 1D Heat Equation implementing the Crank Nicolson method described in this problem. The setup of your code should be largely the same as for the implicit method from @exr-6.43. You will need to construct the matrices $A$ and $B$ as well as the vector $D$. Then your time stepping loop will contain the code from part 6 of this problem.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.45}
+To graphically show the Crank Nicolson method we can again use a finite difference stencil to show where the information is coming from and where it is going to. In @fig-6.10 notice that there are three points at the new time step that are used to calculate the value of $U_i^{n+1}$ at the new time step. Sketch a similar image for the original implicit scheme from @exr-6.43
+
+![The finite difference stencil for the Crank Nicolson method.](figures/PDE/HeatStencilCrankNicolson.png){#fig-6.10 alt="The finite difference stencil for the Crank Nicolson method."}
+:::
+
+## The Wave Equation
+
+The problems that we have dealt with thus far all model natural diffusion processes: heat transport, molecular diffusion, etc. Another interesting physical phenomenon is that of wave propagation. The 1D *wave equation* is 
+$$
+\begin{aligned} u_{tt} = c u_{xx} \label{eqn:wave1D} \end{aligned}
+$$
+ where $c$ is a parameter modelling the stiffness of the medium the wave is travelling through. With homogeneous Dirichlet boundary conditions we can think of this as the behaviour of a guitar string after it has been plucked. If the boundaries are in motion then the model might be of someone wiggling a taught string from one end.
+
+------------------------------------------------------------------------
+
+::: {#exr-6.46}
+Let us write code to numerically solve the 1D wave equation. As before, we use the notation $U_i^n$ to represent the approximate solution $u(t,x)$ at the point $t=t_n$ and $x=x_i$.
+
+1.  Give a reasonable discretization of the second derivative in time: 
+$$
+ u_{tt}(t_{n}, x_i) \approx \underline{\hspace{1in}}. 
+$$
+
+
+2.  Give a reasonable discretization of the second derivative in space: 
+$$
+ u_{xx}(t_n, x_i) \approx \underline{\hspace{1in}}. 
+$$
+
+
+3.  Put your answers to parts (a) and (b) together with the wave equation to get 
+$$
+ \frac{??? - ??? + ???}{\Delta t^2} = c \frac{??? - ??? + ???}{\Delta x^2}. 
+$$
+
+
+4.  Solve the equation from part 3 for $U_i^{n+1}$. The resulting difference equation is the finite difference scheme for the 1D wave equation.
+
+5.  You should notice that the finite difference scheme for the wave equation references two different times: $U_i^n$ and $U_i^{n-1}$. Based on this observation, what information do we need to in order to actually start our numerical solution?
+
+6.  Consider the wave equation $u_{tt} = 2 u_{xx}$ in $x \in (0,1)$ with $u(0,x) = 4x(1-x)$, $u_t(0,x) = 0$, and $u(t,0) = u(t,1) = 0$. Use the finite difference scheme that you built in this problem to approximate the solution to this PDE.
+
+:::
+
+------------------------------------------------------------------------
+
+@fig-6.11 shows the finite difference stencil for the 1D wave equation. Notice that we need two prior time steps in order to advance to the new time step. This means that in order to start the finite difference scheme for the wave equation we need to have information about time $t_0$ and also time $t_1$. We get this information by using the two initial conditions $u(0,x)$ and $u_t(0,x)$.
+
+![The finite difference stencil for the 1D wave equation.](figures/PDE/WaveStencil.png){#fig-6.11 alt="The finite difference stencil for the 1D wave equation."}
+
+------------------------------------------------------------------------
+
+::: {#exr-6.47}
+The ratio $c\Delta t^2 / \Delta x^2$ shows up explicitly in the finite difference scheme for the 1D wave equation. Just like in the heat equation, this parameter controls when the finite difference solution will be stable. Experiment with your finite difference solution and conjecture a value of $a = c \Delta t^2 / \Delta x^2$ which divides the regions of stability versus instability. Your answer should be in the form:
+
+*If* $a = c\Delta t^2 / \Delta x^2 < \underline{\hspace{0.5in}}$ then the finite difference scheme for the 1D wave equation will be stable. Otherwise it will be unstable.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.48}
+Show several plots demonstrating what occurs to the finite difference solution of the wave equation when the parameters are in the unstable region and right on the edge of the unstable region.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.49}
+What is the expected error in the finite difference scheme for the 1D wave equation? What does this mean in plain English?
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.50}
+Use your finite difference code to solve the 1D wave equation 
+$$
+ u_{tt} = c u_{xx} 
+$$
+ with boundary conditions $u(t,0) = u(t,1) = 0$, initial condition $u(0,x) = 4x(1-x)$, and zero initial velocity. Experiment with different values of $c$. What does the parameter $c$ to the wave? Give a physical interpretation of $c$.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.51}
+Solve the 1D wave equation 
+$$
+ u_{tt} = u_{xx} 
+$$
+ with Dirichlet boundary conditions $u(t,0) = 0.4 \sin(\pi t)$ and $u(t,1) = 0$ along with initial condition $u(0,x) = 0$ and zero initial velocity. This time the left-hand boundary is being controlled externally and the string starts off at equilibrium. Give a physical situation where this sort of setup might arise. Then modify your solution so that both sides of the string are being wiggled at different frequencies.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.52}
+Now consider the 2D wave equation 
+$$
+ u_{tt} = c\left( u_{xx} + u_{yy} \right). 
+$$
+ We want to build a numerical solution to this new PDE. Just like with the 2D heat equation we propose the notation $U_{i,j}^n$ for the approximation of the function $u(t,x,y)$ at the point $t=t_n$, $x=x_i$, and $y=y_j$.
+
+1.  Give discretizations of the derivatives $u_{tt}$, $u_{xx}$, and $u_{yy}$.
+
+2.  Substitute your discretizations into the 2D wave equation, make the simplifying assumption that $\Delta x = \Delta y$, and solve for $U_{i,j}^{n+1}$. This is the finite difference scheme for the 2D wave equation.
+
+3.  Write code to implement the finite difference scheme from part 2 on the domain $(x,y) \in (0,1)\times (0,1)$ with homogeneous Dirichlet boundary conditions, initial condition $u(0,x,y) = \sin(2\pi (x-0.5))\sin(2\pi(y-0.5))$, and zero initial velocity.
+
+4.  Draw the finite difference stencil for the 2D heat equation.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.53}
+What is the region of stability for the finite difference scheme on the 2D wave equation? Produce several plots showing what happens when we are in the unstable region as well as when we are right on the edge of the stable region.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.54}
+Solve the 2D wave equation on the unit square with $u$ starting at rest and being driven by a wave coming in from one boundary.
+:::
+
+## The Travelling Wave Equation
+
+Now we turn our attention to a new PDE: the transport equation 
+$$
+ u_t + v u_x = 0. 
+$$
+
+ In this equation $u(t,x)$ is the height of a wave at time $t$ and spatial location $x$. The parameter $v$ is the velocity of the wave. Imagine this as sending a single solitary wave pulsing down a taught rope or as sending a single pulse of light down a fibre optic cable.
+
+
+------------------------------------------------------------------------
+
+::: {#exr-6.55}
+Consider the PDE $u_t + v u_x = 0$. There is a very easy way to get an analytic solution to this equation that describes a travelling wave. If we have the initial condition $u(0,x) = f(x) = e^{-(x-4)^2}$ then we claim that $u(t,x) = f(x-vt)$ is an analytic solution to the PDE. More explicitly, we are claiming that 
+$$
+ u(t,x) = e^{-(x-vt-4)^2} 
+$$
+ is the analytic solution to the PDE. Let us prove this.
+
+1.  Take the $t$ derivative of $u(t,x)$.
+
+2.  Take the $x$ derivative of $u(t,x)$.
+
+3.  The PDE claims that $u_t + vu_x = 0$. Verify that this equal sign is indeed true.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.56}
+Now we would like to visualize the solution to the PDE from the previous exercise. The Python code below gives an interactive visual of the solution. Experiment with different values of $v$ and different initial conditions.
+
+``` python         
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import animation, rc
+from IPython.display import HTML
+
+v = 1
+f = lambda x: np.exp(-(x-4)**2)
+u = lambda t, x: f(x - v*t)
+x = np.linspace(0,10,101)
+t = np.linspace(0,10,101)
+
+fig, ax = plt.subplots()
+plt.close()
+ax.grid()
+ax.set_xlabel('x')
+ax.set_xlim(( 0, 10))
+ax.set_ylim(( -0.1, 1))
+frame, = ax.plot([], [], linewidth=2, linestyle='--')
+
+def animator(N):
+  ax.set_title(f"Time = {t[N]:.2f}")
+  frame.set_data(x,???) # plot the correct time step for u(t,x)
+  return (frame,)
+
+PlotFrames = range(0,len(t),1) 
+anim = animation.FuncAnimation(fig, 
+                               animator, 
+                               frames=PlotFrames, 
+                               interval=100, 
+                              )
+
+rc('animation', html='jshtml') # embed in the HTML for Google Colab
+anim
+```
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.57}
+Use the chain rule to prove that for any differentiable function $f(x)$ the function $u(t,x) = f(x-vt)$ is an analytic solution to the transport equation $u_t + v u_{x} = 0$ with initial condition $u(0,x) = f(x)$.
+
+:::
+
+------------------------------------------------------------------------
+
+Thus the travelling wave equation $u_t + vu_x = 0$ has a very nice analytic solution which we can always find. Therefore there is no need to ever find a numerical solution -- we can just write down the analytic solution if we are given the initial condition. As it turns out though, the numerical solutions exhibit some very interesting behaviour.
+
+------------------------------------------------------------------------
+
+::: {#exr-6.58}
+Consider the travelling wave equation $u_t + vu_x = 0$ with initial condition $u(0,x) = f(x)$ for some given function $f$ and boundary condition $u(t,0) = 0$. To build a numerical solution we will again adopt the notation $U_i^n$ for the approximation to $u(t,x)$ at the point $t=t_n$ and $x=x_i$.
+
+(a)  Write an approximation of $u_t$ using $U_i^{n+1}$ and $U_i^n$.
+
+(b)  Write an approximation of $u_x$ using $U_{i+1}^n$ and $U_i^n$.
+
+(c)  Substitute your answers from parts (a) and (b) into the travelling wave equation and solve for $U_i^{n+1}$. This is our first finite difference scheme for the travelling wave equation.
+
+(d)  Write Python code to get the finite difference approximation of the solution to the PDE. Plot your finite difference solution on top of the analytic solution for $f(x) = e^{-(x-4)^2}$. What do you notice? Can you stabilize this method by changing the values of $\Delta t$ and $\Delta x$ like with did with the heat and wave equations?
+
+:::
+
+------------------------------------------------------------------------
+
+The finite difference scheme that you built in the previous exercise is called the downwind scheme for the travelling wave equation. @fig-6.12 shows the finite difference stencil for this scheme. We call this scheme "downwind" since we expect the wave to travel from left to right and we can think of a fictitious wind blowing the solution from left to right. Notice that we are using information from "downwind" of the point at the new time step.
+
+![The finite difference stencil for the 1D downwind scheme on the traveling wave equation.](figures/PDE/DownwindStencil.png){#fig-6.12 alt="The finite difference stencil for the 1D downwind scheme on the traveling wave equation."}
+
+------------------------------------------------------------------------
+
+::: {#exr-6.59}
+You should have noticed in the previous exercise that you cannot reasonably stabilize the finite difference scheme. Propose several reasons why this method appears to be unstable no matter what you use for the ratio $v \Delta t / \Delta x$.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.60}
+One of the troubles with the finite difference scheme that we have built for the travelling wave equation is that we are using the information at our present spatial location and the next spatial location to the right to propagate the solution forward in time. The trouble here is that the wave is moving from left to right, so the interesting information about the next time step's solution is actually coming from the left, not the right. We call this "looking upwind" since you can think of a fictitious *wind* blowing from left to right, and we need to look "upwind" to see what is coming at us. If we write the spatial derivative as 
+$$
+ u_x \approx \frac{U_i^n - U_{i-1}^n}{\Delta x} 
+$$
+ we still have a first-order approximation of the derivative but we are now looking left instead of right for our spatial derivative. Make this modification in your finite difference code for the travelling wave equation (call it the "upwind method"). Approximate the solution to the same PDE as we worked with in the previous exercises. What do you notice now?
+
+:::
+
+------------------------------------------------------------------------
+
+@fig-6.13 shows the finite difference stencil for the upwind scheme. We call this scheme "up" since we expect the wave to travel from left to right and we can think of a fictitious wind blowing the solution from left to right. Notice that we are using information from "upwind" of the point at the new time step.
+
+![The finite difference stencil for the 1D downwind scheme on the traveling wave equation.](figures/PDE/UpwindStencil.png){#fig-6.13 alt="The finite difference stencil for the 1D upwind scheme on the traveling wave equation."}
+
+------------------------------------------------------------------------
+
+::: {#exr-6.61}
+Complete the following sentences:
+
+1.  In the downwind finite difference scheme for the travelling wave equation, the approximate solution moves at the correct speed, but ...
+
+2.  In the upwind finite difference scheme for the travelling wave equation, the approximate solution moves at the correct speed, but ...
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.62}
+Neither the downwind nor the upwind solutions for the travelling wave equation are satisfactory. They completely miss the interesting dynamics of the analytic solution to the PDE. Some ideas for stabilizing the finite difference solution for the travelling wave equation are as follows. Implement each of these ideas and discuss pros and cons of each. Also draw a finite difference stencil for each of these methods.
+
+1.  Perhaps one of the issues is that we are using first-order methods to approximate $u_t$ and $u_x$. What if we used a second-order approximation for these first derivatives 
+$$
+ u_t \approx \frac{U_i^{n+1} - U_i^{n-1}}{2\Delta t} \quad \text{ and } \quad u_x \approx \frac{U_{i+1}^n - U_{i-1}^n}{2\Delta x}? 
+$$
+ Solve for $U_i^{n+1}$ and implement this method. This is called the **leapfrog method.**
+
+2.  For this next method let us stick with the second-order approximation of $u_x$ but we will do something clever for $u_t$. For the time derivative we originally used 
+$$
+ u_t \approx \frac{U_i^{n+1} - U_i^n}{\Delta t} 
+$$
+ what happens if we replace $U_i^n$ with the average value from the two surrounding spatial points 
+$$
+ U_i^n \approx \frac{1}{2} \left( U_{i+1}^n + U_{i-1}^n \right)? 
+$$
+ This would make our approximation of the time derivative 
+$$
+ u_t \approx \frac{U_i^{n+1} - \frac{1}{2} \left( U_{i+1}^n + U_{i-1}^n \right)}{\Delta t}. 
+$$
+ Solve this modified finite difference equation for $U_i^{n+1}$ and implement this method. This is called the **Lax-Friedrichs** method.
+
+3.  Finally we will do something very clever (and very counter intuitive). What if we inserted some artificial diffusion into the problem? You know from your work with the heat equation that diffusion spreads a solution out. The downwind scheme seemed to have the issue that it was *bunching up* at the beginning and end of the wave, so artificial diffusion might smooth this out. The **Lax-Wendroff method** does exactly that: take a regular Euler-type step in time 
+$$
+ u_t \approx \frac{U_i^{n+1} - U_i^n}{\Delta t}, 
+$$
+ use a second-order centred difference scheme in space to approximate $u_x$ 
+$$
+ u_x \approx \frac{U_{i+1}^n - U_{i-1}^n}{2\Delta x}, 
+$$
+ but add on the term 
+$$
+ \left( \frac{v^2 \Delta t^2}{2\Delta x^2} \right) \left( U_{i-1}^n - 2 U_i^n + U_{i+1}^n \right) 
+$$
+ to the right-hand side of the equation. Notice that this new term is a scalar multiple of the second-order approximation of the second derivative $u_{xx}$. Solve this equation for $U_i^{n+1}$ and implement the Lax-Wendroff method.
+:::
+
+## The Laplace and Poisson Equations
+
+::: {#exr-6.63}
+Consider the 1D heat equation $u_t = 1 u_{xx}$ with boundary conditions $u(t,0) = 0$ and $u(t,1)=1$ and initial condition $u(0,x) = 0$.
+
+1.  Describe the physical setup for this problem.
+
+2.  Recall that the solution to a differential equation reaches a steady state (or equilibrium) when the time rate of change is zero. Based on the physical system, what is the steady state heat profile for this PDE?
+
+3.  Use your 1D heat equation code to show the full time evolution of this PDE. Run the simulation long enough so that you see the steady state heat profile.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.64}
+Now consider the forced 1D heat equation $u_t = u_{xx} + e^{-(x-0.5)^2}$ with the same boundary and initial conditions as the previous exercise. The exponential forcing function introduced in this equation is an external source of heat (like a flame held to the middle of the metal rod).
+
+1.  Conjecture what the steady state heat profile will look like for this particular setup. Be able to defend your answer.
+
+2.  Modify your 1D heat equation code to show the full time evolution of this PDE. Run the simulation long enough so that you see the steady state heat profile.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.65}
+Next we will examine 2D steady state heat profiles. Consider the PDE $u_t = u_{xx} + u_{yy}$ with boundary conditions $u(t,0,y) = u(t,x,0) = u(t,x,1) = 0$ and $u(t,1,y) = 1$ with initial condition $u(0,x,y) = 0$.
+
+1.  Describe the physical setup for this problem.
+
+2.  Based on the physical system, describe the steady state heat profile for this PDE. Be sure that your steady state solution still satisfies the boundary conditions.
+
+3.  Use your 2D heat equation code to show the full time evolution of this PDE. Run the simulation long enough so that you see the steady state heat profile.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.66}
+Now consider the forced 2D heat equation $u_t = u_{xx} + u_{yy} + 10e^{-(x-0.5)^2-(y-0.5)^2}$ with the same boundary and initial conditions as the previous exercise. The exponential forcing function introduced in this equation is an external source of heat (like a flame held to the middle of the metal sheet).
+
+1.  Conjecture what the steady state heat profile will look like for this particular setup. Be able to defend your answer.
+
+2.  Modify your 2D heat equation code to show the full time evolution of this PDE. Run the simulation long enough so that you see the steady state heat profile.
+
+:::
+
+------------------------------------------------------------------------
+
+Up to this point we have studied PDEs that all depend on time. In many applications, however, we are not interested in the transient (time dependent) behaviour of a system. Instead we are often interested in the steady state solution when the forces in question are in static equilibrium. Two very famous time-independent PDEs are the Laplace Equation 
+$$
+ u_{xx} + u_{yy} + u_{zz} = 0 
+$$
+ and the Poisson equation 
+$$
+ u_{xx} + u_{yy} + u_{zz} = f(x,y,z). 
+$$
+ Notice that both the Laplace and Poisson equations are the equations that we get when we consider the limit $u_t \to 0$. In the limit when the time rate of change goes to zero we are actually just looking at the eventual steady state heat profile resulting from the initial and boundary conditions of the heat equation. In the previous exercises you already wrote code that will show the steady state profiles in a few setups. The trouble with the approach of letting the time-dependent simulation run for a *long time* is that the finite difference solution for the heat equation is known to have stability issues. Moreover, it may take a lot of computational time for the solution to reach the eventual steady state. In the remainder of this section we look at methods of solving for the steady state directly -- without examining any of the transient behaviour. We will first examine a 1D version of the Laplace and Poisson equations.
+
+------------------------------------------------------------------------
+
+::: {#exr-6.67}
+Consider a 1-dimensional rod that is infinitely thin and has unit length. For the sake of simplicity assume the following:
+
+-   the specific heat of the rod is exactly 1 for the entire length of the rod,
+
+-   the temperature of the left end is held fixed at $u(0) = 0$,
+
+-   the temperature of the right end is held fixed at $u(1) = 1$, and
+
+-   the temperature has reached a steady state.
+
+You can assume that the temperatures are *reference temperatures* instead of absolute temperatures, so a temperature of "0" might represent room temperature.
+
+Since there are no external sources of heat we model the steady-state heat profile we must have $u_t = 0$ in the heat equation. Thus the heat equation collapses to $u_{xx} = 0$. This is exactly the one dimensional Laplace equation.
+
+(a)  To get an exact solution of the Laplace equation in this situation we simply need to integrate twice. Do the integration and write the analytic solution (there should be no surprises here).
+
+(b)  To get a numerical solution we first need to partition the domain into finitely many point. For the sake of simplicity let us say that we subdivide the interval into 5 equal sub intervals (so there are 6 points including the endpoints). Furthermore, we know that we can approximate $u_{xx}$ as 
+$$
+ u_{xx} \approx \frac{U_{i+1} - 2U_i + U_{i-1}}{\Delta x^2}. 
+$$
+ Thus we have 6 linear equations: 
+$$
+\begin{aligned} U_0 &= 1 \quad \text{(left boundary condition)}\\ \frac{U_2 - 2U_1 + U_0}{\Delta x^2} &= 0 \\ \frac{U_3 - 2U_2 + U_1}{\Delta x^2} &= 0 \\ \frac{U_4 - 2U_3 + U_2}{\Delta x^2} &= 0 \\ \frac{U_5 - 2U_4 + U_3}{\Delta x^2} &= 0 \\ U_5 &= 0 \quad \text{(right boundary condition).} \end{aligned}
+$$
+ Notice that there are really only four unknowns since the boundary conditions dictate two of the temperature values. Rearrange this system of equations into a matrix equation and solve for the unknowns $U_1$, $U_2$, $U_3$, and $U_4$. Your coefficient matrix should be $4 \times 4$.
+
+(c)  Compare your answers from parts (a) and (b).
+
+(d)  Write code to build the numerical solution with an arbitrary value for $\Delta x$ (i.e. an arbitrary number of sub intervals). You should build the linear system automatically in your code.
+
+:::
+
+------------------------------------------------------------------------
+
+
+Solving the 1D Laplace equation with Dirichlet boundary conditions is rather uninteresting since the answer will always be a linear function connecting the two boundary conditions. The Poisson equation $u_{xx} = f(x)$ is more interesting than the Laplace equation in 1D. The function $f(x)$ is called a forcing function. You can think of it this way: if $u$ is the amount of force on a linear bridge, then $f$ might be a function that gives the distribution of the forces on the bridge due to the cars sitting on the bridge. In terms of heat we can think of this as an external source of heat energy warming up the one-dimensional rod somewhere in the middle (like a flame being held to one place on the rod).
+
+------------------------------------------------------------------------
+
+::: {#exr-6.69}
+How would we analytically solve the Poisson equation $u_{xx} = f(x)$ in one spatial dimension? As a sample problem consider $x\in [0,1]$, the forcing function $f(x) = 5\sin(2 \pi x)$ and boundary conditions $u(0) = 2$ and $u(1) = 0.5$. Of course you need to check your answer by taking two derivatives and making sure that the second derivative exactly matches $f(x)$. Also be sure that your solution matches the boundary conditions exactly.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.70}
+Now we can solve the Poisson equation from the previous problem numerically. Let us again build this with a partition that contains only 6 points just like we did with the Laplace equation a few exercise ago. We know the approximation for $u_{xx}$ so we have the linear system 
+$$
+\begin{aligned} U_0 &= 2 \quad \text{(left boundary condition)}\\ \frac{U_2 - 2U_1 + U_0}{\Delta x^2} &= f(x_1) \\ \frac{U_3 - 2U_2 + U_1}{\Delta x^2} &= f(x_2) \\ \frac{U_4 - 2U_3 + U_2}{\Delta x^2} &= f(x_3) \\ \frac{U_5 - 2U_4 + U_3}{\Delta x^2} &= f(x_4) \\ U_5 &= 0.5 \quad \text{(right boundary condition).} \end{aligned}
+$$
+
+
+(a)  Rearrange the system of equations as a matrix equation and then solve the system for $U_1, U_2, U_3$, and $U_4$. There are really only four equations so your matrix should be $4 \times 4$.
+
+(b)  Compare your solution from part (a) to the function values that you found in the previous exercise.
+
+(c)  Now generalize the process of solving the 1D Poisson equation for an arbitrary value of $\Delta x$. You will need to build the matrix and the right-hand side in your code. Test your code on new forcing functions and new boundary conditions.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.71}
+The previous exercises only account for Dirichlet boundary conditions (fixed boundary conditions). We would now like to modify our Poisson solution to allow for a Neumann condition: where we know the derivative of $u$ at one of the boundaries. The statement of the problem is as follows: 
+$$
+\text{Solve: } u_{xx} = f(x) \quad \text{on} \quad x \in (0,1) \quad \text{with} \quad u_x(0) = \alpha \quad \text{and} \quad u(1) = \beta.
+$$
+ The derivative condition on the boundary can be approximated by using a first-order approximation of the derivative, and as a consequence we have one new equation. Specifically, if we know that $u_x(0) = \alpha$ then we can approximate this condition as 
+$$
+ \frac{U_1 - U_0}{\Delta x} = \alpha, 
+$$
+ and we simply need to add this equation to the system that we were solving in the previous exercise. If we go back to our example of a partition with 6 points the system becomes 
+$$
+\begin{aligned} \frac{U_1 - U_0}{\Delta x} &= \alpha \quad \text{(left boundary condition)}\\ \frac{U_2 - 2U_1 + U_0}{\Delta x^2} &= f(x_1) \\ \frac{U_3 - 2U_2 + U_1}{\Delta x^2} &= f(x_2) \\ \frac{U_4 - 2U_3 + U_2}{\Delta x^2} &= f(x_3) \\ \frac{U_5 - 2U_4 + U_3}{\Delta x^2} &= f(x_4) \\ U_5 &= \beta \quad \text{(right boundary condition).} \end{aligned}
+$$
+ There are 5 equations this time.
+
+(a)  With a 6 point grid solve the Poisson equation $u_{xx} = 5\sin(2\pi x)$ with $u_x(0) = 0$ and $u(1) = 3$.
+
+(b)  Modify your code from part (a) to solve the same problem but with a much smaller value of $\Delta x$. You will need to build the matrix equation in your code.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.72}
+#### The 2D Poisson Equation
+We conclude this section, and chapter, by examining the two dimensional Poisson equations. As a sample problem, we want to solve the Poisson equation 
+$$u_{xx} + u_{yy} = f(x,y)$$
+on the domain $(x,y) \in (0,1)\times (0,1)$ with homogeneous Dirichlet boundary conditions and forcing function
+$$f(x,y) = -20\text{exp}\left( -\frac{(x-0.5)^2 + (y-0.5)^2}{0.05} \right)$$ 
+numerically. 
+
+We are going to start with a $6 \times 6$ grid of points and explicitly write down all of the equations. In @fig-6.14 the red stars represent boundary points where the value of $u(x,y)$ is known and the blue interior points are the ones where $u(x,y)$ is yet unknown. It should be clear that we should have two indices for each point (one for the $x$ position and one for the $y$ position), but it should also be clear that this will cause problems when writing down the resulting system of equations as a matrix equation (stop and think carefully about this). Therefore, in @fig-6.14 we propose an index, $k$, starting at the top left of the unknown nodes and reading left to right (just like we do with Python arrays).
+
+(a)  Start by discretizing the 2D Poisson equation $u_{xx} + u_{yy} = f(x,y)$. For simplicity we assume that $\Delta x = \Delta y$ so that we can combine like terms from the $x$ derivative and the $y$ derivative. Fill in the missing coefficients and indices below. 
+$$
+U_{i+1,j} + U_{i,j-1} - (\underline{\hspace{0.2in}}) U_{\underline{\hspace{0.2in}},\underline{\hspace{0.2in}}} + U_{\underline{\hspace{0.2in}},\underline{\hspace{0.2in}}} + U_{\underline{\hspace{0.2in}},\underline{\hspace{0.2in}}} = \Delta x^2 f(x_i,y_i)
+$$
+
+
+(b)  In @fig-6.14 we see that there are 16 total equations resulting from the discretization of the Poisson equation. Your first task is to write all 16 of these equations. we will get you started:
+$$
+\begin{aligned} \text{$k=0$: } &\quad U_{k=1} + {\color{red} U_{i=1,j=0} } - 4U_{k=0} + {\color{red} U_{i=0,j=1} } + U_{k=4} = \Delta x^2 f(x_1,y_1) \\ \text{$k=1$: } &\quad U_{k=2} + U_{k=0} - 4U_{k=1} + {\color{red} U_{i=0,j=2} } + U_{k=5} = \Delta x^2 f(x_1,y_2) \\ & \qquad \vdots \\ \text{$k=15$: } &\quad {\color{red} U_{i=4,j=5}} + U_{k=14} - 4 U_{k=15} + U_{k=11} + {\color{red} U_{i=5,j=4}} = \Delta x^2 f(x_4,y_4) \end{aligned}
+$$
+In this particular example we have homogeneous Dirichlet boundary conditions so all of the boundary values are zero. If this was not the case then every boundary value would need to be moved to the right-hand sides of the equations. 
+
+(c)  We now have a $16 \times 16$ matrix equation to write based on the equations from part (b). Each row and column of the matrix equation is indexed by $k$. The coefficient matrix $A$ is started for you below. Write the whole thing out and fill in the blanks. Notice that this matrix has a much more complicated structure than the coefficient matrix in the 1D Poisson and Laplace equations.
+$$
+A = \begin{pmatrix} -4 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & \cdots & 0 \\ 1 & -4 & 1 & 0 & 0 & 1 & 0 & 0 & \cdots & 0 \\ 0 & 1 & -4 & 1 & 0 & 0 & 1 & 0 & \cdots & 0 \\ 0 & 0 & 1 & -4 & 1 & 0 & 0 & 1 & & \\ 1 & 0 & 0 & 0 & -4 & 1 & 0 & 0 & \ddots & \\ 0 & & & & & & & & & \\ \vdots & & & & & & & & & \\ & & & & & & & & & \\ & & & & & & & & & -4 \\ \end{pmatrix}
+$$
+
+
+(d)  In the coefficient matrix from part (c) notice that the small matrix 
+$$
+\begin{pmatrix} -4 & 1 & 0 & 0 \\ 1 & -4 & 1 & 0 \\ 0 & 1 & -4 & 1 \\ 0 & 0 & 1 & -4 \end{pmatrix}
+$$
+ shows up in blocks along the main diagonal. If you have a hard copy of the matrix go back and draw a box around these blocks in the coefficient matrix. Also notice that there are diagonal bands of $1^s$. Discuss the following:
+
+  1. Why are the blocks $4 \times 4$?
+
+  2. How could you have predicted the location of the diagonal bands of $1^s$?
+
+  3. What would the structure of the matrix look like if we partitioned the domain into a $10 \times 10$ grid of points instead of a $6 \times 6$ grid (including the boundary points)?
+
+  4. Why is it helpful to notice this structure?
+
+(e)  The right-hand side of the matrix equation resulting the your system of equations from part (b) is 
+$$
+\boldsymbol{b} = \Delta x^2 \begin{pmatrix} f(x_1,y_1) \\ f(x_1,y_2) \\ f(x_1,y_3) \\ f(x_1,y_4) \\ f(x_2,y_1) \\ f(x_2,y_2) \\ \vdots \\ \\ f(x_4,y_y) \end{pmatrix}.
+$$
+ Notice the structure of this vector. Why is it structured this way? Why is it useful to notice this?
+
+(f)  Write Python code to solve the problem at hand. Recall that $f(x,y) = -20\exp\left(-\frac{-(x-0.5)^2+(y-0.5)^2}{0.05}\right)$. Show a contour plot of your solution. This will take a little work changing the indices back from $k$ to $i$ and $j$. Think carefully about how you want to code this before you put fingers to keyboard. You might want to use the `np.block()` command to build the coefficient matrix efficiently or you can use loops with carefully chosen indices.
+
+(g)  (Challenge) Generalize your code to solve the Poisson equation with a much smaller value of $\Delta x = \Delta y$.
+
+(h)  One more significant observation should be made about the 2D Poisson equation on this square domain. Notice that the corner points of the domain (e.g. $i=0, j=0$ or $i=5, j=0$) are never included in the system of equations. What does this mean about trying to enforce boundary conditions that only apply at the corners?
+
+![A finite difference grid for the Poisson equation with 6 grid points in each direction.](figures/PDE/2DPoisson.png){#fig-6.14 alt="A finite difference grid for the Poisson equation with 6 grid points in each direction."}
+:::
+
+------------------------------------------------------------------------
+
+## Algorithm Summaries
+
+::: {#exr-6.76}
+Show the full mathematical details for building a first-order in time and second-order in space approximation method for the one-dimensional heat equation. Explain what the order of the error means in this context
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.77}
+Show the full mathematical details for building a second-order in time and second-order in space approximation method for the one-dimensional wave equation. Explain what the order of the error means in this context
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.78}
+Show the full mathematical details for building a first-order in time and second-order in space approximation method for the two-dimensional heat equation. Explain what the order of the error means in this context
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.79}
+Show the full mathematical details for building a second-order in time and second-order in space approximation method for the two-dimensional wave equation. Explain what the order of the error means in this context
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.80}
+Explain in clear language what it means for a finite difference method to be stable versus unstable.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.81}
+Show the full mathematical details for solving the 1D heat equation using the implicit and Crank-Nicolson methods.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.82}
+Show the full mathematical details for building a downwind finite difference scheme for the travelling wave equation. Discuss the primary disadvantages of the downwind scheme.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.83}
+Show the full mathematical details for building an upwind finite difference scheme for the travelling wave equation. Discuss the primary disadvantages of the upwind scheme.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.84}
+Show the full mathematical details for numerically solving the 1D Laplace and Poisson equations.
+
+:::
+
+------------------------------------------------------------------------
+
+## Problems
+
+::: {#exr-6.85}
+In this problem we will solve a more realistic 1D heat equation. We will allow the diffusivity to change spatially, so $D = D(x)$ and we want to solve 
+$$
+u_t = \left( D(x) u_x \right)_x
+$$
+ on $x \in (0,1)$ with Dirichlet boundary conditions $u(t,0) = u(t,1) = 0$ and initial condition $u(0,x) = \sin(2 \pi x)$. This is "more realistic" since it would be rare to have a perfectly homogeneous medium, and the function $D$ reflects any heterogeneities in the way the diffusion occurs. In this problem we will take $D(x)$ to be the parabola $D(x)= x^3(1-x)$. We start by doing some calculus to rewrite the differential equation: 
+$$
+u_t = D(x) u_{xx}(x) + D'(x) u_x(x).
+$$
+
+
+Your jobs are:
+
+1.  Describe what this choice of $D(x)$ might mean physically in the heat equation.
+
+2.  Write an explicit scheme to solve this problem by using centred differences for the spatial derivatives and an Euler-type discretization for the temporal derivative. Write a clear and thorough explanation for how you are doing the discretization as well as a discussion for the errors that are being made with each discretization.
+
+3.  Write a script to find an approximate solution to this problem.
+
+4.  Write a clear and thorough discussion about how your will choose $\Delta x$ and $\Delta t$ to give stable solutions to this equation.
+
+5.  Graphically compare your solution to this problem with a heat equation where $D$ is taken to be the constant average diffusivity found by calculating $D_{ave} = \int_0^1 D(x) dx.$ How does the changing diffusivity change the shape of the solution?
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.86}
+In a square domain create a function $u(0,x,y)$ that looks like the university logo. The simplest way to do this might be to take a photo of the logo, crop it to a square, and use the `scipy.ndimage.imread` command to read in the image. Use this function as the initial condition for the heat equation on a square domain with homogeneous Dirichlet boundary conditions. Numerically solve the heat equation and show an animation for what happens to the logo as time evolves.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.87}
+Repeat the previous exercise but this time solve the wave equation with the logo as the initial condition.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.88}
+The explicit finite difference scheme that we built for the 1D heat equation in this chapter has error on the order of $\mathcal{O}(\Delta t) + \mathcal{O}(\Delta x^2)$. Explain clearly what this means. Then devise a numerical experiment to empirically test this fact. Clearly explain your thought process and show sufficient plots and mathematics to support your work.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.89}
+Suppose that we have a concrete slab that is 10 meters in length, with the left boundary held at a temperature of $75^\circ$ and the right boundary held at a temperature of $90^\circ$. Assume that the thermal diffusivity of concrete is about $k = 10^{-5}$ m$^2$/s. Assume that the initial temperature of the slab is given by the function $T(x) = 75 + 1.5x - 20 \sin( \pi x / 10)$. In this case, the temperature can be analytically solved by the function $T(t,x) = 75 + 1.5x - 20 \sin(\pi x / 10) e^{-ct}$ for some value of $c$.
+
+1.  Working by hand (no computers!) test the proposed analytic solution by substituting it into the 1D heat equation and verifying that it is indeed a solution. In doing so you will be able to find the correct value of $c$.
+
+2.  Write numerical code to solve this 1D heat equation. The output of your code should be an animation showing how the error between the numerical solution and the analytic solution evolve in time.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.90}
+(This problem is modified from [@Spayd]). The data given below is real experimental data provided courtesy of the authors.)
+
+Harry and Sally set up an experiment to gather data specifically for the heat diffusion through a long thin metal rod. Their experimental setup was as follows.
+
+-   The ends of the rod are submerged in water baths at different temperatures and the heat from the hot water bath (on the right hand side) travels through the metal to the cooler end (on the left hand side).
+
+-   The temperature of the rod is measured at four locations; those measurements are sent to a Raspberry Pi, which processes the raw data and sends the collated data to be displayed on the computer screen.
+
+-   They used a metal rod of length $L = 300 mm$ and square cross-sectional width $3.2 mm$.
+
+-   The temperature sensors were placed at $x_1 = 47mm$, $x_2 = 94mm$, $x_3 = 141mm$, and $x_4 = 188mm$ as measured from the cool end (the left end).
+
+-   Foam tubing, with a thickness of 25 mm, was wrapped around the rod and sensors to provide some insulation.
+
+-   The ambient temperature in the room was $22^\circ C$ and the cool water bath is a large enough reservoir that the left side of the rod is kept at $22^\circ C$.
+
+The data table below gives temperature measurements at 60 second intervals for each of the four sensors.
+
+| **Time (sec)** | **Sensor 188** | **Sensor 141** | **Sensor 94** | **Sensor 47** |
+|----------------|----------------|----------------|---------------|---------------|
+| 0              | 22.8           | 22             | 22            | 22            |
+| 60             | 29.3           | 24.4           | 23.2          | 22.8          |
+| 120            | 35.7           | 27.5           | 25.9          | 25.2          |
+| 180            | 41.8           | 30.3           | 27.9          | 26.8          |
+| 240            | 45.8           | 33.8           | 30.6          | 29.2          |
+| 300            | 48.2           | 36.5           | 32.6          | 31.2          |
+| 360            | 50.6           | 37.7           | 34.2          | 32            |
+| 420            | 53.4           | 38.5           | 34.9          | 32.8          |
+| 480            | 53             | 38.9           | 35.3          | 33.6          |
+| 540            | 53             | 40.4           | 36.5          | 34.8          |
+| 600            | 55.1           | 41.2           | 37.3          | 35.2          |
+| 660            | 54.7           | 42             | 38.1          | 35.6          |
+| 720            | 54.7           | 42.4           | 38.1          | 36            |
+| 780            | 54.7           | 42.4           | 38.1          | 36.4          |
+| 840            | 54.7           | 42             | 38.5          | 36            |
+| 900            | 57.5           | 41.2           | 37.7          | 35.6          |
+| 960            | 56.3           | 40.8           | 37.3          | 35.6          |
+
+1.  At time time $t=960$ seconds the temperatures of the rod are essentially at a steady state. Use this data to make a prediction of the temperature of the hot water bath located at $x=300mm$.
+
+2.  The thermal diffusivity, $D$, of the metal is unknown. Use your numerical solution in conjunction with the data to approximate the value of $D$. Be sure to fully defend your process.
+
+3.  It is unlikely that your numerical solution to the heat equation and the data from part 2 match very well. What are some sources of error in the data or in the heat equation model?
+
+You can load the data directly with the following code.
+
+``` python         
+import numpy as np
+import pandas as pd
+URL = 'https://github.com/gustavdelius/NumericalAnalysis2025/raw/main/data/PDE/'
+data = np.array(pd.read_csv(URL+'1dheatdata.csv'))
+```
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.91}
+You may recall from your differential equations class that population growth under limited resources is governed by the logistic equation $x' = k_1x(1-x/k_2)$ where $x=x(t)$ is the population, $k_1$ is the intrinsic growth rate of the population, and $k_2$ is the carrying capacity of the population. The carrying capacity is the maximum population that can be supported by the environment. The trouble with this model is that the species is presumed to be fixed to a spatial location. Let us make a modification to this model that allows the species to spread out over time while they reproduce. We have seen throughout this chapter that the heat equation $u_t = D(u_{xx} + u_{yy})$ models the diffusion of a substance (like heat or concentration). We therefore propose the model\
+
+$$
+ \frac{\partial u}{\partial t} = k_1 u \left( 1 - \frac{u}{k_2} \right) + D \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} \right) 
+$$
+ where $u(t,x,y)$ is the population density of the species at time $t$ and spatial point $(x,y)$, $(x,y)$ is a point in some square spatial domain, $k_1$ is the growth rate of the population, $k_2$ is the carrying capacity of the population, and $D$ is the rate of diffusion. Develop a finite difference scheme to solve this PDE. Experiment with this model showing the interplay between the parameters $D$, $k_1$, and $k_2$. Take an initial condition of 
+$$
+ u(0,x,y) = e^{-( (x-0.5)^2 + (y-0.5)^2)/0.05}. 
+$$
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.92}
+In @exr-6.72 you solved the Poisson equation, $u_{xx} + u_{yy} = f(x,y)$, on the unit square with homogeneous Dirichlet boundary conditions and a forcing function $f(x,y) = -20 \exp\left(-\frac{(x-0.5)^2 + (y-0.5)^2}{0.05} \right)$. Use a $10 \times 10$ grid of points to solve the Poisson equation on the same domain with the same forcing function but with boundary conditions 
+$$
+u(0,y)=0, \quad u(1,y) = 0, \quad u(x,0) = -\sin(\pi x), \quad u(x,1) = 0.
+$$
+ Show a contour plot of your solution.
+:::
+
+## Projects
+
+In this section we propose several ideas for projects related to numerical partial differential equations. These projects are meant to be open ended, to encourage creative mathematics, to push your coding skills, and to require you to write and communicate your mathematics.
+
+### Hunting and Diffusion
+
+Let $u$ be a function modelling a mobile population in an environment where it has an intrinsic growth rate of $r$ and a carrying capacity of $K$. If we were only worried about the size of the population we could solve the differential equation 
+$$
+\frac{du}{dt} = ru \left( 1-\frac{u}{K} \right),
+$$
+ but there is more to the story.
+
+Hunters harvest the population at a per-capita rate $h$ so we can append the differential equation with the harvesting term $-h u$ to arrive at the ordinary differential equation 
+$$
+\frac{du}{dt} = ru \left( 1-\frac{u}{K} \right) - hu.
+$$
+
+Since the population is mobile let us make a few assumptions about the environment that they are in and how the individuals move.
+
+-   The growing conditions for the population are the same everywhere
+
+-   Individuals move around randomly.
+
+Clearly these assumptions imply that our model is a simplification of real populations and real environments, but let us go with it for now. Given the nature of these assumptions we assume that a diffusion term models the spread of the individuals in the population. Hence, the PDE model is 
+$$
+\frac{\partial u}{\partial t} = ru\left( 1-\frac{u}{K} \right) - hu + D \left( u_{xx} + u_{yy} \right).
+$$
+
+1.  Use any of your ODE codes to solve the ordinary differential equation with harvesting. Give a complete description of the parameter space.
+
+2.  Write code to solve the spatial+temporal PDE equation on the 2D domain $(x,y) \in [0,1] \times [0,1]$. Choose an appropriate initial condition and choose appropriate boundary conditions.
+
+3.  The third assumption is not necessary true for rough terrain. The true form of the spatial component of the differential equation is $\nabla \cdot \left( D(x,y) \nabla u \right)$ where $D(x,y)$ is a multivariable function dictating the ease of diffusion in different spatial locations. Propose a (non-negative) function $D(x,y)$ and repeat part 2 with this new diffusion term.
+
+### Heating Adobe Houses
+
+Adobe houses, typically built in desert climates, are known for their great thermal efficiency. The heat equation 
+$$
+\frac{\partial T}{\partial t} = \frac{k}{c_p \rho} \left( T_{xx} + T_{yy} + T_{zz} \right),
+$$
+ where $c_p$ is the specific heat of the adobe, $\rho$ is the mass density of the adobe, and $k$ is the thermal conductivity of the adobe, can be used to model the heat transfer through the adobe from the outside of the house to the inside. Clearly, the thicker the adobe walls the better, but there is a trade off to be considered:
+
+-   it would be prohibitively expensive to build walls so think that the inside temperature was (nearly) constant, and
+
+-   if the walls are too thin then the cost is low but the temperature inside has a large amount of variability.
+
+Your Tasks:
+
+1.  Pick a desert location in the southwestern US (New Mexico, Arizona, Nevada, or Southern California) and find some basic temperature data to model the outside temperature during typical summer and winter months.
+
+2.  Do some research on the cost of building adobe walls and find approximations for the parameters in the heat equation.
+
+3.  Use a numerical model to find the optimal thickness of an adobe wall. Be sure to fully describe your criteria for optimality, the initial and boundary conditions used, and any other simplifying assumptions needed for your model.
+
+--->
+
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -649,4 +2172,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2025/edit/main/nmPDE.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/gustavdelius/NumericalAnalysis2025/edit/main/nmPDE.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

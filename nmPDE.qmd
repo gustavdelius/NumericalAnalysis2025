@@ -75,7 +75,7 @@ $$
 We will also use the alternative notation
 $$
  u_t = D u_{xx},
-$$
+$$ {#eq-heat1d}
 where the subscripts denote partial derivatives. 
 
 ::: {#exr-6.29}
@@ -99,7 +99,7 @@ $$
 $$
 
 
-(c)  Put your answers from parts (a) and (b) together using the 1D heat equation 
+(c)  Put your answers from parts (a) and (b) together using the 1D heat equation (@eq-heat1d)
 $$
 \frac{??? - ???}{\Delta t} = D \left( \frac{??? - ??? + ???}{\Delta x^2} \right).
 $$
@@ -129,15 +129,22 @@ There are many different finite difference schemes due to the fact that there ar
 ------------------------------------------------------------------------
 
 ::: {#exr-6.30}
-Now we want to implement your answer to part (d) of the previous exercise to approximate the solution to the following problem: 
+Now we want to implement your answer to part (d) of the previous exercise to approximate the solution to the following problem: Solve
 $$
-\text{Solve: } u_t = 0.01u_{xx}
+u_t = 0.1u_{xx}
 $$
+on the domain $0 < x < 1$ and $0 < t < 1$ with the initial condition
  with 
 $$
- x \in [0,1], \, u(0,x) = \sin(2 \pi x), \, u(t,0) = 0, \, \text{and} \, u(t,1) = 0.
+u(0,x) = \sin(2 \pi x)
 $$
- Some partial code is given below to get you started.
+and boundary conditions
+$$
+u(t,0) = 0, \, \text{and} \, u(t,1) = 0.
+$$
+For this purpose divide the $x$ domain into 20 equal pieces and the $t$ domain into 100 equal pieces.
+
+Some partial code is given below to get you started.
 
 -   First we import the proper libraries, set up the time domain, and set up the spatial domain.
 
@@ -146,22 +153,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ipywidgets import interactive
 
-# Write code to give an array of times starting at t=0 and ending 
-# at t=1.  Be sure that you use many points in the partition of 
-# the time domain.  Be sure to either specify or calculate the 
-# step size `dt`.
+# Write code to give a vector of times starting at t=0 and ending 
+# at t=1 that divides the interval into 100 equal pieces.
 
-# Write code to give an array of x values starting at x=0 and 
-# ending exactly at x=1. This is best done with the np.linspace() 
-# command since you can guarantee that you end exactly at x=1.  
-# Be sure to either specify or calculate the step size `dx`.
+# Calculate the step size `dt`.
 
-# The next two lines build two parameters that are of interest 
-# for the finite difference scheme.
-D = 0.01 # The diffusion coefficient for the heat equation given.
+# Write code to give a vector of x values starting at x=0 and 
+# ending exactly at x=1 that divides the interval into 20 equal pieces.
+
+# Calculate the step size `dx`.
+
+# Specify the diffusion coefficient
+D = 0.01
 # The coefficient "a" appears in the finite difference scheme.
-a = D*dt / dx**2 
-print("dt=",dt,", dx=",dx," and D dt/dx^2=",a)
+a = D*dt / dx**2
+
+print("dt=", dt, ", dx=", dx, " and D dt/dx^2=", a)
 ```
 
 -   Next we build the array $U$ so we can store all of the approximations at all times and at all spatial points. The array will have the dimensions `len(t)` by `len(x)`. We then need to enforce the boundary conditions so for all times we fill the proper portions of the array with the proper boundary conditions. Lastly, we will build the initial condition for all spatial steps in the first time step.
@@ -180,24 +187,115 @@ for n in range(len(t)-1):
     U[n+1,1:-1] = U[n,?:?] + a*( U[n,?:] - 2*U[n,?:?] + U[n,:?])
 ```
 
--   It remains to plot the solutions. One way to do this is with the `ipywidgets.interactive` tool. We first need to create a function which returns a plot at a particular time step. Then we call the function inside the `interactive` function. You could also use the `matplotlib.animation` function if you wish.
+-   It remains to visualise the solutions. You can either make a plot or an animation to illustrate the time evolution of $u$. For each of these there a various Python packages you could use. Below is a function `plot_solution_1d()` using plotly to make a plot and a function `animate_solution_1d()` using matplotlib to make an animated 2D plot. You can use either of these or you can use your own plotting code.
 
-``` python         
-def plotter(Frame):
-    plt.plot(x,U[Frame,:],'b')
-    plt.grid()
-    plt.ylim(-1,1)
-    plt.show()
-interactive(plotter, Frame=(0,len(t)-1,1))
+``` python 
+import plotly.graph_objects as go
+
+def plot_solution_1d(t, x, U):
+    """Plots the numerical approximation to a function u(t,x).
+
+    Args:
+        t: A vector of time values.
+        x: A vector of spatial values.
+        U: A 2D array approximating the solution u(x,t) at each grid point.
+    """
+    fig = go.Figure(data=[go.Surface(z=U, x=x, y=t)])
+    fig.update_layout(
+        width=800, height=600,
+        scene=dict(
+            yaxis_title='t',
+            zaxis_title='u'
+        )
+    )
+    return fig
 ```
-You can then look at the solution at different times by moving the slider above the plot.
+
+``` python
+import matplotlib.pyplot as plt
+from matplotlib import animation, rc
+from IPython.display import HTML
+
+def animate_solution_1d(t, x, U):
+    """Animates the numerical approximation to a function u(t,x).
+
+    Args:
+        t: A vector of time values.
+        x: A vector of spatial values.
+        U: A 2D array approximating the solution u(x,t) at each grid point.
+    """
+    fig, ax = plt.subplots()
+    plt.close()
+    ax.grid()
+    ax.set_xlabel("x")
+    ax.set_ylabel("u")
+    ax.set_xlim((np.min(t), np.max(t)))
+    ax.set_ylim((np.min(U), np.max(U)))
+    frame, = ax.plot([], [], linewidth=2, linestyle='--')
+    def animator(n):
+        ax.set_title(f"t = {t[n]:.2f}")
+        frame.set_data(x, U[n,:])
+        return (frame, )
+    ani = animation.FuncAnimation(fig,
+                                  animator,
+                                  frames=range(0,len(t),1),
+                                  interval=100)
+    rc('animation', html='jshtml') # embed in the HTML for Google Colab
+    return ani
+```
 
 :::
 
 ------------------------------------------------------------------------
 
+::: {#exr-heat1d}
+🎓 Now wrap up your code for solving the one-dimensional heat equation as a function so that you can easily call it with different parameters.
+
+``` python
+def heat1d(u_0, D=0.1, t_0=0, t_max=1, N_t=100, x_left=0, x_right=1, N_x=20):
+    """Solves the 1D heat equation using the finite difference method.
+
+    This function solves the 1D heat equation with given initial and 
+    boundary conditions. It also prints a diagnostic message stating
+    the step sizes `dt` and `dx` used and the value of `a = D*dt/dx**2`.
+
+    Args:
+        u_0: A function giving the initial condition u(0,x).
+        D: The diffusion coefficient. Defaults to 1.
+        t_0: The initial time. Defaults to 0.
+        t_max: The maximum time. Defaults to 1.
+        N_t: The number of time steps. Defaults to 100.
+        x_left: The left boundary of the spatial domain. Defaults to 0.
+        x_right: The right boundary of the spatial domain. Defaults to 1.
+        N_x: The number of spatial steps. Defaults to 20.
+
+    Returns:
+        A tuple containing the following:
+            t: A vector of time values.
+            x: A vector of spatial values.
+            U: A 2D array approximating the solution u(t,x) at each grid point.
+    """
+    # Your code goes here
+```
+
+Use your function to solve the heat equation with diffusion coefficient $D=0.1$ and the following initial and boundary conditions:
+$$
+ u(0,x) = \sin(2 \pi x), \, u(t,0) = 0, \, \text{and} \, u(t,1)
+$$
+Use  stepsizes $\Delta t=0.01$ and $\Delta x=0.01$ to determine an approximate value for $u(0.2,0.25)$.
+
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.31a}
+Now run the solution method from the previous exercise with the same diffusion coefficient $D=0.1$, the same step sizes $\Delta t=0.01$ and $\Delta x=0.01$, and the same initial and boundary conditions but run it for a longer time $t=0.5$ and plot the solution on the domain $t\in[0,0.5]$ and $x\in[0,1]$. Do you believe what you see? What is happening to the solution?
+:::
+
+------------------------------------------------------------------------
+
 ::: {#exr-6.31}
-You may have found that you did not get a sensible solution out for the previous problem. The point of this exercise is to show that value of $a = D\frac{\Delta t}{\Delta x^2}$ controls the stability of the finite difference solution to the heat equation, and furthermore that there is a cutoff for $a$ below which the finite difference scheme will be stable. Experiment with values of $\Delta t$ and $\Delta x$ and conjecture the values of $a = D \frac{\Delta t}{\Delta x^2}$ that give a stable result. Your conjecture should take the form:
+🎓 You will have found that you did not get a sensible solution from your method for the previous problem. The point of this exercise is to show that value of $a = D\frac{\Delta t}{\Delta x^2}$ controls the stability of the finite difference solution to the heat equation, and furthermore that there is a cutoff for $a$ above which the finite difference scheme will be unstable. Experiment with values of $\Delta t$ and $\Delta x$ and conjecture the values of $a = D \frac{\Delta t}{\Delta x^2}$ that give a stable result. Your conjecture should take the form:
 
 *If* $a = D\frac{\Delta t}{\Delta x^2} < \underline{\hspace{0.5in}}$ then the finite difference solution for the 1D heat equation is stable. Otherwise it is unstable.
 
@@ -214,79 +312,58 @@ $$
 
 (a)  Show that the function $u(t,x) = e^{-\pi^2 t} \sin(\pi x)$ is a solution to this heat equation, satisfies the initial condition, and satisfies the boundary conditions.
 
-(b)  Pick values of $\Delta t$ and $\Delta x$ so that you can get a stable finite difference solution to this heat equation. Then make a 3d plot of your numerical solution. To make the plot from your solution you can use the code
+(b)  Pick values of $\Delta t$ and $\Delta x$ so that you can get a stable finite difference solution to this heat equation. Then make a plot of your numerical solution.
+
+(c) Compare your plot to the plot of the exact solution that you can get with
 ``` python
-import plotly.graph_objects as go
-fig = go.Figure(data=[go.Surface(z=U, x=x, y=t)])
-fig.update_layout(
-    width=800, height=600,
-    scene=dict(
-        yaxis_title='t',
-        zaxis_title='u'
-    )
-)
+X, T = np.meshgrid(x, t)
+u_exact = np.exp(-np.pi**2*T)*np.sin(np.pi*X)
+plot_solution_1d(t, x, u_exact)
 ```
-Does your numerical solution appear to match the analytic solution from part (a)?
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-6.32b}
-Now let us change the initial condition to $u(0,x)=\sin(\pi x) + \sin(3 \pi x)$. We will keep the same boundary conditions as before: $u(t,0)=u(t,1)=0$.
+🎓 Now let us change the initial condition to $u(0,x)=\sin(\pi x) + \sin(3 \pi x)$. We will keep the same boundary conditions as before: $u(t,0)=u(t,1)=0$.
 
 (a)   Show that the function $u(t,x) = e^{-\pi^2 t} \sin(\pi x) +  e^{-9\pi^2t}\sin(3\pi x)$ is a solution to this heat equation, matches this new initial condition, and matches the boundary conditions.
 
 (b)  Pick values of $\Delta t$ and $\Delta x$ so that you can get a stable finite difference solution to this heat equation. Make a 3d plot of your numerical solution.
 
-(c) Compare your plot to the plot of the exact solution that you can get with
-``` python
-X, T = np.meshgrid(x, t)
-u_exact = np.exp(-np.pi**2*T)*np.sin(np.pi*X)+np.exp(-9*np.pi**2*T)*np.sin(3*np.pi*X)
-
-fig = go.Figure(data=[go.Surface(z=u_exact, x=x, y=t)])
-fig.update_layout(
-    title='Exact Solution',
-    width=800, height=600,
-    scene=dict(
-        yaxis_title='t',
-        zaxis_title='u'
-    )
-)
-```
+(c) Compare your plot to the plot of the exact solution.
 
 :::
 
 ------------------------------------------------------------------------
 
-::: {#exr-6.33}
-In any initial and boundary value problem such as the heat equation, the boundary are often of Dirichlet or Neumann type. In Dirichlet boundary conditions the values of the solution at the boundary are specified. So far we have only solved the heat equation with Dirichlet boundary conditions. In contrast, Neumann boundary conditions specify the flux at the boundary instead of the value of the solution. 
+### Different Boundary Conditions {#sec-neumann}
 
-Consider the 1D heat equation $u_t = u_{xx}$ with boundary conditions $u_x(t,0)=0$ and $u(t,1)=0$ with initial condition $u(0,x) = \cos(\pi x/2)$. Notice that the initial condition satisfies both boundary conditions: $\frac{d}{dx}(\cos(\pi \cdot x/2))\Big|_{x=0} = 0$ and $\cos(\pi \cdot 1/2)=0$. As the heat profile evolves in time the Neumann boundary condition $u_x(t,0)=0$ says that the slope of the solution needs to be fixed at 0 at the left-hand boundary.
-
-(a)  Draw several images of what the solution to the PDE should look like as time evolves. Be sure that all boundary conditions are satisfied and that your solution appears to solve the heat equation.
-
-(b)  The Neumann boundary condition $u_x(t,0) = 0$ can be approximated with the first order approximation 
-$$
- u_x(t_n,0) \approx \frac{U_1^n - U_0^n}{\Delta x}. 
-$$
- If we set this approximation to 0 (since $u_x(t,0)=0$) and solve for $U_0^n$ we get an additional constraint at every time step of the numerical solution to the heat equation. What is this new equation.
-
-(c)  Modify your 1D heat equation code to implement this Neumann boundary condition, plot the numerical solution and verify visually that the Neumann boundary is satisfied.
-
-:::
-
-------------------------------------------------------------------------
+In any initial and boundary value problem such as the heat equation, the boundary are often of Dirichlet or Neumann type. In Dirichlet boundary conditions the values of the solution at the boundary are specified. In contrast, Neumann boundary conditions specify the flux at the boundary instead of the value of the solution. 
 
 ::: {#exr-6.34}
+#### Time-dependent Dirichlet Boundary Condition
 Modify your 1D heat equation code to plot an approximate solution of the diffusion equation $u_t = 0.5 u_{xx}$ with $x \in (0,1)$, $u(0,x) = \sin(2\pi x)$, $u(t,0) = 0$ and $u(t,1) = \sin(5\pi t)$.
 
 :::
 
 ------------------------------------------------------------------------
 
-::: {#exr-6.34}
-Modify your 1D heat equation code to plot an approximate solution of the Fisher-KPP equation $u_t = u_{xx} +u(1-u)$ with $t\in[0,10]$, $x \in (0,50)$, $u(0,x) = (1+\tanh((x-40)/2))/2$, $u(t,0) = 0$ and $u(t,50) = 1$.
+::: {#exr-6.33}
+#### Neumann Boundary Condition
+🎓 Consider the 1D heat equation $u_t = u_{xx}$ with boundary conditions $u_x(t,0)=0$ and $u(t,1)=0$ with initial condition $u(0,x) = \cos(\pi x/2)$. Notice that the initial condition satisfies both boundary conditions: $\frac{d}{dx}(\cos(\pi \cdot x/2))\Big|_{x=0} = 0$ and $\cos(\pi \cdot 1/2)=0$. As the heat profile evolves in time the Neumann boundary condition $u_x(t,0)=0$ says that the slope of the solution needs to be fixed at 0 at the left-hand boundary.
+
+(a)  Draw several images of what the solution to the PDE should look like as time evolves. Be sure that all boundary conditions are satisfied and that your solution appears to solve the heat equation.
+
+(b)  The Neumann boundary condition $u_x(t,0) = 0$ can be approximated with the first order approximation 
+$$
+ u_x(t_n,0) \approx \frac{U_1^n - U_0^n}{\Delta x} \text{ for all } n.
+$$
+ If we set this approximation to 0 (since $u_x(t,0)=0$) and solve for $U_0^n$ we get an additional constraint at every time step of the numerical solution to the heat equation:
+ $$ U_0^n = ??? \text{ for all } n.$$
+
+(c)  Modify your 1D heat equation code to implement this Neumann boundary condition, plot the numerical solution and verify visually that the Neumann boundary is satisfied.
 
 :::
 
@@ -408,19 +485,50 @@ for n in range(len(t)-1):
        U[n, ?:?, ?:?])
 ```
 
--   Finally, we just need to visualize the solution. Again we use the `ipywidgets.interactive` tool to build an interactive plot with time as the slider.
+-   Finally, we just need to visualize the solution. We can no longer make a plot of $u$ against $t, x$ and $y$ because that would require four dimensions. So we will animate the solution. You can use the following function:
 ``` python         
-def plotter(Frame):
-  fig = plt.figure(figsize=(12,10))
-  ax = fig.gca(projection='3d')
-  ax.plot_surface(X,Y,U[Frame,:,:], cmap=cm.coolwarm)
-  ax.set_zlim(0,1)
-  plt.show()
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import animation
+from mpl_toolkits.mplot3d import Axes3D
+from IPython.display import HTML
 
-interactive(plotter, Frame=(0,len(t)))
+def animate_solution_2d(t, x, y, U):
+    X, Y = np.meshgrid(x,y)
+
+    # Set up the figure and axis
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Initialize the surface plot
+    surface = [ax.plot_surface(X, Y, U[0, :, :], cmap='viridis')]
+
+    # Don't display every time
+    step = int(len(t)/30)+1
+    frames = int(len(t)/step)
+
+    def animate(i):
+        n = i*step
+        # Update the data of the surface plot for each frame
+        ax.clear()  # Clear the previous frame
+        surface[0] = ax.plot_surface(X, Y, U[n, :, :], cmap='viridis')
+        ax.set_zlim(np.min(U), np.max(U))
+        ax.set_title(f"Time: {t[n]:.2f}")
+
+    # Create animation
+    ani = animation.FuncAnimation(fig, animate, frames=frames, repeat=True)
+    plt.close()
+
+    # Display the animation
+    return HTML(ani.to_jshtml())
 ```
 
-Fill in all of the holes in the code and verify that your solution appears to solve a heat dissipation problem.
+:::
+
+------------------------------------------------------------------------
+
+::: {#exr-6.37}
+🎓 Time to do some experimentation with your new 2D heat equation code! Numerically solve the 2D heat equation with different boundary conditions (both Dirichlet and Neumann). Be prepared to present your solutions.
 
 :::
 
@@ -435,16 +543,27 @@ Experiment with several parameters to empirically determine the bound.
 
 ------------------------------------------------------------------------
 
-::: {#exr-6.37}
-Time to do some experimentation with your new 2D heat equation code! Numerically solve the 2D heat equation with different boundary conditions (both Dirichlet and Neumann). Be prepared to present your solutions.
-
-:::
-
-------------------------------------------------------------------------
-
 ::: {#exr-6.38}
 Now solve the 2D heat equation on a rectangular domain. You will need to make some modifications to your code since it is unlikely that assuming that $\Delta x = \Delta y$ is a good assumption any longer. Again, be prepared to present your solutions.
 :::
+
+<!---
+------------------------------------------------------------------------
+
+### Variations on the Heat Equation {#sec-heatvar}
+The heat equation is a parabolic PDE and the finite-difference method that we have developed
+can be adapted to work for other parabolic PDEs. 
+
+#### Reaction-Diffusion Equations {#sec-rde}
+
+For example, the heat equation can be modified to include a reaction term. The reaction-diffusion equation is a PDE that models the diffusion of a substance in space and time with a reaction term that describes the rate of change of the substance due to some reaction. While it has its origin in chemistry, it shows up in many other fields as well, for example in ecology and epidemiology.
+
+::: {#exr-6.34}
+Modify your 1D heat equation code to plot an approximate solution of the Fisher-KPP equation $u_t = u_{xx} +u(1-u)$ with $t\in[0,10]$, $x \in (0,50)$, $u(0,x) = (1+\tanh((x-40)/2))/2$, $u(t,0) = 0$ and $u(t,50) = 1$.
+
+:::
+
+#### Advective-Diffusion Equations {#sec-advect}
 
 ### Stability and Implicit Methods {#sec-heat_stability}
 
@@ -837,8 +956,8 @@ from IPython.display import HTML
 v = 1
 f = lambda x: np.exp(-(x-4)**2)
 u = lambda t, x: f(x - v*t)
-x = np.linspace(0,10,100)
-t = np.linspace(0,10,100)
+x = np.linspace(0,10,101)
+t = np.linspace(0,10,101)
 
 fig, ax = plt.subplots()
 plt.close()
@@ -849,7 +968,7 @@ ax.set_ylim(( -0.1, 1))
 frame, = ax.plot([], [], linewidth=2, linestyle='--')
 
 def animator(N):
-  ax.set_title('Time='+str(t[N]))
+  ax.set_title(f"Time = {t[N]:.2f}")
   frame.set_data(x,???) # plot the correct time step for u(t,x)
   return (frame,)
 
@@ -1441,3 +1560,5 @@ Your Tasks:
 2.  Do some research on the cost of building adobe walls and find approximations for the parameters in the heat equation.
 
 3.  Use a numerical model to find the optimal thickness of an adobe wall. Be sure to fully describe your criteria for optimality, the initial and boundary conditions used, and any other simplifying assumptions needed for your model.
+
+--->
