@@ -231,7 +231,7 @@ def animate_solution_1d(t, x, U):
     ax.set_ylabel("u")
     ax.set_xlim((np.min(t), np.max(t)))
     ax.set_ylim((np.min(U), np.max(U)))
-    frame, = ax.plot([], [], linewidth=2, linestyle='--')
+    frame, = ax.plot([], [], linewidth=2)
     def animator(n):
         ax.set_title(f"t = {t[n]:.2f}")
         frame.set_data(x, U[n,:])
