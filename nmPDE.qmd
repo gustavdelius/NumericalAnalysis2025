@@ -451,7 +451,7 @@ dt = # Extract dt from your array of t values
 # x and y values into 2D grids of x and y values.  
 # If you match the corresponding entries of X and Y then you get 
 # every ordered pair in the domain.
-X, Y = np.meshgrid(x,y)
+Y, X = np.meshgrid(y, x)
 
 # Next we set up a 3 dimensional array of zeros to store all of 
 # the time steps of the solutions.
@@ -494,7 +494,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from IPython.display import HTML
 
 def animate_solution_2d(t, x, y, U):
-    X, Y = np.meshgrid(x,y)
+    Y, X = np.meshgrid(y, x)
 
     # Set up the figure and axis
     fig = plt.figure()

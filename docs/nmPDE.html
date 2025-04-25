@@ -471,7 +471,7 @@ u(t,0) = 0, \, \text{and} \, u(t,1) = 0.
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"u"</span>)</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim((np.<span class="bu">min</span>(t), np.<span class="bu">max</span>(t)))</span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim((np.<span class="bu">min</span>(U), np.<span class="bu">max</span>(U)))</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    frame, <span class="op">=</span> ax.plot([], [], linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    frame, <span class="op">=</span> ax.plot([], [], linewidth<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> animator(n):</span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f"t = </span><span class="sc">{</span>t[n]<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        frame.set_data(x, U[n,:])</span>
@@ -635,7 +635,7 @@ Figure&nbsp;9.2: The finite difference stencil for the 2D heat equation.
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># x and y values into 2D grids of x and y values.  </span></span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># If you match the corresponding entries of X and Y then you get </span></span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># every ordered pair in the domain.</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x,y)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>Y, X <span class="op">=</span> np.meshgrid(y, x)</span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Next we set up a 3 dimensional array of zeros to store all of </span></span>
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># the time steps of the solutions.</span></span>
@@ -674,7 +674,7 @@ Figure&nbsp;9.2: The finite difference stencil for the 2D heat equation.
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> animate_solution_2d(t, x, y, U):</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    X, Y <span class="op">=</span> np.meshgrid(x,y)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    Y, X <span class="op">=</span> np.meshgrid(y, x)</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set up the figure and axis</span></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plt.figure()</span>
