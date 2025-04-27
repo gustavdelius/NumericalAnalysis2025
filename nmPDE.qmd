@@ -109,9 +109,9 @@ $$
 $$
 \begin{aligned} U_i^{n+1} = ??? + \frac{D \Delta t}{\Delta x^2} \left( ??? - ??? + ??? \right). \end{aligned}
 $$
- The iterative scheme which you just derived is called a **finite difference scheme** for the heat equation. Notice that the term on the left is the only term at the next time step $n+1$. So, for every spatial point $x_i$ we can build $U_i^{n+1}$ by evaluating the right-hand side of the finite difference scheme.
+ The iterative scheme which you just derived is called the **forward difference scheme** for the heat equation. Notice that the term on the left is the only term at the next time step $n+1$. So, for every spatial point $x_i$ we can build $U_i^{n+1}$ by evaluating the right-hand side of the finite difference scheme.
 
-(e)  The numerical errors made by using the finite difference scheme we just built come from two sources: from the approximation of the time derivative and from the approximation of the second spatial derivative. Fill in the question marks in the powers of the following expression: 
+(e)  The numerical errors made by using the forward difference scheme we just built come from two sources: from the approximation of the time derivative and from the approximation of the second spatial derivative. Fill in the question marks in the powers of the following expression: 
 $$
  \text{Numerical Error} = \mathcal{O}(\Delta t^{???}) + \mathcal{O}(\Delta x^{???}). 
 $$
@@ -124,7 +124,7 @@ $$
 
 There are many different finite difference schemes due to the fact that there are many different ways to approximate derivatives (See [Chapter -@sec-derivatives]). One convenient way to keep track of which information you are using and what you are calculating in a finite difference scheme is to use a **finite difference stencil image**. @fig-6.8 shows the finite difference stencil for the approximation to the heat equation that you built in the previous exercise. In this figure we are showing that the function values $U_{i-1}^n$, $U_i^n$, and $U_{i+1}^n$ at the points $x_{i-1}$, $x_i$, and $x_{i+1}$ at time step $t_n$ are used to calculate $U_i^{n+1}$. We will build similar stencil diagrams for other finite difference schemes throughout this chapter.
 
-![The finite difference stencil for the 1D heat equation.](figures/PDE/HeatStencil.png){#fig-6.8 alt="The finite difference stencil for the 1D heat equation."}
+![The forward difference stencil for the 1D heat equation.](figures/PDE/HeatStencil.png){#fig-6.8 alt="The forward difference stencil for the 1D heat equation."}
 
 ------------------------------------------------------------------------
 
@@ -165,7 +165,7 @@ from ipywidgets import interactive
 
 # Specify the diffusion coefficient
 D = 0.01
-# The coefficient "a" appears in the finite difference scheme.
+# The coefficient "a" appears in the forward difference scheme.
 a = D*dt / dx**2
 
 print("dt=", dt, ", dx=", dx, " and D dt/dx^2=", a)
@@ -229,17 +229,21 @@ def animate_solution_1d(t, x, U):
     ax.grid()
     ax.set_xlabel("x")
     ax.set_ylabel("u")
-    ax.set_xlim((np.min(t), np.max(t)))
+    ax.set_xlim((np.min(x), np.max(x)))
     ax.set_ylim((np.min(U), np.max(U)))
     frame, = ax.plot([], [], linewidth=2)
-    def animator(n):
+
+    # Don't display every time
+    step = int(len(t)/30)+1
+    frames = range(0, int(len(t)/step), 1)
+
+    def animator(i):
+        n = i*step
         ax.set_title(f"t = {t[n]:.2f}")
         frame.set_data(x, U[n,:])
         return (frame, )
-    ani = animation.FuncAnimation(fig,
-                                  animator,
-                                  frames=range(0,len(t),1),
-                                  interval=100)
+        
+    ani = animation.FuncAnimation(fig, animator, frames=frames, interval=100)
     rc('animation', html='jshtml') # embed in the HTML for Google Colab
     return ani
 ```
@@ -253,7 +257,7 @@ def animate_solution_1d(t, x, U):
 
 ``` python
 def heat1d(u_0, D=0.1, t_0=0, t_max=1, N_t=100, x_left=0, x_right=1, N_x=20):
-    """Solves the 1D heat equation using the finite difference method.
+    """Solves the 1D heat equation using the forward difference method.
 
     This function solves the 1D heat equation with given initial and 
     boundary conditions. It also prints a diagnostic message stating
@@ -295,9 +299,11 @@ Now run the solution method from the previous exercise with the same diffusion c
 ------------------------------------------------------------------------
 
 ::: {#exr-6.31}
-🎓 You will have found that you did not get a sensible solution from your method for the previous problem. The point of this exercise is to show that value of $a = D\frac{\Delta t}{\Delta x^2}$ controls the stability of the finite difference solution to the heat equation, and furthermore that there is a cutoff for $a$ above which the finite difference scheme will be unstable. Experiment with values of $\Delta t$ and $\Delta x$ and conjecture the values of $a = D \frac{\Delta t}{\Delta x^2}$ that give a stable result. Your conjecture should take the form:
+🎓 You will have found that you did not get a sensible solution from your method for the previous problem. The point of this exercise is to show that value of $a = D\frac{\Delta t}{\Delta x^2}$ controls the stability of the forward difference solution to the heat equation, and furthermore that there is a threshold for $a$ above which the forward difference scheme will be unstable. Experiment with values of $\Delta t$ and $\Delta x$ and conjecture the values of $a = D \frac{\Delta t}{\Delta x^2}$ that give a stable result. Your conjecture should take the form:
 
-*If* $a = D\frac{\Delta t}{\Delta x^2} < \underline{\hspace{0.5in}}$ then the finite difference solution for the 1D heat equation is stable. Otherwise it is unstable.
+*If* $a = D\frac{\Delta t}{\Delta x^2} < \underline{\hspace{0.5in}}$ then the forward difference solution for the 1D heat equation is stable. Otherwise it is unstable.
+
+Hint: the threshold is a simple fraction. If you think you have found a value for $a$ at which the method is stable, run the simulation for longer (while keeping the same $\Delta t$) to check that it is really stable. Close to the threshold the errors grow more slowly (albeit still exponentially).
 
 :::
 
@@ -312,7 +318,7 @@ $$
 
 (a)  Show that the function $u(t,x) = e^{-\pi^2 t} \sin(\pi x)$ is a solution to this heat equation, satisfies the initial condition, and satisfies the boundary conditions.
 
-(b)  Pick values of $\Delta t$ and $\Delta x$ so that you can get a stable finite difference solution to this heat equation. Then make a plot of your numerical solution.
+(b)  Pick values of $\Delta t$ and $\Delta x$ so that you can get a stable forward difference solution to this heat equation. Then make a plot of your numerical solution.
 
 (c) Compare your plot to the plot of the exact solution that you can get with
 ``` python
@@ -330,7 +336,7 @@ plot_solution_1d(t, x, u_exact)
 
 (a)   Show that the function $u(t,x) = e^{-\pi^2 t} \sin(\pi x) +  e^{-9\pi^2t}\sin(3\pi x)$ is a solution to this heat equation, matches this new initial condition, and matches the boundary conditions.
 
-(b)  Pick values of $\Delta t$ and $\Delta x$ so that you can get a stable finite difference solution to this heat equation. Make a 3d plot of your numerical solution.
+(b)  Pick values of $\Delta t$ and $\Delta x$ so that you can get a stable forward difference solution to this heat equation. Make a 3d plot of your numerical solution.
 
 (c) Compare your plot to the plot of the exact solution.
 
@@ -408,7 +414,7 @@ $$
 $$
 
 
-(d)  Now solve your result from part (c) for $U_{i,j}^{n+1}$. Your answer is the explicit finite difference scheme for the 2D heat equation. 
+(d)  Now solve your result from part (c) for $U_{i,j}^{n+1}$. Your answer is the explicit forward difference scheme for the 2D heat equation. 
 $$
  U_{i,j}^{n+1} = U_{???,???}^{???} + \frac{D \cdot ???}{???} \left( ??? + ??? - ??? + ??? + ??? \right) 
 $$
@@ -418,7 +424,7 @@ $$
 
 ------------------------------------------------------------------------
 
-The finite difference stencil for the 2D heat equation is a bit more complicated since we now have three indices to track. Hence, the stencil is naturally three dimensional. @fig-6.9 shows the stencil for the finite difference scheme that we built in the previous exercise. The left-hand subplot in the figure shows the five points used in time step $t_n$, and the right-hand subplot shows the one point that is calculated at time step $t_{n+1}$.
+The finite difference stencil for the 2D heat equation is a bit more complicated since we now have three indices to track. Hence, the stencil is naturally three dimensional. @fig-6.9 shows the stencil for the forward difference scheme that we built in the previous exercise. The left-hand subplot in the figure shows the five points used in time step $t_n$, and the right-hand subplot shows the one point that is calculated at time step $t_{n+1}$.
 
 ![The finite difference stencil for the 2D heat equation.](figures/PDE/HeatStencil2D.png){#fig-6.9 alt="The finite difference stencil for the 2D heat equation."}
 
@@ -467,7 +473,7 @@ U[:,:,0] = # boundary condition for y=0
 U[:,:,-1] = # boundary condition for y=1
 ```
 
--   We know that the value of $D \Delta t / \Delta x^2$ controls the stability of finite element methods. Therefore, the next step in our code is to calculate this value and print it.
+-   We know that the value of $D \Delta t / \Delta x^2$ controls the stability of the forward difference method. Therefore, the next step in our code is to calculate this value and print it.
 ``` python         
 D = 1
 a = D*dt/dx**2
@@ -535,7 +541,7 @@ def animate_solution_2d(t, x, y, U):
 ------------------------------------------------------------------------
 
 ::: {#exr-6.2db}
-In order for the finite difference solution to the 2D heat equation on a square domain to be stable then we need $D \Delta t / \Delta x^2 < \underline{\hspace{0.5in}}$.
+In order for the forward difference solution to the 2D heat equation on a square domain to be stable we need $D \Delta t / \Delta x^2 < \underline{\hspace{0.5in}}$.
 
 Experiment with several parameters to empirically determine the bound.
 
@@ -547,11 +553,11 @@ Experiment with several parameters to empirically determine the bound.
 Now solve the 2D heat equation on a rectangular domain. You will need to make some modifications to your code since it is unlikely that assuming that $\Delta x = \Delta y$ is a good assumption any longer. Again, be prepared to present your solutions.
 :::
 
-<!---
+
 ------------------------------------------------------------------------
 
 ### Variations on the Heat Equation {#sec-heatvar}
-The heat equation is a parabolic PDE and the finite-difference method that we have developed
+The heat equation is a parabolic PDE and the forward-difference method that we have developed
 can be adapted to work for other parabolic PDEs. 
 
 #### Reaction-Diffusion Equations {#sec-rde}
@@ -559,23 +565,57 @@ can be adapted to work for other parabolic PDEs.
 For example, the heat equation can be modified to include a reaction term. The reaction-diffusion equation is a PDE that models the diffusion of a substance in space and time with a reaction term that describes the rate of change of the substance due to some reaction. While it has its origin in chemistry, it shows up in many other fields as well, for example in ecology and epidemiology.
 
 ::: {#exr-6.34}
-Modify your 1D heat equation code to plot an approximate solution of the Fisher-KPP equation $u_t = u_{xx} +u(1-u)$ with $t\in[0,10]$, $x \in (0,50)$, $u(0,x) = (1+\tanh((x-40)/2))/2$, $u(t,0) = 0$ and $u(t,50) = 1$.
-
+#### Fisher-KPP Equation
+🎓 Modify your 1D heat equation code to calculate an approximate solution of the Fisher-KPP equation 
+$$
+u_t = u_{xx} +u(1-u)
+$$ 
+with $t\in[0,10]$, $x \in (0,50)$, boundary conditions
+$$
+u(t,0) = 0,\ \ \ \ u(t,50) = 1
+$$
+and initial condition
+$$
+u(0,x) = \frac{1+\tanh\left(\dfrac{x-40}{2}\right)}{2}.
+$$
+Use `animate_solution_1d()` to visualize the solution. How does the solution change as time evolves?
 :::
+
+------------------------------------------------------------------------
 
 #### Advective-Diffusion Equations {#sec-advect}
 
-### Stability and Implicit Methods {#sec-heat_stability}
+The diffusion term usually arises from random spatial motion of particles. However, in some cases the particles are advected by a flow field. In this case we need to add an advection term to the diffusion equation. The advection-diffusion equation is a PDE that models the diffusion of a substance in space and time with an advection term that describes the rate of change of the substance due to some flow field.
+
+::: {#exr-6.34b}
+🎓 Modify your 1D heat equation code to plot an approximate solution of the following simple advection-diffusion equation:
+$$
+ u_t = 0.1 u_{xx} - u_x
+$$
+Use the forward difference formula for the $u_x$ term and the centred difference formula for the $u_{xx}$ term. Use the initial condition $u(0,x) = \sin(\pi x)$, Dirichlet boundary conditions $u(t,0) = 0$ and $u(t,1) = 0$, and $t\in[0,1]$. Use $20$ spatial steps and $100$ time steps. Make a plot and an animation of the solution.
+
+:::
+
+------------------------------------------------------------------------
+
+### Implicit Methods {#sec-heat_stability}
+
+Let us summarize the stability criteria for the forward difference solutions to the heat equation.
+
+-   In the 1D heat equation the forward difference solution is stable if $D \Delta t / \Delta x^2 < \underline{\hspace{0.5in}}$.
+
+-   In the 2D heat equation the forward difference solution is stable if $D \Delta t / \Delta x^2 < \underline{\hspace{0.5in}}$ (assuming a square domain where $\Delta x = \Delta y$)
 
 ::: {#exr-6.39}
 #### Sawtooth Errors
-We have already seen that the 1D heat equation is stable if $D \Delta t / \Delta x^2 < 0.5$. The goal of this problem is to show what, exactly, occurs when we choose parameters in the unstable region. We will solve the PDE $u_t = u_{xx}$ on the domain $x \in [0,1]$ with initial conditions $u(0,x) = \sin(\pi x)$ and boundary conditions $u(t,0)=u(t,1)=0$ for all $t\in[0,0.25]$. The analytic solution is $u(t,x) = e^{-\pi^2 t}\sin(\pi x)$. To build the spatial and temporal grid we will use `x = np.linspace(0,1,21)` and `t = np.linspace(0,0.25,101)`. This means that $\Delta x = 0.05$ and $\Delta t = 0.0025$ so the ratio $D \Delta t / \Delta x^2 = 1 > 0.5$ (certainly in the unstable region). Solve the heat equation with finite differences using these parameters. Make plots of the approximate solution on top of the exact solution at time steps 0, 10, 20, 30, 31, 32, 33, 34, etc. Describe what you observe.
+We have already seen that the 1D heat equation is stable if $D \Delta t / \Delta x^2 < 0.5$. The goal of this problem is to show what, exactly, occurs when we choose parameters in the unstable region. We will solve the PDE $u_t = u_{xx}$ on the domain $x \in [0,1]$ with initial conditions $u(0,x) = \sin(\pi x)$ and homogeneous Dirichlet boundary conditions $u(t,0)=u(t,1)=0$ for all $t\in[0,0.25]$. The analytic solution is $u(t,x) = e^{-\pi^2 t}\sin(\pi x)$. To build the spatial and temporal grid use 20 spatial steps and 100 time steps. This means that $\Delta x = 0.05$ and $\Delta t = 0.0025$ so the ratio $D \Delta t / \Delta x^2 = 1 > 0.5$ (certainly in the unstable region). Solve the heat equation with your `heat1d()` function using these parameters. Make plots of the approximate solution on top of the exact solution at time steps 0, 10, 20, 30, 31, 32, 33, 34, etc. Describe what you observe.
 
 :::
 
 ------------------------------------------------------------------------
 
 ::: {#exr-6.40}
+#### Hedgehog Errors
 Solve the 2D heat equation on the unit square with homogeneous Dirichlet boundary conditions with the following parameters:
 
 -   A diffusion coefficient of $D=1$;
@@ -587,33 +627,6 @@ Solve the 2D heat equation on the unit square with homogeneous Dirichlet boundar
 -   An initial condition of $u(0,x,y) = \sin(\pi x) \sin(\pi y)$.
 
 What happens near time step number 70?
-
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-6.41}
-What you saw in the previous two exercises is an example of a **sawtooth error** that occurs when a numerical solution technique for a PDE is unstable. Propose a conjecture for why this type of error occurs.
-
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-6.5}
-Let us summarize the stability criteria for the finite difference solutions to the heat equation.
-
--   In the 1D heat equation the finite difference solution is stable if $D \Delta t / \Delta x^2 < \underline{\hspace{0.5in}}$.
-
--   In the 2D heat equation the finite difference solution is stable if $D \Delta t / \Delta x^2 < \underline{\hspace{0.5in}}$ (assuming a square domain where $\Delta x = \Delta y$)
-
--   Conjecture a stability criterion for the 3D heat equation.
-
-:::
-
-------------------------------------------------------------------------
-
-::: {#exr-6.42}
-Rewrite your finite difference code so that it produces an error message when the parameters will result in an unstable finite difference solution. Do the same for your 2D heat equation code.
 
 :::
 
@@ -635,7 +648,7 @@ $$
 $$
  This may seem completely ridiculous since we do not yet know the information at time step $n+1$ but some algebraic rearrangement shows that we can treat this as a system of linear equations which can be solved (using something like `np.linalg.solve()`) for the $(n+1)^{st}$ time step.
 
-Before we start let us define the coefficient $a = D \Delta t / \Delta x^2.$ This will save a little bit of writing in the coming steps.
+We again introduce the coefficient $a = D \Delta t / \Delta x^2.$ This will save a little bit of writing in the coming steps.
 
 1.  Rearrange the new finite difference scheme so that all of the terms at the $(n+1)^{st}$ time step are on the left-hand side and all of the term at the $n^{th}$ time step are on the right-hand side. 
 $$
@@ -645,13 +658,13 @@ $$
 
 2.  Now we are going to build a very small example with only 6 spatial points so that you can clearly see the structure of the resulting linear system.
 
-    1.  If we have 6 total points in the spatial grid ($x_0, x_1, \ldots, x_5$) then we have the following equations (fill in the blanks): 
+    a.  If we have 6 total points in the spatial grid ($x_0, x_1, \ldots, x_5$) then we have the following equations (fill in the blanks): 
 $$
 \begin{aligned} (\text{for $x_1$: }) \quad \underline{\hspace{0.25in}} U_0^{n+1} + \underline{\hspace{0.5in}} U_1^{n+1} + \underline{\hspace{0.25in}} U_2^{n+1} &= \underline{\hspace{0.25in}} U_1^{n} \\ (\text{for $x_2$: }) \quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} + \underline{\hspace{0.25in}} U_3^{n+1} &= \underline{\hspace{0.25in}} U_2^{n} \\ (\text{for $x_3$: }) \quad \underline{\hspace{0.25in}} U_2^{n+1} + \underline{\hspace{0.5in}} U_3^{n+1} + \underline{\hspace{0.25in}} U_4^{n+1} &= \underline{\hspace{0.25in}} U_3^{n} \\ (\text{for $x_4$: }) \quad \underline{\hspace{0.25in}} U_3^{n+1} + \underline{\hspace{0.5in}} U_4^{n+1} + \underline{\hspace{0.25in}} U_5^{n+1} &= \underline{\hspace{0.25in}} U_4^{n} \\ \end{aligned}
 $$
 
 
-    2.  Notice that we aready know $U_0^{n+1}$ and $U_5^{n+1}$ since these are dictated by the boundary conditions (assuming Dirichlet boundary conditions). Hence we can move these known quantities to the right-hand side of the equations and hence rewrite the system of equations as: 
+    b.  Notice that we aready know $U_0^{n+1}$ and $U_5^{n+1}$ since these are dictated by the boundary conditions (assuming Dirichlet boundary conditions). Hence we can move these known quantities to the right-hand side of the equations and hence rewrite the system of equations as: 
 $$
 \begin{aligned} 
 (\text{for $x_1$: }) &\quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} = \underline{\hspace{0.25in}} U_1^{n} + \underline{\hspace{0.25in}} U_0^{n+1}\\ 
@@ -659,7 +672,7 @@ $$
 $$
 
 
-    3.  Now we can leverage linear algebra and write this as a matrix equation. 
+    c.  Now we can leverage linear algebra and write this as a matrix equation. 
 $$
 \begin{pmatrix} \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & 0 & 0 \\ \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & 0 \\ 0 & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} \\ 0 & 0 & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} \end{pmatrix}\begin{pmatrix} U_1^{n+1} \\ U_2^{n+1} \\ U_3^{n+1} \\ U_4^{n+1} \end{pmatrix} = \begin{pmatrix} U_1^{n} \\ U_2^{n} \\ U_3^{n} \\ U_4^{n} \end{pmatrix} + \begin{pmatrix} \underline{\hspace{0.25in}} U_0^{n+1} \\ 0 \\ 0 \\ \underline{\hspace{0.25in}} U_5^{n+1} \end{pmatrix}
 $$
@@ -679,9 +692,7 @@ dt = t[1]-t[0]
 a = D*dt/dx**2
 IC = lambda x: # write a function for the initial condition
 BCleft = lambda t: 0*t # left boundary condition 
-# (we have used 0*t here for a homog. bc)
 BCright = lambda t: 0*t # right boundary condition 
-# (we have used 0*t here for a homog. bc)
 
 U = np.zeros((len(t), len(x))) # set up a blank array for U
 U[0,:] = IC(x) # set up the initial condition
@@ -694,7 +705,7 @@ U[:,-1] = BCright(t) # set up the right boundary condition
 ``` python         
 def coeffMatrix(M,a): # we are using M=len(x) as the first input
   A = np.zeros((M-2, M-2))
-  # why are we using M-2 X M-2 for the size?
+  # why are we using M-2 x M-2 for the size?
   A[0,0] = # top left entry
   A[0,1] = # entry in the first row second column
   A[-1,-1] = # bottom right entry
@@ -1561,4 +1572,4 @@ Your Tasks:
 
 3.  Use a numerical model to find the optimal thickness of an adobe wall. Be sure to fully describe your criteria for optimality, the initial and boundary conditions used, and any other simplifying assumptions needed for your model.
 
---->
+
