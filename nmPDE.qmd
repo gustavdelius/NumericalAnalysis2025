@@ -637,12 +637,16 @@ It is actually possible to beat the stability criteria given in the previous exe
 ------------------------------------------------------------------------
 
 ::: {#exr-6.43}
-#### Implicit Finite Difference Scheme
-For the 1D heat equation $u_t = D u_{xx}$ we have been finding the numerical solution using the explicit finite difference scheme 
+#### Backward Difference Scheme
+🎓 For the 1D heat equation $u_t = D u_{xx}$ we have been finding the numerical solution using the explicit finite difference scheme 
 $$
 \frac{U_i^{n+1} - U_i^n}{\Delta t} = D \frac{U_{i+1}^{n} - 2U_i^{n} + U_{i-1}^{n}}{\Delta x^2}
 $$
- where we approximate the time derivative with the usual forward difference and we approximate the spatial derivative with the usual centred difference. If, however, we use the spatial derivative at time step $n+1$ instead of time step $n$ we get the finite difference scheme 
+ where we approximate the spatial derivative with the centred difference and the time derivative with the usual forward difference. If, however, we use the backward difference formula for the time derivative we get the finite difference scheme 
+ $$
+\frac{U_i^{n} - U_i^{n-1}}{\Delta t} = D \frac{U_{i+1}^{n} - 2U_i^{n} + U_{i-1}^{n}}{\Delta x^2}.
+$$
+or, shifting to the next timestep,
 $$
 \frac{U_i^{n+1} - U_i^n}{\Delta t} = D \frac{U_{i+1}^{n+1} - 2U_i^{n+1} + U_{i-1}^{n+1}}{\Delta x^2}.
 $$
@@ -652,7 +656,7 @@ We again introduce the coefficient $a = D \Delta t / \Delta x^2.$ This will save
 
 1.  Rearrange the new finite difference scheme so that all of the terms at the $(n+1)^{st}$ time step are on the left-hand side and all of the term at the $n^{th}$ time step are on the right-hand side. 
 $$
-(\underline{\hspace{0.25in}}) U_{i-1}^{n+1} + (\underline{\hspace{0.5in}}) U_{i}^{n+1} + (\underline{\hspace{0.25in}}) U_{i+1}^{n+1} = \underline{\hspace{0.25in}} U_i^n
+(\underline{\hspace{0.25in}}) U_{i-1}^{n+1} + (\underline{\hspace{0.5in}}) U_{i}^{n+1} + (\underline{\hspace{0.25in}}) U_{i+1}^{n+1} = U_i^n
 $$
 
 
@@ -660,19 +664,19 @@ $$
 
     a.  If we have 6 total points in the spatial grid ($x_0, x_1, \ldots, x_5$) then we have the following equations (fill in the blanks): 
 $$
-\begin{aligned} (\text{for $x_1$: }) \quad \underline{\hspace{0.25in}} U_0^{n+1} + \underline{\hspace{0.5in}} U_1^{n+1} + \underline{\hspace{0.25in}} U_2^{n+1} &= \underline{\hspace{0.25in}} U_1^{n} \\ (\text{for $x_2$: }) \quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} + \underline{\hspace{0.25in}} U_3^{n+1} &= \underline{\hspace{0.25in}} U_2^{n} \\ (\text{for $x_3$: }) \quad \underline{\hspace{0.25in}} U_2^{n+1} + \underline{\hspace{0.5in}} U_3^{n+1} + \underline{\hspace{0.25in}} U_4^{n+1} &= \underline{\hspace{0.25in}} U_3^{n} \\ (\text{for $x_4$: }) \quad \underline{\hspace{0.25in}} U_3^{n+1} + \underline{\hspace{0.5in}} U_4^{n+1} + \underline{\hspace{0.25in}} U_5^{n+1} &= \underline{\hspace{0.25in}} U_4^{n} \\ \end{aligned}
+\begin{aligned} (\text{for $x_1$: }) \quad \underline{\hspace{0.25in}} U_0^{n+1} + \underline{\hspace{0.5in}} U_1^{n+1} + \underline{\hspace{0.25in}} U_2^{n+1} &= U_1^{n} \\ (\text{for $x_2$: }) \quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} + \underline{\hspace{0.25in}} U_3^{n+1} &=  U_2^{n} \\ (\text{for $x_3$: }) \quad \underline{\hspace{0.25in}} U_2^{n+1} + \underline{\hspace{0.5in}} U_3^{n+1} + \underline{\hspace{0.25in}} U_4^{n+1} &=  U_3^{n} \\ (\text{for $x_4$: }) \quad \underline{\hspace{0.25in}} U_3^{n+1} + \underline{\hspace{0.5in}} U_4^{n+1} + \underline{\hspace{0.25in}} U_5^{n+1} &=  U_4^{n} \\ \end{aligned}
 $$
 
 
     b.  Notice that we aready know $U_0^{n+1}$ and $U_5^{n+1}$ since these are dictated by the boundary conditions (assuming Dirichlet boundary conditions). Hence we can move these known quantities to the right-hand side of the equations and hence rewrite the system of equations as: 
 $$
 \begin{aligned} 
-(\text{for $x_1$: }) &\quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} = \underline{\hspace{0.25in}} U_1^{n} + \underline{\hspace{0.25in}} U_0^{n+1}\\ 
-(\text{for $x_2$: }) &\quad \underline{\hspace{0.25in}} U_1^{n+1} + \underline{\hspace{0.5in}} U_2^{n+1} + \underline{\hspace{0.25in}} U_3^{n+1} = \underline{\hspace{0.25in}} U_2^{n} \\ (\text{for $x_3$: }) &\quad \underline{\hspace{0.25in}} U_2^{n+1} + \underline{\hspace{0.5in}} U_3^{n+1} + \underline{\hspace{0.25in}} U_4^{n+1} = \underline{\hspace{0.25in}} U_3^{n} \\ (\text{for $x_4$: }) &\quad \underline{\hspace{0.25in}} U_3^{n+1} + \underline{\hspace{0.5in}} U_4^{n+1} = \underline{\hspace{0.25in}} U_4^{n} + \underline{\hspace{0.25in}} U_5^{n+1} \\ \end{aligned}
+(\text{for $x_1$: }) & \quad  & \underline{\hspace{0.5in}} U_1^{n+1} &+ \underline{\hspace{0.25in}} U_2^{n+1} &=  U_1^{n} &+ \underline{\hspace{0.25in}} U_0^{n+1}\\ 
+(\text{for $x_2$: }) &\quad  \underline{\hspace{0.25in}} U_1^{n+1} &+ \underline{\hspace{0.5in}} U_2^{n+1} &+ \underline{\hspace{0.25in}} U_3^{n+1} &=  U_2^{n} &\\ (\text{for $x_3$: }) &\quad  \underline{\hspace{0.25in}} U_2^{n+1} &+ \underline{\hspace{0.5in}} U_3^{n+1} &+ \underline{\hspace{0.25in}} U_4^{n+1} &=  U_3^{n}& \\ (\text{for $x_4$: }) &\quad  \underline{\hspace{0.25in}} U_3^{n+1} &+ \underline{\hspace{0.5in}} U_4^{n+1}& &=  U_4^{n} &+ \underline{\hspace{0.25in}} U_5^{n+1} \\ \end{aligned}
 $$
 
 
-    c.  Now we can leverage linear algebra and write this as a matrix equation. 
+    c.  Now we can write this as a matrix equation: 
 $$
 \begin{pmatrix} \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & 0 & 0 \\ \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & 0 \\ 0 & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} \\ 0 & 0 & \underline{\hspace{0.25in}} & \underline{\hspace{0.25in}} \end{pmatrix}\begin{pmatrix} U_1^{n+1} \\ U_2^{n+1} \\ U_3^{n+1} \\ U_4^{n+1} \end{pmatrix} = \begin{pmatrix} U_1^{n} \\ U_2^{n} \\ U_3^{n} \\ U_4^{n} \end{pmatrix} + \begin{pmatrix} \underline{\hspace{0.25in}} U_0^{n+1} \\ 0 \\ 0 \\ \underline{\hspace{0.25in}} U_5^{n+1} \end{pmatrix}
 $$
@@ -750,7 +754,7 @@ for n in range(len(t)-1):
 
 ::: {#exr-6.44}
 #### The Crank-Nicolson Method
-We conclude this section with one more implicit scheme: the **Crank-Nicolson Method**. In this method we approximate the temporal derivative with a forward difference just like always, but we approximate the spatial derivative as the average of the central difference at the current time step and the central difference at the new time step. That is: 
+🎓 We conclude this section with one more implicit scheme: the **Crank-Nicolson Method**. In this method we take the average of the forward and backward difference schemes: 
 $$
 \frac{U_i^{n+1} - U_i^n}{\Delta t} = \frac{1}{2} \left[D \left( \frac{U_{i-1}^n - 2U_i^n + U_{i+1}^n}{\Delta x^2}\right) +D \left(\frac{U_{i-1}^{n+1} - 2U_i^{n+1} + U_{i+1}^{n+1}}{\Delta x^2} \right) \right].
 $$
@@ -804,13 +808,22 @@ To graphically show the Crank Nicolson method we can again use a finite differen
 ![The finite difference stencil for the Crank Nicolson method.](figures/PDE/HeatStencilCrankNicolson.png){#fig-6.10 alt="The finite difference stencil for the Crank Nicolson method."}
 :::
 
+It turns out that the error terms for the forward and backward difference methods have the form 
+$C\Delta t+O(\Delta t^2)$ and 
+$C\Delta t+O(\Delta t^2)$. Taking the average cancels the 
+$\pm C\Delta t$ terms and leaves an error of order $O(\Delta t^2)$; in combination with the space variable, we have an error of order $O(\Delta t^2)+O(\Delta x^2)$
+ for the whole method, as compared with $O(\Delta t)+O(\Delta x^2)$
+ for the forward and backward difference methods. Like the backward difference method, the Crank-Nicolson method is absolutely stable.
+ 
+Any material below this point is optional and will not be assessed.
+
 ## The Wave Equation
 
 The problems that we have dealt with thus far all model natural diffusion processes: heat transport, molecular diffusion, etc. Another interesting physical phenomenon is that of wave propagation. The 1D *wave equation* is 
 $$
 \begin{aligned} u_{tt} = c^2 u_{xx} \label{eqn:wave1D} \end{aligned}
 $$
- where $c^2$ is a parameter modelling the stiffness of the medium the wave is travelling through. With homogeneous Dirichlet boundary conditions we can think of this as the behaviour of a guitar string after it has been plucked. If the boundaries are in motion then the model might be of someone wiggling a taught string from one end.
+ where $c$ is a parameter modelling the stiffness of the medium the wave is travelling through. With homogeneous Dirichlet boundary conditions we can think of this as the behaviour of a guitar string after it has been plucked. If the boundaries are in motion then the model might be of someone wiggling a taught string from one end.
 
 ------------------------------------------------------------------------
 
