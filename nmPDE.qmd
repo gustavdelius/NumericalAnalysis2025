@@ -808,9 +808,9 @@ To graphically show the Crank Nicolson method we can again use a finite differen
 
 The problems that we have dealt with thus far all model natural diffusion processes: heat transport, molecular diffusion, etc. Another interesting physical phenomenon is that of wave propagation. The 1D *wave equation* is 
 $$
-\begin{aligned} u_{tt} = c u_{xx} \label{eqn:wave1D} \end{aligned}
+\begin{aligned} u_{tt} = c^2 u_{xx} \label{eqn:wave1D} \end{aligned}
 $$
- where $c$ is a parameter modelling the stiffness of the medium the wave is travelling through. With homogeneous Dirichlet boundary conditions we can think of this as the behaviour of a guitar string after it has been plucked. If the boundaries are in motion then the model might be of someone wiggling a taught string from one end.
+ where $c^2$ is a parameter modelling the stiffness of the medium the wave is travelling through. With homogeneous Dirichlet boundary conditions we can think of this as the behaviour of a guitar string after it has been plucked. If the boundaries are in motion then the model might be of someone wiggling a taught string from one end.
 
 ------------------------------------------------------------------------
 
@@ -831,7 +831,7 @@ $$
 
 3.  Put your answers to parts (a) and (b) together with the wave equation to get 
 $$
- \frac{??? - ??? + ???}{\Delta t^2} = c \frac{??? - ??? + ???}{\Delta x^2}. 
+ \frac{??? - ??? + ???}{\Delta t^2} = c^2 \frac{??? - ??? + ???}{\Delta x^2}. 
 $$
 
 
@@ -852,9 +852,9 @@ $$
 ------------------------------------------------------------------------
 
 ::: {#exr-6.47}
-The ratio $c\Delta t^2 / \Delta x^2$ shows up explicitly in the finite difference scheme for the 1D wave equation. Just like in the heat equation, this parameter controls when the finite difference solution will be stable. Experiment with your finite difference solution and conjecture a value of $a = c \Delta t^2 / \Delta x^2$ which divides the regions of stability versus instability. Your answer should be in the form:
+The ratio $c^2\Delta t^2 / \Delta x^2$ shows up explicitly in the finite difference scheme for the 1D wave equation. Just like in the heat equation, this parameter controls when the finite difference solution will be stable. Experiment with your finite difference solution and conjecture a value of $a = c^2 \Delta t^2 / \Delta x^2$ which divides the regions of stability versus instability. Your answer should be in the form:
 
-*If* $a = c\Delta t^2 / \Delta x^2 < \underline{\hspace{0.5in}}$ then the finite difference scheme for the 1D wave equation will be stable. Otherwise it will be unstable.
+*If* $a = c^2\Delta t^2 / \Delta x^2 < \underline{\hspace{0.5in}}$ then the finite difference scheme for the 1D wave equation will be stable. Otherwise it will be unstable.
 
 :::
 
@@ -877,9 +877,9 @@ What is the expected error in the finite difference scheme for the 1D wave equat
 ::: {#exr-6.50}
 Use your finite difference code to solve the 1D wave equation 
 $$
- u_{tt} = c u_{xx} 
+ u_{tt} = c^2 u_{xx} 
 $$
- with boundary conditions $u(t,0) = u(t,1) = 0$, initial condition $u(0,x) = 4x(1-x)$, and zero initial velocity. Experiment with different values of $c$. What does the parameter $c$ to the wave? Give a physical interpretation of $c$.
+ with boundary conditions $u(t,0) = u(t,1) = 0$, initial condition $u(0,x) = 4x(1-x)$, and zero initial velocity. Experiment with different values of $c^2$. What does the parameter $c$ do to the wave? Give a physical interpretation of $c$.
 
 :::
 
@@ -899,7 +899,7 @@ $$
 ::: {#exr-6.52}
 Now consider the 2D wave equation 
 $$
- u_{tt} = c\left( u_{xx} + u_{yy} \right). 
+ u_{tt} = c^2\left( u_{xx} + u_{yy} \right).
 $$
  We want to build a numerical solution to this new PDE. Just like with the 2D heat equation we propose the notation $U_{i,j}^n$ for the approximation of the function $u(t,x,y)$ at the point $t=t_n$, $x=x_i$, and $y=y_j$.
 
