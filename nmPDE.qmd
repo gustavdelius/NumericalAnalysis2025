@@ -814,8 +814,6 @@ $C\Delta t+O(\Delta t^2)$. Taking the average cancels the
 $\pm C\Delta t$ terms and leaves an error of order $O(\Delta t^2)$; in combination with the space variable, we have an error of order $O(\Delta t^2)+O(\Delta x^2)$
  for the whole method, as compared with $O(\Delta t)+O(\Delta x^2)$
  for the forward and backward difference methods. Like the backward difference method, the Crank-Nicolson method is absolutely stable.
- 
-Any material below this point is optional and will not be assessed.
 
 ### Stability {#sec-stability-heat}
 
@@ -924,6 +922,8 @@ We need both of these to have a magnitude less than 1 for the method to be stabl
 
 
 ## The Wave Equation
+
+Any material below this point is optional and will not be assessed.
 
 The problems that we have dealt with thus far all model natural diffusion processes: heat transport, molecular diffusion, etc. Another interesting physical phenomenon is that of wave propagation. The 1D *wave equation* is 
 $$
