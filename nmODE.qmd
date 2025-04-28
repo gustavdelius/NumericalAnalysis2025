@@ -1206,11 +1206,126 @@ $$
 Again you would like this to go towards $0$ as $n$ goes to infinity.  What condition does this impose on the step size $h$ now? 
 :::
 
-In preparation
+------------------------------------------------------------------------
+
+Because the observations you made in the previous two exercises are so important, I lectured about them. Here are the lecture notes: 
+
+The stability of a numerical method is the property that the numerical solution does not diverge from the exact solution as the step size goes to zero. In other words, if we take smaller and smaller steps, the numerical solution should converge to the exact solution. If the numerical solution diverges from the exact solution as the step size goes to zero, then we say that the method is unstable.
+
+To test the stability of a method we can apply it to a simple ODE with a known solution. We can then compare the numerical solution to the exact solution. If the numerical solution is stable, then it will converge to the exact solution as the step size goes to zero. If the numerical solution is unstable, then it will diverge from the exact solution as the step size goes to zero.
+
+The test equation that is always used for this purpose of studying the stability of a numerical method is the linear ODE
+$$
+x'=\lambda x.
+$$
+The exact solution to this equation is $x(t)=x_(0)_0e^{\lambda t}$. So for negative $\lambda$ the solution decays, and for positive $\lambda$ the solution grows. The stability of a numerical method can be tested by applying it to this equation and comparing the numerical solution to the exact solution.
+
+------------------------------------------------------------------------
+
+
+::: {#exm-euler_stability}
+#### Stability of Euler's method
+Euler's method uses the formula $x_{n+1}=x_n+h f(t_n,x_n)$.
+Applying this to the test equation $x'=\lambda x$ gives
+$$
+x_{n+1}=x_n+h\lambda x_n=(1+h\lambda)x_n.
+$$
+So
+$$
+x_{n+1}=(1+h\lambda)x_n=(1+h\lambda)^2x_{n-1}=\cdots=(1+h\lambda)^{n+1}x_0.
+$$
+Because we know the exact solution, we can calculate the absolute error that Euler's method produces:
+$$
+E_n:=|x_n-x(t_n)|=|x_0(1+h\lambda)^n-x_0e^{\lambda t_n}|.
+$$
+In the case where $\lambda<0$ we have that the exact solution decays to zero as $n\to\infty$. So the error will be determined by the behaviour of the first term:
+$$
+\begin{split}
+\lim_{n\to\infty}E_n&=\lim_{n\to\infty}|x_0(1+h\lambda)^n|\\
+&=\begin{cases}
+0&\text{if }|1+h\lambda|<1\\
+\infty&\text{if }|1+h\lambda|>1.
+\end{cases}
+\end{split}
+$$
+The error grows exponentially unless $|1+h\lambda|<1$. This is the stability condition for Euler's method. It requires us to choose a step size
+$$
+h<\frac{2}{|\lambda|}
+$$
+:::
+
+In general, for a method that, when applied to the test equation $x'=\lambda x$, gives
+$$
+x_{n+1}=Q(h\lambda)x_n
+$$
+the stability condition is that 
+$$|Q(h\lambda)|<1.$$
+Values of $h\lambda =: z$ for which $|Q(z)|<1$ form the *Region of absolute stability** of the method. This is a region in the complex plane, because while the stepsize $h$ is of course always real, in applications the transient term may be oscillatory, corresponding to a complex $\lambda$.
+
+------------------------------------------------------------------------
+
+
+::: {#exm-midpoint_stability}
+#### Stability of the midpoint method
+The midpoint method uses the formula
+$$
+x_{n+1}=x_n+hf(t_n+\frac{h}{2},x_n+\frac{h}{2}f(t_n,x_n)).
+$$
+Applying this to the test equation $x'=\lambda x$ gives
+$$
+x_{n+1}=x_n+h\lambda \left(x_n+\frac{h}{2}\lambda x_n\right)
+=x_n\left(1+h\lambda+\frac{(h\lambda)^2}{2}\right).
+$$
+
+The region of absolute stability is the set of $z\in\mathbb{C}$ for which
+$$
+\left|1+z+\frac{z^2}{2}\right|<1.
+$$
+
+:::
+
+------------------------------------------------------------------------
+
+Implicit methods tend to have a larger region of absolute stability, often including the entire left half plane, in which case they are called "unconditionally stable".  
+
+::: {#exm-backward_stability}
+#### Stability of the backward Euler method
+We demonstrate this in the case of the backward Euler method, which uses the formula
+$$
+x_{n+1}=x_n+hf(t_{n+1},x_{n+1}).
+$$
+Applying this to the test equation $x'=\lambda x$ gives
+$$
+x_{n+1}=x_n+h\lambda x_{n+1}.
+$$
+So
+$$
+x_{n+1}=\frac{x_n}{1-h\lambda}.
+$$
+The region of absolute stability is the set of $z\in\mathbb{C}$ for which
+$$
+\left|\frac{1}{1-z}\right|<1,
+$$
+or, equivalently,
+$$
+|z-1|>1.
+$$
+This is almost the entire complex plane, except for the circle of radius 1 around the point $z=1$. In particular it contains the entire left half plane, so stiff equations do not require any particular choice of step size for the backward Euler method to be stable. We therefore say that the backward Euler method is unconditionally stable.
+:::
 
 ## Stiff Equations {#sec-stiff}
 
-In preparation
+A differential equation is called "stiff" if the exact solution has a term that decays very rapidly. This is a problem for numerical methods because the step size must be very small to capture the rapid decay. The step size must be small for the entire solution, not just the rapidly decaying part. This can make the solution very slow to compute. 
+
+An example of such a rapidly decaying term would be a term of the form $e^{-\gamma t}$ with $\gamma$ large. As an example consider the ODE
+$$
+x'=-10x+\sin t.
+$$
+This is similar to equations we solved in @exr-5.13, just with a larger negative coefficient in front of $x$. The solution to this equation is
+$$
+x(t)=Ce^{-100t}+\frac{100}{10001}\sin t-\frac{1}{10001}\cos t.
+$$
+The term $e^{-100t}$ decays very rapidly. We refer to such a term in the solution as a "transient" because it becomes irrelevant after a short time. In spite of the fact that this term is irrelevant, it forces us to take a very small step size in order to avoid an instability if we are using an explicit method. Thus for a stiff equation  it is advisable to use an implicit method instead.
 
 ## Algorithm Summaries
 

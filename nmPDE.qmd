@@ -643,7 +643,7 @@ $$
 \frac{U_i^{n+1} - U_i^n}{\Delta t} = D \frac{U_{i+1}^{n} - 2U_i^{n} + U_{i-1}^{n}}{\Delta x^2}
 $$
  where we approximate the spatial derivative with the centred difference and the time derivative with the usual forward difference. If, however, we use the backward difference formula for the time derivative we get the finite difference scheme 
- $$
+$$
 \frac{U_i^{n} - U_i^{n-1}}{\Delta t} = D \frac{U_{i+1}^{n} - 2U_i^{n} + U_{i-1}^{n}}{\Delta x^2}.
 $$
 or, shifting to the next timestep,
@@ -816,6 +816,112 @@ $\pm C\Delta t$ terms and leaves an error of order $O(\Delta t^2)$; in combinati
  for the forward and backward difference methods. Like the backward difference method, the Crank-Nicolson method is absolutely stable.
  
 Any material below this point is optional and will not be assessed.
+
+### Stability {#sec-stability-heat}
+
+While exploring the explicit finite-difference method for solving the 1d heat equation $u_t=Du_{xx}$ we encountered the stability condition
+$$
+a=\frac{D\Delta t}{(\Delta x)^2}\leq \frac{1}{2}.
+$$
+We now want to understand where this condition comes from.
+
+We start by setting up the notation for solving the heat equation  using the explicit finite-difference method. We discretise the spatial variable $x$ into $N$ intervals with grid points $x_0,\ldots,x_N$ with stepsize $\Delta x=(x_N-x_0)/N$. We discretise the time variable $t$ into $M$ intervals with grid points $t_0,\ldots,t_M$ with stepsize $\Delta t=(t_M-t_0)/M$. We denote the approximation of $u(t_n,x_i)$ by $U_i^n$. The initial condition sets $U_i^0=u(t_0,x_i)$.
+We work with homogeneous Dirichlet boundary conditions, so $U_0^n=U_N^n=0$ for all $n$.
+
+The approximations at the remaining points is then calculated by the formula
+$$
+U_i^{n+1}=U_i^n+a(U_{i+1}^n-2U_i^n+U_{i-1}^n)
+$$
+for $i=1,\ldots,N-1$. You derived this in @sec-heat1d using the finite-difference formulae for the derivatives from @sec-derivatives.
+We rewrite this in matrix notation:
+$$
+\begin{pmatrix}U_1^{n+1}\\\vdots\\U_{N-1}^{n+1}\end{pmatrix}=\begin{pmatrix}1-2a&a&&\\
+a&1-2a&a&&\\
+&\ddots&\ddots&\ddots&\\
+&&a&1-2a\end{pmatrix}\begin{pmatrix}U_1^{n}\\\vdots\\U_{N-1}^{n}\end{pmatrix}.
+$$
+The matrix is tridiagonal, with $1-2a$ on the diagonal and $a$ on the two off-diagonals. We denote the matrix by $A$ and the two vectors by $\mathbf{U}_{n+1}$ and $\mathbf{U}_{n}$ respectively. So we have the formula
+$$
+\mathbf{U}_{n+1}=A\mathbf{U}_n.
+$$
+The solution at time $t_n$ is then given by
+$$
+\mathbf{U}_n=A^n\mathbf{U}_0.
+$$
+
+We want to understand how errors evolve over time. If errors grow exponentially over time then we call the method unstable and the method is not useful. 
+
+Let us assume that at some step, for convenience let us choose step $0$, an error $\mathbf{\epsilon}$ is introduced:
+$$
+\tilde{\mathbf{U}}_0=\mathbf{U}_0+\mathbf{\epsilon}.
+$$
+Then after $n$ steps we have
+$$
+\tilde{\mathbf{U}}_n=A^n\tilde{\mathbf{U}}_0=A^n(\mathbf{U}_0+\mathbf{\epsilon})=A^n\mathbf{U}_0+A^n\mathbf{\epsilon}=\mathbf{U}_n+A^n\mathbf{\epsilon}.
+$$
+So the error at time $t_n$ is
+$$
+\mathbf{\epsilon}^n=A^n\mathbf{\epsilon}.
+$$
+To see if the error grows exponentially over time, we expand the initial error in terms of the eigenvectors of the matrix $A$:
+$$
+\mathbf{\epsilon}=\sum_i\epsilon_i\mathbf{v}_i,
+$$
+where
+$$
+A\mathbf{v}_i=\lambda_i\mathbf{v}_i
+$$
+and the sum is over all eigenvectors $\mathbf{v}_i$ of $A$. Then
+$$
+\mathbf{\epsilon}^n=\sum_i\epsilon_i\lambda_i^n\mathbf{v}_i.
+$$
+This shows that if all eigenvalues have absolute value less than 1, then the method is stable. If at least one eigenvalue has absolute value greater than 1, then the corresponding component of the error will grow exponentially with time and the method is unstable.
+
+The eigenvalues of the matrix $A$ are the roots of the characteristic polynomial
+$$
+\det(A-\lambda I)=0.
+$$
+
+There is a nice method to determine the eigenvalues of the matrix $A$, using Fourier analysis. We will not discuss this in this module and instead just give the result and then look at a simple example. The result (which you do not need to remember) is that the eigenvalues of the matrix $A$ are given by
+$$
+\lambda_k=1-4a\left(\sin\left(\frac{k\pi}{2N}\right)\right)^2
+$$
+for $k=1,\ldots,N-1$. For stability we need $|\lambda_k|<1$ for all $k$, i.e.,
+$$
+0\leq a\left(\sin\left(\frac{k\pi}{2N}\right)\right)^2\leq\frac12
+$$
+for all $k$. The most stringent condition is that coming from $k=N-1$, so the stability condition is
+$$
+a\leq \frac{1}{2}\left(\sin\left(\frac{(N-1)\pi}{2N}\right)\right)^{-2}.
+$$ 
+
+In the limit $N\to\infty$ this gives the condition $a\leq 1/2$.
+
+::: {#exm-heat_stability}
+Consider the heat equation on the spatial domain $x\in[0,1]$ and divide this into three subintervals, so that our spatial grid consists of $x_0=0,x_1=1/3,x_2=2/3$ and $x_3=1$. The matrix $A$ is then
+$$
+A=\begin{pmatrix}1-2a&a&\\
+a&1-2a
+\end{pmatrix}.
+$$
+The characteristic polynomial is
+$$
+\begin{split}
+\det(A-\lambda I)&=\begin{vmatrix}1-2a-\lambda&a\\
+a&1-2a-\lambda
+\end{vmatrix}\\
+&=(1-2a-\lambda)^2-a^2\\
+&=\lambda^2-2(1-2a)\lambda+(1-2a)^2-a^2.
+\end{split}
+$$
+The roots of this polynomial are
+$$
+\lambda_\pm=1-2a\pm a.
+$$
+We need both of these to have a magnitude less than 1 for the method to be stable. This gives us an upper bound on the allowed $a$. The eigenvalue whose magnitude will increase above $1$ first as $a$ increases is $\lambda_-=1-3a$, which has magnitude $1$ when $a=2/3$. So the stability condition is $a\leq 2/3$. 
+
+:::
+
 
 ## The Wave Equation
 

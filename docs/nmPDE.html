@@ -285,6 +285,7 @@ window.Quarto = {
   <li><a href="#sec-advect" id="toc-sec-advect" class="nav-link" data-scroll-target="#sec-advect"><span class="header-section-number">9.2.4.2</span> Advective-Diffusion Equations</a></li>
   </ul></li>
   <li><a href="#sec-heat_stability" id="toc-sec-heat_stability" class="nav-link" data-scroll-target="#sec-heat_stability"><span class="header-section-number">9.2.5</span> Implicit Methods</a></li>
+  <li><a href="#sec-stability-heat" id="toc-sec-stability-heat" class="nav-link" data-scroll-target="#sec-stability-heat"><span class="header-section-number">9.2.6</span> Stability</a></li>
   </ul></li>
   <li><a href="#the-wave-equation" id="toc-the-wave-equation" class="nav-link" data-scroll-target="#the-wave-equation"><span class="header-section-number">9.3</span> The Wave Equation</a></li>
   <li><a href="#the-travelling-wave-equation" id="toc-the-travelling-wave-equation" class="nav-link" data-scroll-target="#the-travelling-wave-equation"><span class="header-section-number">9.4</span> The Travelling Wave Equation</a></li>
@@ -940,6 +941,67 @@ Figure&nbsp;9.3: The finite difference stencil for the Crank Nicolson method.
 </div>
 <p>It turns out that the error terms for the forward and backward difference methods have the form <span class="math inline">\(C\Delta t+O(\Delta t^2)\)</span> and <span class="math inline">\(C\Delta t+O(\Delta t^2)\)</span>. Taking the average cancels the <span class="math inline">\(\pm C\Delta t\)</span> terms and leaves an error of order <span class="math inline">\(O(\Delta t^2)\)</span>; in combination with the space variable, we have an error of order <span class="math inline">\(O(\Delta t^2)+O(\Delta x^2)\)</span> for the whole method, as compared with <span class="math inline">\(O(\Delta t)+O(\Delta x^2)\)</span> for the forward and backward difference methods. Like the backward difference method, the Crank-Nicolson method is absolutely stable.</p>
 <p>Any material below this point is optional and will not be assessed.</p>
+</section>
+<section id="sec-stability-heat" class="level3" data-number="9.2.6">
+<h3 data-number="9.2.6" class="anchored" data-anchor-id="sec-stability-heat"><span class="header-section-number">9.2.6</span> Stability</h3>
+<p>While exploring the explicit finite-difference method for solving the 1d heat equation <span class="math inline">\(u_t=Du_{xx}\)</span> we encountered the stability condition <span class="math display">\[
+a=\frac{D\Delta t}{(\Delta x)^2}\leq \frac{1}{2}.
+\]</span> We now want to understand where this condition comes from.</p>
+<p>We start by setting up the notation for solving the heat equation using the explicit finite-difference method. We discretise the spatial variable <span class="math inline">\(x\)</span> into <span class="math inline">\(N\)</span> intervals with grid points <span class="math inline">\(x_0,\ldots,x_N\)</span> with stepsize <span class="math inline">\(\Delta x=(x_N-x_0)/N\)</span>. We discretise the time variable <span class="math inline">\(t\)</span> into <span class="math inline">\(M\)</span> intervals with grid points <span class="math inline">\(t_0,\ldots,t_M\)</span> with stepsize <span class="math inline">\(\Delta t=(t_M-t_0)/M\)</span>. We denote the approximation of <span class="math inline">\(u(t_n,x_i)\)</span> by <span class="math inline">\(U_i^n\)</span>. The initial condition sets <span class="math inline">\(U_i^0=u(t_0,x_i)\)</span>. We work with homogeneous Dirichlet boundary conditions, so <span class="math inline">\(U_0^n=U_N^n=0\)</span> for all <span class="math inline">\(n\)</span>.</p>
+<p>The approximations at the remaining points is then calculated by the formula <span class="math display">\[
+U_i^{n+1}=U_i^n+a(U_{i+1}^n-2U_i^n+U_{i-1}^n)
+\]</span> for <span class="math inline">\(i=1,\ldots,N-1\)</span>. You derived this in <a href="#sec-heat1d" class="quarto-xref"><span>Section 9.2.1</span></a> using the finite-difference formulae for the derivatives from <a href="nmDerivatives.html" class="quarto-xref"><span>Chapter 5</span></a>. We rewrite this in matrix notation: <span class="math display">\[
+\begin{pmatrix}U_1^{n+1}\\\vdots\\U_{N-1}^{n+1}\end{pmatrix}=\begin{pmatrix}1-2a&amp;a&amp;&amp;\\
+a&amp;1-2a&amp;a&amp;&amp;\\
+&amp;\ddots&amp;\ddots&amp;\ddots&amp;\\
+&amp;&amp;a&amp;1-2a\end{pmatrix}\begin{pmatrix}U_1^{n}\\\vdots\\U_{N-1}^{n}\end{pmatrix}.
+\]</span> The matrix is tridiagonal, with <span class="math inline">\(1-2a\)</span> on the diagonal and <span class="math inline">\(a\)</span> on the two off-diagonals. We denote the matrix by <span class="math inline">\(A\)</span> and the two vectors by <span class="math inline">\(\mathbf{U}_{n+1}\)</span> and <span class="math inline">\(\mathbf{U}_{n}\)</span> respectively. So we have the formula <span class="math display">\[
+\mathbf{U}_{n+1}=A\mathbf{U}_n.
+\]</span> The solution at time <span class="math inline">\(t_n\)</span> is then given by <span class="math display">\[
+\mathbf{U}_n=A^n\mathbf{U}_0.
+\]</span></p>
+<p>We want to understand how errors evolve over time. If errors grow exponentially over time then we call the method unstable and the method is not useful.</p>
+<p>Let us assume that at some step, for convenience let us choose step <span class="math inline">\(0\)</span>, an error <span class="math inline">\(\mathbf{\epsilon}\)</span> is introduced: <span class="math display">\[
+\tilde{\mathbf{U}}_0=\mathbf{U}_0+\mathbf{\epsilon}.
+\]</span> Then after <span class="math inline">\(n\)</span> steps we have <span class="math display">\[
+\tilde{\mathbf{U}}_n=A^n\tilde{\mathbf{U}}_0=A^n(\mathbf{U}_0+\mathbf{\epsilon})=A^n\mathbf{U}_0+A^n\mathbf{\epsilon}=\mathbf{U}_n+A^n\mathbf{\epsilon}.
+\]</span> So the error at time <span class="math inline">\(t_n\)</span> is <span class="math display">\[
+\mathbf{\epsilon}^n=A^n\mathbf{\epsilon}.
+\]</span> To see if the error grows exponentially over time, we expand the initial error in terms of the eigenvectors of the matrix <span class="math inline">\(A\)</span>: <span class="math display">\[
+\mathbf{\epsilon}=\sum_i\epsilon_i\mathbf{v}_i,
+\]</span> where <span class="math display">\[
+A\mathbf{v}_i=\lambda_i\mathbf{v}_i
+\]</span> and the sum is over all eigenvectors <span class="math inline">\(\mathbf{v}_i\)</span> of <span class="math inline">\(A\)</span>. Then <span class="math display">\[
+\mathbf{\epsilon}^n=\sum_i\epsilon_i\lambda_i^n\mathbf{v}_i.
+\]</span> This shows that if all eigenvalues have absolute value less than 1, then the method is stable. If at least one eigenvalue has absolute value greater than 1, then the corresponding component of the error will grow exponentially with time and the method is unstable.</p>
+<p>The eigenvalues of the matrix <span class="math inline">\(A\)</span> are the roots of the characteristic polynomial <span class="math display">\[
+\det(A-\lambda I)=0.
+\]</span></p>
+<p>There is a nice method to determine the eigenvalues of the matrix <span class="math inline">\(A\)</span>, using Fourier analysis. We will not discuss this in this module and instead just give the result and then look at a simple example. The result (which you do not need to remember) is that the eigenvalues of the matrix <span class="math inline">\(A\)</span> are given by <span class="math display">\[
+\lambda_k=1-4a\left(\sin\left(\frac{k\pi}{2N}\right)\right)^2
+\]</span> for <span class="math inline">\(k=1,\ldots,N-1\)</span>. For stability we need <span class="math inline">\(|\lambda_k|&lt;1\)</span> for all <span class="math inline">\(k\)</span>, i.e., <span class="math display">\[
+0\leq a\left(\sin\left(\frac{k\pi}{2N}\right)\right)^2\leq\frac12
+\]</span> for all <span class="math inline">\(k\)</span>. The most stringent condition is that coming from <span class="math inline">\(k=N-1\)</span>, so the stability condition is <span class="math display">\[
+a\leq \frac{1}{2}\left(\sin\left(\frac{(N-1)\pi}{2N}\right)\right)^{-2}.
+\]</span></p>
+<p>In the limit <span class="math inline">\(N\to\infty\)</span> this gives the condition <span class="math inline">\(a\leq 1/2\)</span>.</p>
+<div id="exm-heat_stability" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.1</strong></span> Consider the heat equation on the spatial domain <span class="math inline">\(x\in[0,1]\)</span> and divide this into three subintervals, so that our spatial grid consists of <span class="math inline">\(x_0=0,x_1=1/3,x_2=2/3\)</span> and <span class="math inline">\(x_3=1\)</span>. The matrix <span class="math inline">\(A\)</span> is then <span class="math display">\[
+A=\begin{pmatrix}1-2a&amp;a&amp;\\
+a&amp;1-2a
+\end{pmatrix}.
+\]</span> The characteristic polynomial is <span class="math display">\[
+\begin{split}
+\det(A-\lambda I)&amp;=\begin{vmatrix}1-2a-\lambda&amp;a\\
+a&amp;1-2a-\lambda
+\end{vmatrix}\\
+&amp;=(1-2a-\lambda)^2-a^2\\
+&amp;=\lambda^2-2(1-2a)\lambda+(1-2a)^2-a^2.
+\end{split}
+\]</span> The roots of this polynomial are <span class="math display">\[
+\lambda_\pm=1-2a\pm a.
+\]</span> We need both of these to have a magnitude less than 1 for the method to be stable. This gives us an upper bound on the allowed <span class="math inline">\(a\)</span>. The eigenvalue whose magnitude will increase above <span class="math inline">\(1\)</span> first as <span class="math inline">\(a\)</span> increases is <span class="math inline">\(\lambda_-=1-3a\)</span>, which has magnitude <span class="math inline">\(1\)</span> when <span class="math inline">\(a=2/3\)</span>. So the stability condition is <span class="math inline">\(a\leq 2/3\)</span>.</p>
+</div>
 </section>
 </section>
 <section id="the-wave-equation" class="level2" data-number="9.3">

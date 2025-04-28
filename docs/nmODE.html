@@ -1446,11 +1446,72 @@ x_{n+1} =\  ??? \ \cdot x_n.
 x_{n+1} =\  ??? \ \cdot x_n.
 \]</span> Again you would like this to go towards <span class="math inline">\(0\)</span> as <span class="math inline">\(n\)</span> goes to infinity. What condition does this impose on the step size <span class="math inline">\(h\)</span> now?</p>
 </div>
-<p>In preparation</p>
+<hr>
+<p>Because the observations you made in the previous two exercises are so important, I lectured about them. Here are the lecture notes:</p>
+<p>The stability of a numerical method is the property that the numerical solution does not diverge from the exact solution as the step size goes to zero. In other words, if we take smaller and smaller steps, the numerical solution should converge to the exact solution. If the numerical solution diverges from the exact solution as the step size goes to zero, then we say that the method is unstable.</p>
+<p>To test the stability of a method we can apply it to a simple ODE with a known solution. We can then compare the numerical solution to the exact solution. If the numerical solution is stable, then it will converge to the exact solution as the step size goes to zero. If the numerical solution is unstable, then it will diverge from the exact solution as the step size goes to zero.</p>
+<p>The test equation that is always used for this purpose of studying the stability of a numerical method is the linear ODE <span class="math display">\[
+x'=\lambda x.
+\]</span> The exact solution to this equation is <span class="math inline">\(x(t)=x_(0)_0e^{\lambda t}\)</span>. So for negative <span class="math inline">\(\lambda\)</span> the solution decays, and for positive <span class="math inline">\(\lambda\)</span> the solution grows. The stability of a numerical method can be tested by applying it to this equation and comparing the numerical solution to the exact solution.</p>
+<hr>
+<div id="exm-euler_stability" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.1 (Stability of Euler’s method)</strong></span> Euler’s method uses the formula <span class="math inline">\(x_{n+1}=x_n+h f(t_n,x_n)\)</span>. Applying this to the test equation <span class="math inline">\(x'=\lambda x\)</span> gives <span class="math display">\[
+x_{n+1}=x_n+h\lambda x_n=(1+h\lambda)x_n.
+\]</span> So <span class="math display">\[
+x_{n+1}=(1+h\lambda)x_n=(1+h\lambda)^2x_{n-1}=\cdots=(1+h\lambda)^{n+1}x_0.
+\]</span> Because we know the exact solution, we can calculate the absolute error that Euler’s method produces: <span class="math display">\[
+E_n:=|x_n-x(t_n)|=|x_0(1+h\lambda)^n-x_0e^{\lambda t_n}|.
+\]</span> In the case where <span class="math inline">\(\lambda&lt;0\)</span> we have that the exact solution decays to zero as <span class="math inline">\(n\to\infty\)</span>. So the error will be determined by the behaviour of the first term: <span class="math display">\[
+\begin{split}
+\lim_{n\to\infty}E_n&amp;=\lim_{n\to\infty}|x_0(1+h\lambda)^n|\\
+&amp;=\begin{cases}
+0&amp;\text{if }|1+h\lambda|&lt;1\\
+\infty&amp;\text{if }|1+h\lambda|&gt;1.
+\end{cases}
+\end{split}
+\]</span> The error grows exponentially unless <span class="math inline">\(|1+h\lambda|&lt;1\)</span>. This is the stability condition for Euler’s method. It requires us to choose a step size <span class="math display">\[
+h&lt;\frac{2}{|\lambda|}
+\]</span></p>
+</div>
+<p>In general, for a method that, when applied to the test equation <span class="math inline">\(x'=\lambda x\)</span>, gives <span class="math display">\[
+x_{n+1}=Q(h\lambda)x_n
+\]</span> the stability condition is that <span class="math display">\[|Q(h\lambda)|&lt;1.\]</span> Values of <span class="math inline">\(h\lambda =: z\)</span> for which <span class="math inline">\(|Q(z)|&lt;1\)</span> form the *Region of absolute stability** of the method. This is a region in the complex plane, because while the stepsize <span class="math inline">\(h\)</span> is of course always real, in applications the transient term may be oscillatory, corresponding to a complex <span class="math inline">\(\lambda\)</span>.</p>
+<hr>
+<div id="exm-midpoint_stability" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.2 (Stability of the midpoint method)</strong></span> The midpoint method uses the formula <span class="math display">\[
+x_{n+1}=x_n+hf(t_n+\frac{h}{2},x_n+\frac{h}{2}f(t_n,x_n)).
+\]</span> Applying this to the test equation <span class="math inline">\(x'=\lambda x\)</span> gives <span class="math display">\[
+x_{n+1}=x_n+h\lambda \left(x_n+\frac{h}{2}\lambda x_n\right)
+=x_n\left(1+h\lambda+\frac{(h\lambda)^2}{2}\right).
+\]</span></p>
+<p>The region of absolute stability is the set of <span class="math inline">\(z\in\mathbb{C}\)</span> for which <span class="math display">\[
+\left|1+z+\frac{z^2}{2}\right|&lt;1.
+\]</span></p>
+</div>
+<hr>
+<p>Implicit methods tend to have a larger region of absolute stability, often including the entire left half plane, in which case they are called “unconditionally stable”.</p>
+<div id="exm-backward_stability" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.3 (Stability of the backward Euler method)</strong></span> We demonstrate this in the case of the backward Euler method, which uses the formula <span class="math display">\[
+x_{n+1}=x_n+hf(t_{n+1},x_{n+1}).
+\]</span> Applying this to the test equation <span class="math inline">\(x'=\lambda x\)</span> gives <span class="math display">\[
+x_{n+1}=x_n+h\lambda x_{n+1}.
+\]</span> So <span class="math display">\[
+x_{n+1}=\frac{x_n}{1-h\lambda}.
+\]</span> The region of absolute stability is the set of <span class="math inline">\(z\in\mathbb{C}\)</span> for which <span class="math display">\[
+\left|\frac{1}{1-z}\right|&lt;1,
+\]</span> or, equivalently, <span class="math display">\[
+|z-1|&gt;1.
+\]</span> This is almost the entire complex plane, except for the circle of radius 1 around the point <span class="math inline">\(z=1\)</span>. In particular it contains the entire left half plane, so stiff equations do not require any particular choice of step size for the backward Euler method to be stable. We therefore say that the backward Euler method is unconditionally stable.</p>
+</div>
 </section>
 <section id="sec-stiff" class="level2" data-number="8.8">
 <h2 data-number="8.8" class="anchored" data-anchor-id="sec-stiff"><span class="header-section-number">8.8</span> Stiff Equations</h2>
-<p>In preparation</p>
+<p>A differential equation is called “stiff” if the exact solution has a term that decays very rapidly. This is a problem for numerical methods because the step size must be very small to capture the rapid decay. The step size must be small for the entire solution, not just the rapidly decaying part. This can make the solution very slow to compute.</p>
+<p>An example of such a rapidly decaying term would be a term of the form <span class="math inline">\(e^{-\gamma t}\)</span> with <span class="math inline">\(\gamma\)</span> large. As an example consider the ODE <span class="math display">\[
+x'=-10x+\sin t.
+\]</span> This is similar to equations we solved in <a href="#exr-5.13" class="quarto-xref">Exercise&nbsp;<span>8.6</span></a>, just with a larger negative coefficient in front of <span class="math inline">\(x\)</span>. The solution to this equation is <span class="math display">\[
+x(t)=Ce^{-100t}+\frac{100}{10001}\sin t-\frac{1}{10001}\cos t.
+\]</span> The term <span class="math inline">\(e^{-100t}\)</span> decays very rapidly. We refer to such a term in the solution as a “transient” because it becomes irrelevant after a short time. In spite of the fact that this term is irrelevant, it forces us to take a very small step size in order to avoid an instability if we are using an explicit method. Thus for a stiff equation it is advisable to use an implicit method instead.</p>
 </section>
 <section id="algorithm-summaries" class="level2" data-number="8.9">
 <h2 data-number="8.9" class="anchored" data-anchor-id="algorithm-summaries"><span class="header-section-number">8.9</span> Algorithm Summaries</h2>
