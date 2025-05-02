@@ -427,7 +427,7 @@ x'(t) = \frac{x(t+h) - x(t)}{h} + \mathcal{O}(h)
 \end{equation}\]</span> where <span class="math inline">\(h = \Delta t\)</span> is the step size (or the size of each partition in the domain), so the differential equation <span class="math inline">\(x'(t) = f(t,x(t))\)</span> becomes <span class="math display">\[\begin{equation}
 \frac{x(t+h) - x(t)}{h} \approx f(t,x(t)).
 \end{equation}\]</span> Rewriting as a difference equation, letting <span class="math inline">\(x_{n+1} = x(t_n+h)\)</span> and <span class="math inline">\(x_n = x(t_n)\)</span>, we get <span class="math display">\[\begin{equation}
-\begin{aligned} x_{n+1} = x_n + h f(t_n,x_n) \label{eqn:Eulers_method} \end{aligned}
+x_{n+1} = x_n + h f(t_n,x_n)
 \end{equation}\]</span></p>
 </div>
 <hr>
@@ -752,11 +752,11 @@ R' = \gamma I.
 <div id="def-5.5" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 8.2 (The Midpoint Method)</strong></span> The midpoint method is defined by first taking a half step with Euler’s method to approximate a solution at time <span class="math inline">\(t_{n+1/2}\)</span> There is no grid point at <span class="math inline">\(t_{n+1/2}\)</span> so we define this as <span class="math display">\[
 t_{n+1/2} = (t_n + t_{n+1})/2.
-\]</span> {#eqn:midpoint_time} We then take a full step using the value of <span class="math inline">\(f\)</span> at <span class="math inline">\(t_{n+1/2}\)</span> and the approximate <span class="math inline">\(x_{n+1/2}\)</span>. <span class="math display">\[
+\]</span> We then take a full step using the value of <span class="math inline">\(f\)</span> at <span class="math inline">\(t_{n+1/2}\)</span> and the approximate <span class="math inline">\(x_{n+1/2}\)</span>. <span class="math display">\[
 \begin{split}
 x_{n+1/2} &amp;= x_n + \frac{h}{2} f(t_n,x_n) \\ x_{n+1} &amp;= x_n + h f(t_{n+1/2},x_{n+1/2})
 \end{split}
-\]</span> {#eqn:midpoint_method}</p>
+\]</span></p>
 </div>
 <hr>
 <div id="exr-5.25a" class="theorem exercise">
@@ -1633,7 +1633,7 @@ x''(t) = \frac{-x}{\left( \sqrt{x^2 + y^2} \right)^3} \quad \text{and} \quad y''
 <hr>
 <div id="exr-5.75" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.53</strong></span> In this problem we consider the pursuit and evasion problem where <span class="math inline">\(E(t)\)</span> is the vector for an evader (e.g.&nbsp;a rabbit or a bank robber) and <span class="math inline">\(P(t)\)</span> is the vector for a pursuer (e.g.&nbsp;a fox chasing the rabbit or the police chasing the bank robber) <span class="math display">\[\begin{equation}
-\begin{aligned} E(t) = \begin{pmatrix} x_e(t) \\ y_e(t) \end{pmatrix} \quad \text{and} \quad P(t) = \begin{pmatrix} x_p(t) \\ y_p(t) \end{pmatrix}. \end{aligned}
+E(t) = \begin{pmatrix} x_e(t) \\ y_e(t) \end{pmatrix} \quad \text{and} \quad P(t) = \begin{pmatrix} x_p(t) \\ y_p(t) \end{pmatrix}.
 \end{equation}\]</span> Let us presume the following:</p>
 <dl>
 <dt><strong>Assumption 1:</strong></dt>
@@ -1650,11 +1650,11 @@ x''(t) = \frac{-x}{\left( \sqrt{x^2 + y^2} \right)^3} \quad \text{and} \quad y''
 </dd>
 </dl>
 <p>From the third assumption we have <span class="math display">\[\begin{equation}
-\begin{aligned} \| P'(t) \| = k \| E'(t) \| \label{eqn:pursuit_evasion_assumption3} \end{aligned}
+\| P'(t) \| = k \| E'(t) \|
 \end{equation}\]</span> and from the second assumption we have <span class="math display">\[\begin{equation}
-\begin{aligned} \frac{P'(t)}{\|P'(t)\|} = \frac{E(t) - P(t)}{\| E(t) - P(t)\|}. \end{aligned}
+\frac{P'(t)}{\|P'(t)\|} = \frac{E(t) - P(t)}{\| E(t) - P(t)\|}.
 \end{equation}\]</span> Solving for <span class="math inline">\(P'(t)\)</span> the differential equation that we need to solve becomes <span class="math display">\[\begin{equation}
-\begin{aligned} P'(t) = k \| E'(t) \| \frac{E(t) - P(t)}{\| E(t) - P(t)\|}. \end{aligned}
+P'(t) = k \| E'(t) \| \frac{E(t) - P(t)}{\| E(t) - P(t)\|}.
 \end{equation}\]</span> Your Tasks:</p>
 <ol type="1">
 <li><p>Explain assumption #2 mathematically.</p></li>
@@ -1795,12 +1795,12 @@ E(t) = \begin{pmatrix} 5 + \cos(2\pi t) + 2\sin(4\pi t) \\ 4 + 3\cos(3 \pi t) \e
 <section id="the-artillery-problem" class="level3" data-number="8.11.4">
 <h3 data-number="8.11.4" class="anchored" data-anchor-id="the-artillery-problem"><span class="header-section-number">8.11.4</span> The Artillery Problem</h3>
 <p>The goal of artillery is to fire a shell (e.g.&nbsp;a cannon ball) so that it lands on a specific target. If we ignore the effects of air resistance the differential equations describing its acceleration are very simple: <span class="math display">\[\begin{equation}
-\begin{aligned} \frac{dv_x}{dt} = 0 \quad \text{and} \quad \frac{dv_z}{dt} = -g \label{eqn:no-air-res}\end{aligned}
+\frac{dv_x}{dt} = 0 \quad \text{and} \quad \frac{dv_z}{dt} = -g
 \end{equation}\]</span> where <span class="math inline">\(v_x\)</span> and <span class="math inline">\(v_z\)</span> are the velocities in the <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span> directions respectively and <span class="math inline">\(g\)</span> is the acceleration due to gravity (<span class="math inline">\(g = 9.8\)</span> m/s<span class="math inline">\(^2\)</span>). We can use these equations to <em>easily</em> show that the resulting trajectory is parabolic. Once we know this we can easily calculate the initial speed <span class="math inline">\(v_0\)</span> and angle <span class="math inline">\(\theta_0\)</span> above the horizontal necessary for the shell to reach the target. We will undoubtedly find that the maximum range will always result from an angle of <span class="math inline">\(\theta_0 = 45^\circ\)</span>.</p>
 <p>The effects of air resistance are significant when the shell must travel a large distance or when the speed is large. If we modify the equations to include a simple model of air resistance the governing equations become <span class="math display">\[\begin{equation}
-\begin{aligned} \frac{dv_x}{dt} = -c v_x \sqrt{ v_x^2 + v_z^2} \quad \text{and} \quad \frac{dv_z}{dt} = -g - cv_z \sqrt{ v_x^2 + v_z^2} \label{eqn:with-air-res}\end{aligned}
+\frac{dv_x}{dt} = -c v_x \sqrt{ v_x^2 + v_z^2} \quad \text{and} \quad \frac{dv_z}{dt} = -g - cv_z \sqrt{ v_x^2 + v_z^2}
 \end{equation}\]</span> where the constant <span class="math inline">\(c\)</span> depends on the shape and density of the shell and the density of air. For this project assume that <span class="math inline">\(c = 10^{-3} m^{-1}\)</span>. To calculate the components of the position vector recall that since the derivative of position, <span class="math inline">\(s(t)\)</span>, is velocity we have <span class="math display">\[\begin{equation}
-\begin{aligned} s_x(t) = \int_0^t v_x(\tau) d\tau \quad \text{and} \quad s_z(t) = \int_0^t v_z(\tau) d\tau.\end{aligned}
+s_x(t) = \int_0^t v_x(\tau) d\tau \quad \text{and} \quad s_z(t) = \int_0^t v_z(\tau) d\tau.
 \end{equation}\]</span></p>
 <p>Now, imagine that you are living 200 years ago, acting as a consultant to an artillery officer who will be going into battle (perhaps against Napoleon – he was known for hiring mathematicians to help his war efforts). Although computers have not yet been invented, given a few hours or a few days to work, a person living in this time could project trajectories using numerical methods (yes, numerical solutions to differential equations were well known back then too). Using this, you can try various initial speeds <span class="math inline">\(v_0\)</span> and angles <span class="math inline">\(\theta_0\)</span> until you find a pair that reach any target. However, the artillery officer needs a faster and simpler method. He can do maths, but performing hundreds or thousands of numerical calculations on the battlefield is simply not practical. Suppose that our artillery piece will be firing at a target that is a distance <span class="math inline">\(\Delta x\)</span> away, and that <span class="math inline">\(\Delta x\)</span> is approximately half a mile away – not exactly half a mile, but in that general neighbourhood.</p>
 <ol type="1">

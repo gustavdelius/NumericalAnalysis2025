@@ -371,9 +371,9 @@ h = \frac{\underline{\hspace{0.25in}} - \underline{\hspace{0.25in}}}{\underline{
 </div>
 <hr>
 <p>Now let us get back to the discussion of numerical differentiation. If we recall that the definition of the first derivative of a function is <span class="math display">\[\begin{equation}
-\begin{aligned} \frac{df(x)}{dx} = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}. \label{eqn:derivative_definition}\end{aligned}
+\frac{df(x)}{dx} = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}.
 \end{equation}\]</span> our first approximation for the first derivative is naturally <span class="math display">\[\begin{equation}
-\begin{aligned} \frac{df(x)}{dx} \approx \frac{f(x+h) - f(x)}{h}=:\Delta f(x). \label{eqn:derivative_first_approx}\end{aligned}
+\frac{df(x)}{dx} \approx \frac{f(x+h) - f(x)}{h}=:\Delta f(x).
 \end{equation}\]</span> In this approximation of the derivative we have simply removed the limit and instead approximated the derivative as the slope. It should be clear that this approximation is only good if the step size <span class="math inline">\(h\)</span> is <em>small</em>. In <a href="#fig-3.2" class="quarto-xref">Figure&nbsp;<span>5.2</span></a> we see a graphical depiction of what we are doing to approximate the derivative. The slope of the tangent line (<span class="math inline">\(\Delta y / \Delta x\)</span>) is what we are after, and a way to approximate it is to calculate the slope of the secant line formed by looking <span class="math inline">\(h\)</span> units forward from the point <span class="math inline">\(x\)</span>.</p>
 <div id="fig-3.2" class="quarto-float quarto-figure quarto-figure-left anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -583,9 +583,9 @@ f'(1) \approx \frac{f(1+h) - f(1)}{h}=:\Delta f(1).
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># (f(x+h) - f(x)) / h.</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Obviously "x+h" is just the next item in the list of </span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># x values so when we do f(x+h) mathematically we should </span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># write f( x[j+1] ) in Python (explain this).  </span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># write f(x[j+1]) in Python (explain this).  </span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fill in the question marks below</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        df.append( (f( ??? ) <span class="op">-</span> f( ??? )) <span class="op">/</span> h )</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        df.append((f(???) <span class="op">-</span> f(???)) <span class="op">/</span> h )</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
 <li>Now we want to call upon this function to build the first order approximation of the first derivative for some function. We will use the function <span class="math inline">\(f(x) = \sin(x)\)</span> on the interval <span class="math inline">\([0,2\pi]\)</span> with 100 sub intervals (since we know what the answer should be). Complete the code below to call upon your <code>ForwardDiff()</code> function and to plot <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(f'(x)\)</span>, and the approximation of <span class="math inline">\(f'(x)\)</span>.</li>

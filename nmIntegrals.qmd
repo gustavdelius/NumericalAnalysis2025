@@ -27,7 +27,7 @@ In this chapter we will study three different techniques for approximating the v
 
 In this subsection we will build our first method for approximating definite integrals. Recall from Calculus that the definition of the Riemann integral is 
 \begin{equation}
-\begin{aligned} \int_a^b f(x) dx = \lim_{\Delta x \to 0} \sum_{j=1}^N f(x_j) \Delta x, \label{eqn:Riemann_integral}\end{aligned}
+\int_a^b f(x) dx = \lim_{\Delta x \to 0} \sum_{j=1}^N f(x_j) \Delta x,
 \end{equation}
  where $N$ is the number of sub intervals on the interval $[a,b]$ and $\Delta x$ is the width of the interval. As with differentiation, we can remove the limit and have a decent approximation of the integral so long as $N$ is large (or equivalently, as long as $\Delta x$ is small). 
 \begin{equation}

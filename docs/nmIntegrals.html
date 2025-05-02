@@ -336,7 +336,7 @@ Figure&nbsp;6.1: A sample integration
 <section id="riemann-sums" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="riemann-sums"><span class="header-section-number">6.1</span> Riemann Sums</h2>
 <p>In this subsection we will build our first method for approximating definite integrals. Recall from Calculus that the definition of the Riemann integral is <span class="math display">\[\begin{equation}
-\begin{aligned} \int_a^b f(x) dx = \lim_{\Delta x \to 0} \sum_{j=1}^N f(x_j) \Delta x, \label{eqn:Riemann_integral}\end{aligned}
+\int_a^b f(x) dx = \lim_{\Delta x \to 0} \sum_{j=1}^N f(x_j) \Delta x,
 \end{equation}\]</span> where <span class="math inline">\(N\)</span> is the number of sub intervals on the interval <span class="math inline">\([a,b]\)</span> and <span class="math inline">\(\Delta x\)</span> is the width of the interval. As with differentiation, we can remove the limit and have a decent approximation of the integral so long as <span class="math inline">\(N\)</span> is large (or equivalently, as long as <span class="math inline">\(\Delta x\)</span> is small). <span class="math display">\[\begin{equation}
 \int_a^b f(x) dx \approx \sum_{j=1}^N f(x_j) \Delta x.
 \end{equation}\]</span> You are likely familiar with this approximation of the integral from Calculus. The value of <span class="math inline">\(x_j\)</span> can be chosen anywhere within the sub interval and three common choices are to use the left-aligned, the midpoint-aligned, and the right-aligned.</p>

@@ -99,11 +99,11 @@ This distance $\Delta x$ between neighbouring points in the partition is often r
 
 Now let us get back to the discussion of numerical differentiation. If we recall that the definition of the first derivative of a function is 
 \begin{equation}
- \begin{aligned} \frac{df(x)}{dx} = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}. \label{eqn:derivative_definition}\end{aligned}
+\frac{df(x)}{dx} = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}. 
 \end{equation}
  our first approximation for the first derivative is naturally 
 \begin{equation}
- \begin{aligned} \frac{df(x)}{dx} \approx \frac{f(x+h) - f(x)}{h}=:\Delta f(x). \label{eqn:derivative_first_approx}\end{aligned}
+\frac{df(x)}{dx} \approx \frac{f(x+h) - f(x)}{h}=:\Delta f(x). 
 \end{equation}
  In this approximation of the derivative we have simply removed the limit and instead approximated the derivative as the slope. It should be clear that this approximation is only good if the step size $h$ is *small*. In @fig-3.2 we see a graphical depiction of what we are doing to approximate the derivative. The slope of the tangent line ($\Delta y / \Delta x$) is what we are after, and a way to approximate it is to calculate the slope of the secant line formed by looking $h$ units forward from the point $x$.
 

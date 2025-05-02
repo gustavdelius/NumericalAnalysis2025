@@ -111,7 +111,7 @@ x'(t) = \frac{x(t+h) - x(t)}{h} + \mathcal{O}(h)
 \end{equation}
  Rewriting as a difference equation, letting $x_{n+1} = x(t_n+h)$ and $x_n = x(t_n)$, we get 
 \begin{equation}
-\begin{aligned} x_{n+1} = x_n + h f(t_n,x_n) \label{eqn:Eulers_method} \end{aligned}
+x_{n+1} = x_n + h f(t_n,x_n)
 \end{equation}
 
 
@@ -503,13 +503,13 @@ The midpoint method is defined by first taking a half step with Euler's method t
 $t_{n+1/2}$ so we define this as 
 $$
 t_{n+1/2} = (t_n + t_{n+1})/2.
-$$ {#eqn:midpoint_time}
+$$
 We then take a full step using the value of $f$ at $t_{n+1/2}$ and the approximate $x_{n+1/2}$. 
 $$
 \begin{split} 
 x_{n+1/2} &= x_n + \frac{h}{2} f(t_n,x_n) \\ x_{n+1} &= x_n + h f(t_{n+1/2},x_{n+1/2}) 
 \end{split}
-$$ {#eqn:midpoint_method}
+$$
 
 
 
@@ -1516,7 +1516,7 @@ x''(t) = \frac{-x}{\left( \sqrt{x^2 + y^2} \right)^3} \quad \text{and} \quad y''
 ::: {#exr-5.75}
 In this problem we consider the pursuit and evasion problem where $E(t)$ is the vector for an evader (e.g. a rabbit or a bank robber) and $P(t)$ is the vector for a pursuer (e.g. a fox chasing the rabbit or the police chasing the bank robber) 
 \begin{equation}
-\begin{aligned} E(t) = \begin{pmatrix} x_e(t) \\ y_e(t) \end{pmatrix} \quad \text{and} \quad P(t) = \begin{pmatrix} x_p(t) \\ y_p(t) \end{pmatrix}. \end{aligned}
+E(t) = \begin{pmatrix} x_e(t) \\ y_e(t) \end{pmatrix} \quad \text{and} \quad P(t) = \begin{pmatrix} x_p(t) \\ y_p(t) \end{pmatrix}.
 \end{equation}
  Let us presume the following:
 
@@ -1534,15 +1534,15 @@ In this problem we consider the pursuit and evasion problem where $E(t)$ is the 
 
 From the third assumption we have 
 \begin{equation}
-\begin{aligned} \| P'(t) \| = k \| E'(t) \| \label{eqn:pursuit_evasion_assumption3} \end{aligned}
+\| P'(t) \| = k \| E'(t) \|
 \end{equation}
  and from the second assumption we have 
 \begin{equation}
-\begin{aligned} \frac{P'(t)}{\|P'(t)\|} = \frac{E(t) - P(t)}{\| E(t) - P(t)\|}. \end{aligned}
+ \frac{P'(t)}{\|P'(t)\|} = \frac{E(t) - P(t)}{\| E(t) - P(t)\|}. 
 \end{equation}
  Solving for $P'(t)$ the differential equation that we need to solve becomes 
 \begin{equation}
-\begin{aligned} P'(t) = k \| E'(t) \| \frac{E(t) - P(t)}{\| E(t) - P(t)\|}. \end{aligned}
+ P'(t) = k \| E'(t) \| \frac{E(t) - P(t)}{\| E(t) - P(t)\|}. 
 \end{equation}
  Your Tasks:
 
@@ -1754,17 +1754,17 @@ The H1N1 virus, also known as the "bird flu," is a particularly virulent bug but
 
 The goal of artillery is to fire a shell (e.g. a cannon ball) so that it lands on a specific target. If we ignore the effects of air resistance the differential equations describing its acceleration are very simple: 
 \begin{equation}
-\begin{aligned} \frac{dv_x}{dt} = 0 \quad \text{and} \quad \frac{dv_z}{dt} = -g \label{eqn:no-air-res}\end{aligned}
+\frac{dv_x}{dt} = 0 \quad \text{and} \quad \frac{dv_z}{dt} = -g 
 \end{equation}
  where $v_x$ and $v_z$ are the velocities in the $x$ and $z$ directions respectively and $g$ is the acceleration due to gravity ($g = 9.8$ m/s$^2$). We can use these equations to *easily* show that the resulting trajectory is parabolic. Once we know this we can easily calculate the initial speed $v_0$ and angle $\theta_0$ above the horizontal necessary for the shell to reach the target. We will undoubtedly find that the maximum range will always result from an angle of $\theta_0 = 45^\circ$.
 
 The effects of air resistance are significant when the shell must travel a large distance or when the speed is large. If we modify the equations to include a simple model of air resistance the governing equations become 
 \begin{equation}
-\begin{aligned} \frac{dv_x}{dt} = -c v_x \sqrt{ v_x^2 + v_z^2} \quad \text{and} \quad \frac{dv_z}{dt} = -g - cv_z \sqrt{ v_x^2 + v_z^2} \label{eqn:with-air-res}\end{aligned}
+\frac{dv_x}{dt} = -c v_x \sqrt{ v_x^2 + v_z^2} \quad \text{and} \quad \frac{dv_z}{dt} = -g - cv_z \sqrt{ v_x^2 + v_z^2}
 \end{equation}
  where the constant $c$ depends on the shape and density of the shell and the density of air. For this project assume that $c = 10^{-3} m^{-1}$. To calculate the components of the position vector recall that since the derivative of position, $s(t)$, is velocity we have 
 \begin{equation}
-\begin{aligned} s_x(t) = \int_0^t v_x(\tau) d\tau \quad \text{and} \quad s_z(t) = \int_0^t v_z(\tau) d\tau.\end{aligned}
+s_x(t) = \int_0^t v_x(\tau) d\tau \quad \text{and} \quad s_z(t) = \int_0^t v_z(\tau) d\tau.
 \end{equation}
 
 
