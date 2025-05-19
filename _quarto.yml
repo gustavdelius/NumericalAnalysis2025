@@ -36,6 +36,9 @@ book:
       - icon: bug-fill
         href: https://forms.gle/Z8nYvVonGN98L7nv5
         text: Submit a correction
+      - icon: file-pdf
+        href: Numerical-Analysis-2025.pdf
+        text: PDF
   chapters:
     - index.qmd
     - nmPython.qmd
@@ -55,6 +58,10 @@ format:
     theme: cosmo
     link-external-newwindow: true
     toc-depth: 4
+  pdf:
+    toc: true
+    number-sections: true
+    fig-align: left
 
 toc: true
 number-sections: true
