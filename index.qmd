@@ -21,7 +21,6 @@ Solve the equation $\log(x) = \sin(x)$ for $x$ in the interval $x \in (0,\pi)$. 
 #| label: fig-lnsin
 #| code-fold: true
 #| fig-cap: The functions $\log(x)$ and $\sin(x)$ intersect at exactly one point, giving the solution to the equation $\log(x) = \sin(x)$.
-#| column: page-right
 # plot the function cos(x) and the line y=x
 import matplotlib.pyplot as plt
 import numpy as np
@@ -45,7 +44,6 @@ $$
 #| label: fig-int_sin_x_squared
 #| code-fold: true
 #| fig-cap: Visual representation of the integral of $\sin(x^2)$ from $0$ to $\pi$.
-#| column: page-right
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -106,7 +104,6 @@ The nonlinear nature of the problem precludes us from using most of the typical 
 #| label: fig-diffeq
 #| code-fold: true
 #| fig-cap: Plot of numerical solution of $dy/dt=\sin(y^2)+t$ with $y(0)=0.1$.
-#| column: page-right
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -144,7 +141,6 @@ This was an artificial example, but differential equations are central to modell
 #| label: fig-SIRintro
 #| code-fold: true
 #| fig-cap: Plot of a numerical solution of the SIR model
-#| column: page-right
 import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt

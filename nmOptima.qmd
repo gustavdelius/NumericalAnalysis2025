@@ -44,7 +44,6 @@ Use Python to make a plot of this function over this domain. You should get some
 #| label: fig-opt-1
 #| fig-cap: Graph of the function $f(x) = e^{-x^2} + \sin(x^2)$.
 #| fig-alt: Graph of example function
-#| column: page-right
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt
@@ -340,7 +339,6 @@ $$f(x,y) = \sin(x)\exp\left(-\sqrt{x^2+y^2}\right)$$
 #| fig-cap: Graph of the function $\sin(x)\exp\left(-\sqrt{x^2+y^2}\right)$.
 #| fig-alt: Graph of example function
 #| code-fold: true
-#| column: page-right
 import numpy as np
 import plotly.graph_objects as go
 

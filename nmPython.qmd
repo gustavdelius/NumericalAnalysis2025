@@ -1329,7 +1329,6 @@ y = np.sin(x)
 #| label: fig-A.1
 #| fig-cap: The sine function
 #| fig-alt: The sine function
-#| column: page-right
 plt.plot(x,y, 'green', label='The Sine Function')
 plt.grid()
 plt.legend()
@@ -1355,7 +1354,6 @@ y_0 = \sin(2\pi x) \quad y_1 = \cos(2 \pi x) \quad y_2 = y_0 + y_1 \quad \text{a
 #| label: fig-A.2
 #| fig-cap: Plots of the sine, cosine, and sums and differences.
 #| fig-alt: Plots of the sine, cosine, and sums and differences.
-#| column: page-right
 import numpy as np
 import matplotlib.pyplot as plt
 # %matplotlib inline # you may need this in Jupyter Notebooks
@@ -1398,7 +1396,6 @@ Now let us create the same plot with slightly different code. The `plot` functio
 #| label: fig-A.3
 #| fig-cap: A second plot of the sine, cosine, and sums and differences.
 #| fig-alt: A second plot of the sine, cosine, and sums and differences.
-#| column: page-right
 # The next line of code does all of the plotting of all 
 # of the functions.  Notice the order: x, y, color and 
 # line style, repeat
@@ -1450,7 +1447,6 @@ Let us repeat the previous exercise, but this time we will put each of the plots
 #| label: fig-A.4
 #| fig-cap: An example of subplots
 #| fig-alt: An example of subplots
-#| column: page-right
 # set up the blank matrix of plots
 import numpy as np
 import matplotlib.pyplot as plt
@@ -1522,7 +1518,6 @@ In this example we will plot the function $y = 10^{-0.01x}$ on a regular (linear
 #| label: fig-A.5
 #| fig-cap: An example of using logarithmic scaling.
 #| fig-alt: An example of using logarithmic scaling.
-#| column: page-right
 import numpy as np
 import matplotlib.pyplot as plt
 x = np.linspace(0,500,1000)

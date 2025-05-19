@@ -30,7 +30,6 @@ For example, if we want to solve the equation $3\sin(x) + 9 = x^2 - \cos(x)$ the
 #| label: fig-2.1
 #| fig-cap: Two ways to visualise the same root finding problem
 #| fig-alt: Two ways to visualise the same root finding problem
-#| column: page-right
 #| code-fold: true
 import numpy as np 
 import matplotlib.pyplot as plt
@@ -272,7 +271,6 @@ Test your Bisection Method code on the following equations.
 #| label: fig-2.5
 #| fig-cap: An animation of the bisection method in action on the equation $x^2 - 2 = 0$.
 #| fig-alt: An animation of the bisection method in action on the equation $x^2 - 2 = 0$.
-#| column: page-right
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt
@@ -491,7 +489,6 @@ Next we write a function to plot the absolute error on the vertical axis and the
 #| label: fig-2.2
 #| fig-cap: The evolution of the absolute error when solving the equation $x^2-2=0$ with the bisection method.
 #| fig-alt: The evolution of the absolute error when solving the equation $x^2-2=0$ with the bisection method.
-#| column: page-right
 import matplotlib.pyplot as plt
 def plot_errors(errors):
     """
@@ -521,7 +518,6 @@ Without @thm-2.2 it would be rather hard to tell what the exact behaviour is in 
 #| label: fig-2.3
 #| fig-cap: Iteration number vs the base-2 logarithm of the absolute error.  Notice the slope of $-1$ indicating that the error is divided by a factor of 2 at each step of the algorithm.
 #| fig-alt: Iteration number vs the base-2 logarithm of the absolute error.
-#| column: page-right
 
 def plot_log_errors(errors):
     """
@@ -580,7 +576,6 @@ Another plot that numerical analysts use quite frequently for determining how an
 #| label: fig-2.4
 #| fig-cap: The base-2 logarithm of the absolute error at iteration $k$ vs the base-2 logarithm of the absolute error at iteration $k+1$.
 #| fig-alt: The base-2 logarithm of the absolute error at iteration $k$ vs the base-2 logarithm of the absolute error at iteration $k+1$.
-#| column: page-right
 
 def plot_error_progression(errors):
     # Calculating the log2 of the absolute error at step k and k+1
@@ -660,7 +655,6 @@ To view the animation, click on the play button below the plot.
 #| label: fig-fixed
 #| fig-cap: Fixed point iteration $x_{n} = \cos(x_{n-1})$.
 #| fig-alt: Fixed point iteration $x_{n} = \cos(x_{n-1})$.
-#| column: page-right
 #| echo: false
 import numpy as np
 import matplotlib.pyplot as plt

@@ -532,7 +532,6 @@ Write a Python function `CentralDiff(f, a, b, N)` that takes a mathematical func
 #| label: fig-3.3
 #| fig-cap: Maximum absolute error between the first derivative and two different approximations of the first derivative.
 #| fig-alt: Maximum absolute error between the first derivative and two different approximations of the first derivative.
-#| column: page-right
 #| code-fold: true
 import numpy as np
 import matplotlib.pyplot as plt
@@ -712,7 +711,6 @@ Consider the function $f(x, y) = x^2y + \sin(xy)$. We can break this down into e
 #| label: fig-computation-graph
 #| fig-cap: "Computation graph for f(x,y) = x²y + sin(xy) at (x,y) = (2,1)"
 #| echo: false
-#| column: body-outset-right
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -872,7 +870,6 @@ The figure below illustrates the computational graph for $f(x) = x^2 \sin(x)$ wi
 #| label: fig-forward-ad
 #| fig-cap: "Forward mode automatic differentiation for f(x) = x² · sin(x) at x = 2"
 #| echo: false
-#| column: body-outset-right
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -1120,7 +1117,6 @@ Let's trace through the reverse mode process for $f(x, y) = x^2y + \sin(xy)$ at 
 #| label: fig-reverse-ad
 #| fig-cap: "Reverse mode automatic differentiation for f(x,y) = x²y + sin(xy) at (x,y) = (2,1)"
 #| echo: false
-#| column: body-outset-right
 
 import matplotlib.pyplot as plt
 import numpy as np
