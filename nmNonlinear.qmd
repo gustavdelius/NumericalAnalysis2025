@@ -770,7 +770,7 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8,4))
 
 # Plot g(x) = 1.1x - 0.1 and diagonal on the first subplot
 ax1.plot(x, g1, label='g(x) = 1.1x - 0.1')
-ax1.plot(x, diagonal, label='x = x')
+ax1.plot(x, diagonal, label='y = x')
 ax1.axhline(0, color='black',linewidth=0.5)
 ax1.axvline(0, color='black',linewidth=0.5)
 ax1.legend()
@@ -783,7 +783,7 @@ ax1.spines['left'].set_position('zero')
 
 # Plot g(x) = 0.9x + 0.1 and diagonal on the second subplot
 ax2.plot(x, g2, label='g(x) = 0.9x + 0.1')
-ax2.plot(x, diagonal, label='x = x')
+ax2.plot(x, diagonal, label='y = x')
 ax2.axhline(0, color='black',linewidth=0.5)
 ax2.axvline(0, color='black',linewidth=0.5)
 ax2.legend()
@@ -1008,7 +1008,7 @@ Sketch some other function $f(x)$ with a root and choose an initial point $x_0$ 
 ------------------------------------------------------------------------
 
 ::: {#exr-2.34c}
-Using your result from @exr-2.32, write the formula for the $x$-intercept of the tangent line to $f(x)$ at the point $(x_n, f(x_n))$. This is the formula for the next guess $x_{n-1}$ in Newton's Method. Newton's method is a fixed point iteration method of the form $x_{n+1} = g(x_{n})$ with 
+Using your result from @exr-2.32, write the formula for the $x$-intercept of the tangent line to $f(x)$ at the point $(x_n, f(x_n))$. This is the formula for the next guess $x_{n+1}$ in Newton's Method. Newton's method is a fixed point iteration method of the form $x_{n+1} = g(x_{n})$ with 
 $$
 g(x)= \dots.
 $$
