@@ -163,7 +163,7 @@ def euler1d(f, x0, t0, tmax, dt):
             - x : vector of solution values at each time value.
     """
     # set up the grid with points from t0 to tmax with stepsize dt
-    t = np.aranbe(???, ???, ???)
+    t = np.arange(???, ???, ???)
     # set up an array for x that is the same size as t
     x = np.zeros(len(t))
     # fill in the initial condition
@@ -207,7 +207,7 @@ plt.plot(t, x, 'b-', label='Euler')
 # Define a function giving the analytic solution
 x_exact = lambda t: ???
 # We will plot the exact solution at a higher resolution
-t_hires = np.linspace(t0, tmax, 100)
+t_highres = np.linspace(t0, tmax, 100)
 plt.plot(t_highres, x_exact(t_highres), 'r--', label='Exact')
 plt.grid()
 plt.show()
